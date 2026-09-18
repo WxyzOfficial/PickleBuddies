@@ -2586,7 +2586,7 @@
               if (unsubLogs) unsubLogs();
               if (unsubAdminDoc) unsubAdminDoc();
               await auth.signOut();
-              window.location.href = 'login.html';
+              window.location.href = 'index.html';
             } catch (error) {
               console.error('Logout error:', error);
               showToast('error', 'Error', 'Could not log out. Please try again.');
@@ -2691,7 +2691,7 @@
       // ---------- AUTH STATE ----------
       auth.onAuthStateChanged(async (user) => {
         if (!user) {
-          window.location.href = 'login.html';
+          window.location.href = 'index.html';
           return;
         }
 
@@ -2700,7 +2700,7 @@
         // Check email verification for email/password users
         const isEmailProvider = user.providerData.some(p => p.providerId === 'password');
         if (isEmailProvider && !user.emailVerified) {
-          window.location.href = 'login.html';
+          window.location.href = 'index.html';
           return;
         }
 
@@ -2715,7 +2715,7 @@
 
           // Check account status
           if (currentUserData.accountStatus === 'suspended') {
-            window.location.href = 'login.html';
+            window.location.href = 'index.html';
             return;
           }
 
@@ -2734,7 +2734,7 @@
                 showToast('error', 'Access revoked', 'Your admin access has been revoked.');
                 setTimeout(() => {
                   auth.signOut();
-                  window.location.href = 'login.html';
+                  window.location.href = 'index.html';
                 }, 1500);
               }
             }
@@ -2752,7 +2752,7 @@
 
         } catch (error) {
           console.error('Auth state error:', error);
-          window.location.href = 'login.html';
+          window.location.href = 'index.html';
         }
       });
 
