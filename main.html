@@ -611,6 +611,11 @@
       color: #2563eb;
     }
 
+    .category-badge.need-players {
+      background: rgba(16,185,129,0.15);
+      color: #10b981;
+    }
+
     .post-title {
       font-size: 1.1rem;
       font-weight: 700;
@@ -1258,6 +1263,109 @@
     #chatMessages::-webkit-scrollbar { width: 6px; }
     #chatMessages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
+    /* ---------- SMART MATCH ---------- */
+    .match-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      transition: box-shadow 0.2s;
+    }
+    .match-card:hover { box-shadow: var(--shadow-md); }
+    .match-score {
+      width: 56px; height: 56px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.95rem; color: white;
+      flex-shrink: 0;
+      background: var(--orange);
+    }
+    .match-score.high { background: #10b981; }
+    .match-score.mid { background: #f59e0b; }
+    .match-score.low { background: #6b7280; }
+    .match-info { flex: 1; min-width: 0; }
+    .match-reasons { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+    .match-reasons span { display: inline-block; margin-right: 8px; }
+
+    /* ---------- PLAYING NOW ---------- */
+    .live-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(16,185,129,0.15); color: #10b981;
+      padding: 4px 12px; border-radius: 20px;
+      font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .live-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #10b981; animation: pulseDot 1.4s infinite;
+    }
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+    .playing-now-toggle {
+      width: 100%; padding: 18px;
+      border-radius: var(--radius);
+      border: 2px solid var(--border);
+      background: var(--card-bg);
+      cursor: pointer;
+      font-weight: 700; font-size: 1rem;
+      color: var(--text-dark);
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      transition: all 0.2s;
+      margin-bottom: 16px;
+    }
+    .playing-now-toggle:hover { border-color: var(--orange); }
+    .playing-now-toggle.active {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white; border-color: transparent;
+      box-shadow: 0 6px 18px rgba(16,185,129,0.35);
+    }
+    .live-player-card {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px; background: var(--card-bg);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      margin-bottom: 10px; transition: box-shadow 0.2s;
+    }
+    .live-player-card:hover { box-shadow: var(--shadow-md); }
+
+    /* ---------- SLOTS / NEED PLAYERS ---------- */
+    .slots-bar {
+      display: flex; gap: 6px; margin: 10px 0;
+      align-items: center; flex-wrap: wrap;
+    }
+    .slot-dot {
+      width: 26px; height: 26px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 700;
+      border: 2px solid var(--border);
+      color: var(--text-muted);
+    }
+    .slot-dot.filled {
+      background: var(--orange); color: white; border-color: var(--orange);
+    }
+    .slot-label {
+      font-size: 0.78rem; color: var(--text-muted); margin-left: 6px;
+      font-weight: 600;
+    }
+    .full-badge {
+      background: #ef4444; color: white;
+      padding: 3px 10px; border-radius: 20px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.5px;
+    }
+    .join-slot-btn {
+      background: #10b981; color: white;
+      border: none; padding: 8px 14px;
+      border-radius: var(--radius-sm); font-weight: 600;
+      font-size: 0.82rem; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .join-slot-btn:hover { background: #059669; }
+    .join-slot-btn:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
+
     /* Toast responsive */
     @media (max-width: 1200px) {
       .right-panel {
@@ -1364,6 +1472,21 @@
     .standards-content h1 { font-size: 1.3rem; margin-bottom: 8px; }
     .standards-content h2 { font-size: 1.1rem; margin: 14px 0 6px; }
     .standards-content ul, .standards-content ol { padding-left: 20px; margin-bottom: 10px; }
+
+    .download-app-btn {
+    display: inline-block;
+    padding: 12px 22px;
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: 0.2s;
+    }
+
+    .download-app-btn:hover {
+    transform: translateY(-2px);
+    }
   </style>
 </head>
 <body>
@@ -1422,6 +1545,12 @@
         <button class="nav-item" data-view="messages">
           <i class="fa-solid fa-comments"></i> Messages
         </button>
+        <button class="nav-item" data-view="playing-now">
+          <i class="fa-solid fa-satellite-dish"></i> Playing Now
+        </button>
+        <button class="nav-item" data-view="smart-match">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> Smart Match
+        </button>
         <button class="nav-item" data-view="notifications">
           <i class="fa-solid fa-bell"></i> Notifications
         </button>
@@ -1465,6 +1594,12 @@
         <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.6;">
           Keep your posts respectful. Follow the Community Standards and help make PickleBuddy a welcoming place for all players.
         </p>
+
+        <h1></h1> <br>
+
+        <a href="/app/picklebuddy.apk" download="PickleBuddy.apk" class="download-app-btn">
+            📱 Download App
+        </a>
       </div>
     </aside>
   </div>
@@ -1477,8 +1612,8 @@
     <button class="mobile-nav-item" data-view="find-partner">
       <i class="fa-solid fa-user-group"></i> Partner
     </button>
-    <button class="mobile-nav-item" data-view="players">
-      <i class="fa-solid fa-users"></i> Players
+    <button class="mobile-nav-item" data-view="playing-now">
+      <i class="fa-solid fa-satellite-dish"></i> Live
     </button>
     <button class="mobile-nav-item" data-view="messages">
       <i class="fa-solid fa-comments"></i> Chats
@@ -1501,6 +1636,8 @@
           <select id="postCategory">
             <option value="LF Partner">LF Partner — Looking for a pickleball partner</option>
             <option value="LF Player">LF Player — Club or group looking for additional players</option>
+            <option value="Need 1 Player">Need 1 Player — One slot available</option>
+            <option value="Need 2 Players">Need 2 Players — Two slots available</option>
           </select>
           <div class="error-text">Please select a category.</div>
         </div>
@@ -1541,7 +1678,7 @@
             <label for="postSkill">Skill Level</label>
             <select id="postSkill">
               <option value="Any Skill Level">Any Skill Level</option>
-              <option value="Beginner">Beginner</option>
+              <option value="Beginner">Beginner/Newbie</option>
               <option value="Intermediate">Intermediate</option>
               <option value="Advanced">Advanced</option>
               <option value="Recreational">Recreational</option>
@@ -1739,6 +1876,124 @@
         </form>
         <div id="chatError" style="color:#ef4444; font-size:0.78rem; margin-top:6px; display:none;"></div>
       </div>
+    </div>
+  </div>
+
+  <!-- Smart Match Preferences Modal -->
+  <div class="modal-overlay" id="matchPrefsModal">
+    <div class="modal-container">
+      <button class="modal-close" id="closeMatchPrefsModal"><i class="fa-solid fa-xmark"></i></button>
+      <h2><i class="fa-solid fa-wand-magic-sparkles"></i> Smart Match Preferences</h2>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px;">
+        Tell us what you're looking for and we'll rank compatible players for you.
+      </p>
+      <form id="matchPrefsForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="mpSkill">Preferred Skill Level</label>
+            <select id="mpSkill">
+              <option>Any Skill Level</option>
+              <option>Beginner/Newbie</option>
+              <option>Intermediate</option>
+              <option>Advanced</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="mpStyle">Playing Style</label>
+            <select id="mpStyle">
+              <option>Casual / Recreational</option>
+              <option>Competitive</option>
+              <option>Mixed</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="mpSchedule">Preferred Schedule</label>
+            <select id="mpSchedule">
+              <option>Mornings</option>
+              <option>Afternoons</option>
+              <option>Evenings</option>
+              <option>Weekends</option>
+              <option>Flexible</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="mpGameType">Game Type</label>
+            <select id="mpGameType">
+              <option>Doubles</option>
+              <option>Singles</option>
+              <option>Either</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="mpLocation">Preferred Location</label>
+          <input type="text" id="mpLocation" placeholder="Catbalogan City, Samar">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" id="cancelMatchPrefsBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="saveMatchPrefsBtn">
+            <i class="fa-solid fa-magnifying-glass-chart"></i> Find Matches
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Playing Now Setup Modal -->
+  <div class="modal-overlay" id="playingNowModal">
+    <div class="modal-container">
+      <button class="modal-close" id="closePlayingNowModal"><i class="fa-solid fa-xmark"></i></button>
+      <h2><i class="fa-solid fa-satellite-dish"></i> I'm Playing Now</h2>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px;">
+        You'll appear on the live list for the next 2 hours. Nearby players can message you to play.
+      </p>
+      <form id="playingNowForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="pnLocation">Where are you playing?</label>
+            <input type="text" id="pnLocation" placeholder="City Sports Complex">
+          </div>
+          <div class="form-group">
+            <label for="pnSkill">Your Skill Level</label>
+            <select id="pnSkill">
+              <option>Beginner/Newbie</option>
+              <option>Intermediate</option>
+              <option>Advanced</option>
+              <option>Any Skill Level</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="pnGameType">Game Type</label>
+            <select id="pnGameType">
+              <option>Doubles</option>
+              <option>Singles</option>
+              <option>Either</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="pnSlots">Slots Open</label>
+            <select id="pnSlots">
+              <option value="1">1 slot</option>
+              <option value="2">2 slots</option>
+              <option value="3">3 slots</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="pnNote">Short Note (Optional)</label>
+          <input type="text" id="pnNote" placeholder="Looking for a doubles partner right now!" maxlength="120">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" id="cancelPlayingNowBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="startPlayingNowBtn">
+            <i class="fa-solid fa-bolt"></i> Go Live
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -1967,12 +2222,18 @@
       let pendingReportUserId = null;
       let editingPostId = null;
       let confirmCallback = null;
+      let existingPostParticipantsCache = null;
 
       // Chat state
       let unsubChatMessages = null;
       let activeChatPartnerId = null;
       let activeChatPartnerData = null;
       let activeConversationId = null;
+
+      // Playing Now state
+      let playingNowCache = [];
+      let unsubPlayingNow = null;
+      let myPlayingNowDocId = null;
 
       // ---------- DOM ELEMENTS ----------
       const mainContent = document.getElementById('mainContent');
@@ -2341,6 +2602,8 @@
           case 'players': renderPlayers(); break;
           case 'my-posts': renderMyPosts(); break;
           case 'messages': renderMessages(); break;
+          case 'playing-now': renderPlayingNow(); break;
+          case 'smart-match': renderSmartMatch(); break;
           case 'notifications': renderNotifications(); break;
           case 'standards': renderStandardsView(); break;
           case 'profile': renderProfileView(); break;
@@ -2686,6 +2949,370 @@
           });
       }
 
+      // ---------- PLAYING NOW VIEW ----------
+      function renderPlayingNow() {
+        const container = document.createElement('div');
+        const title = document.createElement('h2');
+        title.className = 'section-title';
+        title.innerHTML = '<i class="fa-solid fa-satellite-dish"></i> Playing Now';
+        container.appendChild(title);
+
+        const isLive = playingNowCache.some(p => p.userId === currentUser.uid);
+        myPlayingNowDocId = isLive ? playingNowCache.find(p => p.userId === currentUser.uid).id : null;
+
+        const toggle = document.createElement('button');
+        toggle.className = 'playing-now-toggle' + (isLive ? ' active' : '');
+        toggle.innerHTML = isLive
+          ? '<i class="fa-solid fa-bolt"></i> You\'re Playing Now — Tap to Stop'
+          : '<i class="fa-solid fa-bolt"></i> I\'m Playing Now';
+        toggle.addEventListener('click', () => {
+          if (isLive) confirmStopPlayingNow();
+          else openModal(document.getElementById('playingNowModal'));
+        });
+        container.appendChild(toggle);
+
+        const listHeader = document.createElement('h3');
+        listHeader.className = 'section-title';
+        listHeader.style.fontSize = '1.1rem';
+        listHeader.innerHTML = '<i class="fa-solid fa-users-viewfinder"></i> Live Players';
+        container.appendChild(listHeader);
+
+        const liveList = document.createElement('div');
+        liveList.id = 'liveList';
+        container.appendChild(liveList);
+
+        mainContent.appendChild(container);
+
+        const others = playingNowCache.filter(p => p.userId !== currentUser.uid);
+        if (others.length === 0) {
+          liveList.innerHTML = `
+            <div class="empty-state">
+              <i class="fa-solid fa-satellite-dish"></i>
+              <h3>No players live right now</h3>
+              <p>Be the first — tap "I'm Playing Now" to appear on the live list.</p>
+            </div>
+          `;
+          return;
+        }
+
+        others.forEach(p => {
+          const card = document.createElement('div');
+          card.className = 'live-player-card';
+
+          const avatar = createAvatarElement(p.profilePicture, p.name, 48);
+          card.appendChild(avatar);
+
+          const info = document.createElement('div');
+          info.className = 'match-info';
+          info.innerHTML = `
+            <div style="font-weight:700; font-size:0.95rem;">${escapeHTML(p.name || 'Player')}</div>
+            <div style="font-size:0.8rem; color:var(--text-muted);">
+              <i class="fa-solid fa-location-dot" style="color:var(--orange);"></i> ${escapeHTML(p.location || '—')}
+            </div>
+            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">
+              ${escapeHTML(p.skill || '')} · ${escapeHTML(p.gameType || '')} · ${p.slotsOpen || 1} slot(s)
+            </div>
+            ${p.note ? `<div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px; font-style:italic;">"${escapeHTML(p.note)}"</div>` : ''}
+          `;
+          card.appendChild(info);
+
+          const actions = document.createElement('div');
+          actions.style.display = 'flex';
+          actions.style.flexDirection = 'column';
+          actions.style.gap = '6px';
+          actions.style.alignItems = 'flex-end';
+
+          const livePill = document.createElement('span');
+          livePill.className = 'live-pill';
+          livePill.innerHTML = '<span class="live-dot"></span> Live';
+          actions.appendChild(livePill);
+
+          const msgBtn = document.createElement('button');
+          msgBtn.className = 'message-player-btn';
+          msgBtn.innerHTML = '<i class="fa-solid fa-comment"></i> Message';
+          msgBtn.addEventListener('click', () => openChatWith(p.userId));
+          actions.appendChild(msgBtn);
+
+          card.appendChild(actions);
+          liveList.appendChild(card);
+        });
+      }
+
+      function confirmStopPlayingNow() {
+        showConfirm(
+          'Stop Playing Now',
+          'You will be removed from the live list immediately.',
+          async () => {
+            if (!myPlayingNowDocId) return;
+            setLoading(true);
+            try {
+              await db.collection('playing_now').doc(myPlayingNowDocId).delete();
+              showToast('success', 'You\'re offline', 'Removed from the live list.');
+            } catch (err) {
+              console.error('Stop playing now error:', err);
+              showToast('error', 'Error', 'Could not update status.');
+            } finally {
+              setLoading(false);
+            }
+          }
+        );
+      }
+
+      // ---------- SMART MATCH VIEW ----------
+      function renderSmartMatch() {
+        const container = document.createElement('div');
+        const title = document.createElement('h2');
+        title.className = 'section-title';
+        title.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Smart PickleBuddy Match';
+        container.appendChild(title);
+
+        const desc = document.createElement('p');
+        desc.style.cssText = 'font-size:0.9rem; color:var(--text-muted); margin-bottom:16px;';
+        desc.textContent = 'Enter your preferences and we\'ll rank the most compatible players for you.';
+        container.appendChild(desc);
+
+        const prefsBtn = document.createElement('button');
+        prefsBtn.className = 'create-post-btn';
+        prefsBtn.innerHTML = '<i class="fa-solid fa-sliders"></i> Set My Preferences';
+        prefsBtn.addEventListener('click', () => openMatchPrefsModal());
+        container.appendChild(prefsBtn);
+
+        const results = document.createElement('div');
+        results.id = 'matchResults';
+        container.appendChild(results);
+
+        mainContent.appendChild(container);
+
+        // Load saved preferences
+        db.collection('matchPreferences').doc(currentUser.uid).get().then(doc => {
+          if (doc.exists) {
+            const p = doc.data();
+            document.getElementById('mpSkill').value = p.skill || 'Any Skill Level';
+            document.getElementById('mpStyle').value = p.playingStyle || 'Casual / Recreational';
+            document.getElementById('mpSchedule').value = p.schedule || 'Mornings';
+            document.getElementById('mpGameType').value = p.gameType || 'Doubles';
+            document.getElementById('mpLocation').value = p.location || '';
+            computeAndRenderMatches(p, results);
+          } else {
+            results.innerHTML = `
+              <div class="empty-state">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <h3>No preferences set yet</h3>
+                <p>Set your preferences to see ranked match recommendations.</p>
+              </div>
+            `;
+          }
+        }).catch(err => console.error('Match prefs load error:', err));
+      }
+
+      function openMatchPrefsModal() {
+        const loc = document.getElementById('mpLocation');
+        if (!loc.value && currentUserData && currentUserData.address) {
+          const parts = currentUserData.address.split(',');
+          loc.value = parts.length > 1 ? parts.slice(-2).join(',').trim() : currentUserData.address;
+        }
+        openModal(document.getElementById('matchPrefsModal'));
+      }
+
+      function computeAndRenderMatches(prefs, container) {
+        if (!container) container = document.getElementById('matchResults');
+        if (!container) return;
+
+        const candidates = allUsers.filter(u =>
+          u.uid !== currentUser.uid && u.accountStatus === 'active'
+        );
+
+        const scored = candidates.map(u => {
+          let score = 0;
+          const reasons = [];
+
+          // Skill match (30 pts)
+          const userSkill = u.skillLevel || 'Any Skill Level';
+          if (prefs.skill === 'Any Skill Level' || userSkill === 'Any Skill Level') {
+            score += 20; reasons.push('Flexible skill');
+          } else if (prefs.skill === userSkill) {
+            score += 30; reasons.push('Skill match');
+          } else {
+            score += 5;
+          }
+
+          // Location match (25 pts)
+          const myLoc = (prefs.location || '').toLowerCase().trim();
+          const theirLoc = ((u.address || '') + ' ' + (u.pickleballClub || '')).toLowerCase();
+          if (myLoc && theirLoc.includes(myLoc.split(',')[0])) {
+            score += 25; reasons.push('Same area');
+          } else if (myLoc && theirLoc) {
+            const words = myLoc.split(/[\s,]+/).filter(w => w.length > 3);
+            if (words.some(w => theirLoc.includes(w))) {
+              score += 15; reasons.push('Nearby');
+            }
+          }
+
+          // Club match (10 pts)
+          if (u.pickleballClub && currentUserData.pickleballClub &&
+              u.pickleballClub === currentUserData.pickleballClub &&
+              u.pickleballClub !== 'Independent Player / No Club') {
+            score += 10; reasons.push('Same club');
+          }
+
+          // Playing style / game type heuristic (35 pts)
+          const theirPosts = allPosts.filter(p => p.authorId === u.uid);
+          if (theirPosts.length > 0) {
+            score += 10; reasons.push('Active poster');
+            const gameTypeMatch = theirPosts.some(p => {
+              if (prefs.gameType === 'Either') return true;
+              if (prefs.gameType === 'Singles') return (p.playersNeeded === 1 || p.category === 'LF Partner');
+              return (p.playersNeeded >= 1 || p.category === 'LF Player');
+            });
+            if (gameTypeMatch) { score += 15; reasons.push('Game type match'); }
+
+            if (prefs.playingStyle === 'Competitive' && theirPosts.some(p => p.skillLevel === 'Competitive' || p.skillLevel === 'Advanced')) {
+              score += 10; reasons.push('Competitive');
+            } else if (prefs.playingStyle === 'Casual / Recreational' && theirPosts.some(p => p.skillLevel === 'Beginner' || p.skillLevel === 'Recreational' || p.skillLevel === 'Any Skill Level')) {
+              score += 10; reasons.push('Casual');
+            }
+          }
+
+          // Playing Now bonus (10 pts)
+          const isLive = playingNowCache.some(p => p.userId === u.uid);
+          if (isLive) { score += 10; reasons.push('Playing now'); }
+
+          score = Math.min(100, score);
+
+          return { user: u, score, reasons };
+        });
+
+        scored.sort((a, b) => b.score - a.score);
+        const top = scored.slice(0, 10);
+
+        if (top.length === 0) {
+          container.innerHTML = `
+            <div class="empty-state">
+              <i class="fa-solid fa-users"></i>
+              <h3>No matches available yet</h3>
+              <p>Invite more players or check back later.</p>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = '';
+
+        const header = document.createElement('h3');
+        header.className = 'section-title';
+        header.style.fontSize = '1.1rem';
+        header.style.marginTop = '8px';
+        header.innerHTML = '<i class="fa-solid fa-ranking-star"></i> Top Matches';
+        container.appendChild(header);
+
+        top.forEach(({ user, score, reasons }) => {
+          const card = document.createElement('div');
+          card.className = 'match-card';
+
+          const scoreClass = score >= 70 ? 'high' : score >= 45 ? 'mid' : 'low';
+          const scoreDiv = document.createElement('div');
+          scoreDiv.className = 'match-score ' + scoreClass;
+          scoreDiv.textContent = score + '%';
+          card.appendChild(scoreDiv);
+
+          const avatar = createAvatarElement(user.profilePicture, user.name, 48);
+          card.appendChild(avatar);
+
+          const info = document.createElement('div');
+          info.className = 'match-info';
+          info.innerHTML = `
+            <div style="font-weight:700; font-size:0.95rem;">${escapeHTML(user.name || 'Unknown')}</div>
+            <div style="font-size:0.8rem; color:var(--text-muted);">
+              ${escapeHTML(user.pickleballClub || 'Independent Player')}
+            </div>
+            <div class="match-reasons">
+              ${reasons.map(r => `<span><i class="fa-solid fa-check" style="color:#10b981;"></i> ${escapeHTML(r)}</span>`).join('')}
+            </div>
+          `;
+          card.appendChild(info);
+
+          const actions = document.createElement('div');
+          actions.style.display = 'flex';
+          actions.style.flexDirection = 'column';
+          actions.style.gap = '6px';
+
+          const msgBtn = document.createElement('button');
+          msgBtn.className = 'message-player-btn';
+          msgBtn.innerHTML = '<i class="fa-solid fa-comment"></i> Message';
+          msgBtn.addEventListener('click', () => openChatWith(user.uid));
+          actions.appendChild(msgBtn);
+
+          card.appendChild(actions);
+          container.appendChild(card);
+        });
+      }
+
+      // Match preferences form
+      document.getElementById('closeMatchPrefsModal').addEventListener('click', () => closeModal(document.getElementById('matchPrefsModal')));
+      document.getElementById('cancelMatchPrefsBtn').addEventListener('click', () => closeModal(document.getElementById('matchPrefsModal')));
+
+      document.getElementById('matchPrefsForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const prefs = {
+          skill: document.getElementById('mpSkill').value,
+          playingStyle: document.getElementById('mpStyle').value,
+          schedule: document.getElementById('mpSchedule').value,
+          gameType: document.getElementById('mpGameType').value,
+          location: document.getElementById('mpLocation').value.trim(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        setLoading(true);
+        try {
+          await db.collection('matchPreferences').doc(currentUser.uid).set(prefs, { merge: true });
+          showToast('success', 'Preferences saved', 'Finding your best matches...');
+          closeModal(document.getElementById('matchPrefsModal'));
+          if (currentView === 'smart-match') {
+            const results = document.getElementById('matchResults');
+            if (results) computeAndRenderMatches(prefs, results);
+          }
+        } catch (err) {
+          console.error('Match prefs save error:', err);
+          showToast('error', 'Error', 'Could not save preferences.');
+        } finally {
+          setLoading(false);
+        }
+      });
+
+      // Playing Now form
+      document.getElementById('closePlayingNowModal').addEventListener('click', () => closeModal(document.getElementById('playingNowModal')));
+      document.getElementById('cancelPlayingNowBtn').addEventListener('click', () => closeModal(document.getElementById('playingNowModal')));
+
+      document.getElementById('playingNowForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const payload = {
+          userId: currentUser.uid,
+          name: currentUserData.name || 'Player',
+          profilePicture: currentUserData.profilePicture || '',
+          club: currentUserData.pickleballClub || 'Independent Player / No Club',
+          skill: document.getElementById('pnSkill').value,
+          location: document.getElementById('pnLocation').value.trim() || 'Unknown',
+          gameType: document.getElementById('pnGameType').value,
+          slotsOpen: parseInt(document.getElementById('pnSlots').value, 10),
+          note: document.getElementById('pnNote').value.trim(),
+          startedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          expiresAt: firebase.firestore.Timestamp.fromMillis(Date.now() + 2 * 60 * 60 * 1000)
+        };
+
+        setLoading(true);
+        try {
+          await db.collection('playing_now').doc(currentUser.uid).set(payload);
+          showToast('success', 'You\'re live!', 'You\'ll appear on the Playing Now list for 2 hours.');
+          closeModal(document.getElementById('playingNowModal'));
+          document.getElementById('playingNowForm').reset();
+        } catch (err) {
+          console.error('Go live error:', err);
+          showToast('error', 'Error', 'Could not activate.');
+        } finally {
+          setLoading(false);
+        }
+      });
+
       // ---------- NOTIFICATIONS ----------
       function renderNotifications() {
         const container = document.createElement('div');
@@ -2954,6 +3581,8 @@
           <option value="">All Categories</option>
           <option value="LF Partner">LF Partner</option>
           <option value="LF Player">LF Player</option>
+          <option value="Need 1 Player">Need 1 Player</option>
+          <option value="Need 2 Players">Need 2 Players</option>
         `;
         filterRow.appendChild(categorySelect);
 
@@ -2961,7 +3590,7 @@
         skillSelect.id = `filterSkill_${viewKey}`;
         skillSelect.innerHTML = `
           <option value="">All Skill Levels</option>
-          <option value="Beginner">Beginner</option>
+          <option value="Beginner">Beginner/Newbie</option>
           <option value="Intermediate">Intermediate</option>
           <option value="Advanced">Advanced</option>
           <option value="Any Skill Level">Any Skill Level</option>
@@ -3200,10 +3829,15 @@
 
         // Category badge
         const badge = document.createElement('span');
-        badge.className = 'category-badge ' + (post.category === 'LF Partner' ? 'lf-partner' : 'lf-player');
+        let badgeClass = 'lf-player';
+        if (post.category === 'LF Partner') badgeClass = 'lf-partner';
+        if (post.category === 'Need 1 Player' || post.category === 'Need 2 Players') badgeClass = 'need-players';
+        badge.className = 'category-badge ' + badgeClass;
         badge.innerHTML = post.category === 'LF Partner'
           ? '<i class="fa-solid fa-user-group"></i> LF Partner'
-          : '<i class="fa-solid fa-people-group"></i> LF Player';
+          : post.category === 'LF Player'
+            ? '<i class="fa-solid fa-people-group"></i> LF Player'
+            : '<i class="fa-solid fa-user-plus"></i> ' + escapeHTML(post.category);
         card.appendChild(badge);
 
         // Title
@@ -3255,6 +3889,40 @@
 
         card.appendChild(details);
 
+        // ---------- SLOTS / NEED PLAYERS UI ----------
+        if (post.playersNeeded && post.playersNeeded > 0) {
+          const joined = post.playersJoined || [];
+          const slotsFilled = joined.length;
+          const slotsTotal = post.playersNeeded;
+          const isFull = post.isFull || slotsFilled >= slotsTotal;
+
+          const slotsBar = document.createElement('div');
+          slotsBar.className = 'slots-bar';
+
+          for (let i = 0; i < slotsTotal; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'slot-dot' + (i < slotsFilled ? ' filled' : '');
+            dot.innerHTML = i < slotsFilled ? '<i class="fa-solid fa-check"></i>' : (i + 1);
+            slotsBar.appendChild(dot);
+          }
+
+          const label = document.createElement('span');
+          label.className = 'slot-label';
+          label.textContent = isFull ? 'Full' : `${slotsTotal - slotsFilled} spot(s) open`;
+          slotsBar.appendChild(label);
+
+          card.appendChild(slotsBar);
+
+          if (isFull) {
+            const fb = document.createElement('span');
+            fb.className = 'full-badge';
+            fb.innerHTML = '<i class="fa-solid fa-lock"></i> FULL';
+            fb.style.display = 'inline-block';
+            fb.style.marginBottom = '10px';
+            card.appendChild(fb);
+          }
+        }
+
         // Footer
         const footer = document.createElement('div');
         footer.className = 'post-footer';
@@ -3282,6 +3950,33 @@
             openChatWith(post.authorId);
           });
           footer.appendChild(contactBtn);
+        }
+
+        // ---------- JOIN SLOT BUTTON ----------
+        if (post.playersNeeded && post.playersNeeded > 0 && post.authorId !== currentUser.uid) {
+          const joined = post.playersJoined || [];
+          const hasJoined = joined.includes(currentUser.uid);
+          const isFull = post.isFull || joined.length >= post.playersNeeded;
+
+          if (hasJoined) {
+            const leaveBtn = document.createElement('button');
+            leaveBtn.className = 'post-action-btn danger';
+            leaveBtn.innerHTML = '<i class="fa-solid fa-person-walking-arrow-right"></i> Leave Game';
+            leaveBtn.addEventListener('click', () => leavePostSlot(post));
+            footer.appendChild(leaveBtn);
+          } else {
+            const joinBtn = document.createElement('button');
+            joinBtn.className = 'join-slot-btn';
+            joinBtn.innerHTML = isFull
+              ? '<i class="fa-solid fa-lock"></i> Full'
+              : '<i class="fa-solid fa-plus"></i> Join Game';
+            joinBtn.disabled = isFull;
+            joinBtn.style.marginLeft = 'auto';
+            if (!isFull) {
+              joinBtn.addEventListener('click', () => joinPostSlot(post));
+            }
+            footer.appendChild(joinBtn);
+          }
         }
 
         card.appendChild(footer);
@@ -3312,10 +4007,15 @@
         }
 
         const badge = document.createElement('span');
-        badge.className = 'category-badge ' + (post.category === 'LF Partner' ? 'lf-partner' : 'lf-player');
+        let badgeClass = 'lf-player';
+        if (post.category === 'LF Partner') badgeClass = 'lf-partner';
+        if (post.category === 'Need 1 Player' || post.category === 'Need 2 Players') badgeClass = 'need-players';
+        badge.className = 'category-badge ' + badgeClass;
         badge.innerHTML = post.category === 'LF Partner'
           ? '<i class="fa-solid fa-user-group"></i> LF Partner'
-          : '<i class="fa-solid fa-people-group"></i> LF Player';
+          : post.category === 'LF Player'
+            ? '<i class="fa-solid fa-people-group"></i> LF Player'
+            : '<i class="fa-solid fa-user-plus"></i> ' + escapeHTML(post.category);
         badge.style.marginBottom = '12px';
         badge.style.display = 'inline-flex';
         content.appendChild(badge);
@@ -3364,6 +4064,30 @@
 
         content.appendChild(detailList);
 
+        // Slots in post detail
+        if (post.playersNeeded && post.playersNeeded > 0) {
+          const joined = post.playersJoined || [];
+          const slotsFilled = joined.length;
+          const slotsTotal = post.playersNeeded;
+
+          const slotsWrapper = document.createElement('div');
+          slotsWrapper.style.cssText = 'margin-top:12px; padding-top:12px; border-top:1px solid var(--border);';
+          slotsWrapper.innerHTML = `<div style="font-weight:600; font-size:0.85rem; margin-bottom:8px;">
+            <i class="fa-solid fa-user-plus" style="color:var(--orange);"></i> Slots: ${slotsFilled}/${slotsTotal}
+          </div>`;
+
+          const bar = document.createElement('div');
+          bar.className = 'slots-bar';
+          for (let i = 0; i < slotsTotal; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'slot-dot' + (i < slotsFilled ? ' filled' : '');
+            dot.innerHTML = i < slotsFilled ? '<i class="fa-solid fa-check"></i>' : (i + 1);
+            bar.appendChild(dot);
+          }
+          slotsWrapper.appendChild(bar);
+          content.appendChild(slotsWrapper);
+        }
+
         // Actions
         const isOwner = post.authorId === currentUser.uid;
 
@@ -3392,6 +4116,38 @@
           });
           actions.appendChild(delBtn);
         } else {
+          // Join/leave slot
+          if (post.playersNeeded && post.playersNeeded > 0) {
+            const joined = post.playersJoined || [];
+            const hasJoined = joined.includes(currentUser.uid);
+            const isFull = post.isFull || joined.length >= post.playersNeeded;
+
+            if (hasJoined) {
+              const leaveBtn = document.createElement('button');
+              leaveBtn.className = 'btn btn-outline';
+              leaveBtn.innerHTML = '<i class="fa-solid fa-person-walking-arrow-right"></i> Leave';
+              leaveBtn.addEventListener('click', () => {
+                closeModal(postDetailModal);
+                leavePostSlot(post);
+              });
+              actions.appendChild(leaveBtn);
+            } else {
+              const joinBtn = document.createElement('button');
+              joinBtn.className = 'btn btn-primary';
+              joinBtn.innerHTML = isFull
+                ? '<i class="fa-solid fa-lock"></i> Full'
+                : '<i class="fa-solid fa-plus"></i> Join Game';
+              joinBtn.disabled = isFull;
+              if (!isFull) {
+                joinBtn.addEventListener('click', () => {
+                  closeModal(postDetailModal);
+                  joinPostSlot(post);
+                });
+              }
+              actions.appendChild(joinBtn);
+            }
+          }
+
           // Message author
           const messageBtn = document.createElement('button');
           messageBtn.className = 'btn btn-primary';
@@ -3445,6 +4201,7 @@
           document.getElementById('postPlayers').value = existingPost.playersNeeded || '';
           document.getElementById('postContact').value = existingPost.contactPreference || 'PickleBuddy';
           document.getElementById('descCounter').textContent = (existingPost.description || '').length;
+          existingPostParticipantsCache = existingPost.playersJoined || [];
         } else if (defaultCategory) {
           document.getElementById('postCategory').value = defaultCategory;
         }
@@ -3506,6 +4263,11 @@
 
         if (!valid) return;
 
+        // Determine playersNeeded for Need 1/2 categories
+        let neededCount = playersNeeded ? parseInt(playersNeeded, 10) : 0;
+        if (category === 'Need 1 Player') neededCount = 1;
+        if (category === 'Need 2 Players') neededCount = 2;
+
         setLoading(true);
         try {
           const postData = {
@@ -3522,7 +4284,9 @@
             preferredDate: preferredDate,
             preferredTime: preferredTime,
             skillLevel: skillLevel,
-            playersNeeded: playersNeeded ? parseInt(playersNeeded) : null,
+            playersNeeded: neededCount || null,
+            playersJoined: editingPostId ? (existingPostParticipantsCache || []) : [],
+            isFull: false,
             contactPreference: contactPreference,
             status: 'active',
             updatedAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -3539,6 +4303,7 @@
 
           closeModal(postModal);
           editingPostId = null;
+          existingPostParticipantsCache = null;
         } catch (error) {
           console.error('Post error:', error);
           showToast('error', 'Error', 'Could not save post. Please try again.');
@@ -3561,6 +4326,75 @@
         e.preventDefault();
         openModal(standardsModal);
       });
+
+      // ---------- JOIN / LEAVE SLOT ----------
+      async function joinPostSlot(post) {
+        if (!post) return;
+        if (post.authorId === currentUser.uid) {
+          showToast('info', "That's you!", 'You own this post.');
+          return;
+        }
+        const joined = post.playersJoined || [];
+        if (joined.includes(currentUser.uid)) {
+          showToast('info', 'Already joined', 'You already joined this game.');
+          return;
+        }
+        const needed = post.playersNeeded || 0;
+        if (needed > 0 && joined.length >= needed) {
+          showToast('warning', 'Game full', 'All slots are taken.');
+          return;
+        }
+
+        setLoading(true);
+        try {
+          const newJoined = [...joined, currentUser.uid];
+          const nowFull = needed > 0 && newJoined.length >= needed;
+          await db.collection('posts').doc(post.id).update({
+            playersJoined: newJoined,
+            isFull: nowFull,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          db.collection('notifications').add({
+            userId: post.authorId,
+            title: nowFull ? 'Your game is full!' : 'Someone joined your game',
+            message: `${currentUserData.name || 'A player'} joined "${post.title}".`,
+            type: 'join',
+            fromUserId: currentUser.uid,
+            postId: post.id,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          }).catch(() => {});
+
+          showToast('success', 'Joined!', 'You\'ve joined the game. Message the host to confirm details.');
+        } catch (err) {
+          console.error('Join error:', err);
+          showToast('error', 'Error', 'Could not join. Please try again.');
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      async function leavePostSlot(post) {
+        if (!post) return;
+        const joined = post.playersJoined || [];
+        if (!joined.includes(currentUser.uid)) return;
+
+        setLoading(true);
+        try {
+          const newJoined = joined.filter(uid => uid !== currentUser.uid);
+          await db.collection('posts').doc(post.id).update({
+            playersJoined: newJoined,
+            isFull: false,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          showToast('info', 'Left game', 'You\'ve left this game.');
+        } catch (err) {
+          console.error('Leave error:', err);
+          showToast('error', 'Error', 'Could not leave.');
+        } finally {
+          setLoading(false);
+        }
+      }
 
       // ---------- DELETE POST ----------
       function confirmDeletePost(postId) {
@@ -3693,7 +4527,7 @@
             postItem.innerHTML = `
               <div style="font-weight:600; font-size:0.88rem;">${escapeHTML(post.title || '')}</div>
               <div style="font-size:0.78rem; color:var(--text-muted); margin-top:2px;">
-                <span class="category-badge ${post.category === 'LF Partner' ? 'lf-partner' : 'lf-player'}" style="font-size:0.65rem; padding:1px 8px;">
+                <span class="category-badge ${post.category === 'LF Partner' ? 'lf-partner' : (post.category === 'LF Player' ? 'lf-player' : 'need-players')}" style="font-size:0.65rem; padding:1px 8px;">
                   ${escapeHTML(post.category)}
                 </span>
                 ${escapeHTML(post.location || '')}
@@ -3947,6 +4781,7 @@
               if (unsubReports) unsubReports();
               if (unsubUsers) unsubUsers();
               if (unsubChatMessages) unsubChatMessages();
+              if (unsubPlayingNow) unsubPlayingNow();
               await auth.signOut();
               window.location.href = 'index.html';
             } catch (error) {
@@ -3986,9 +4821,17 @@
               allPosts.push({ id: doc.id, ...doc.data() });
             });
             // Re-render current view if it's a post view
-            if (['home', 'find-partner', 'clubs-players', 'my-posts', 'profile'].includes(currentView)) {
+            if (['home', 'find-partner', 'clubs-players', 'my-posts', 'profile', 'smart-match'].includes(currentView)) {
               if (currentView === 'my-posts' || currentView === 'profile') {
                 renderView();
+              } else if (currentView === 'smart-match') {
+                // Recompute matches when posts update
+                const results = document.getElementById('matchResults');
+                if (results) {
+                  db.collection('matchPreferences').doc(currentUser.uid).get().then(doc => {
+                    if (doc.exists) computeAndRenderMatches(doc.data(), results);
+                  }).catch(() => {});
+                }
               } else {
                 const postsContainer = document.getElementById('postsContainer');
                 if (postsContainer) {
@@ -4028,6 +4871,29 @@
           });
       }
 
+      function setupPlayingNowListener() {
+        if (unsubPlayingNow) unsubPlayingNow();
+        unsubPlayingNow = db.collection('playing_now')
+          .orderBy('startedAt', 'desc')
+          .limit(50)
+          .onSnapshot(snapshot => {
+            const now = Date.now();
+            playingNowCache = [];
+            snapshot.forEach(doc => {
+              const d = doc.data();
+              if (d.expiresAt && d.expiresAt.toMillis && d.expiresAt.toMillis() > now) {
+                playingNowCache.push({ id: doc.id, ...d });
+              } else if (d.expiresAt && d.expiresAt.toMillis && d.expiresAt.toMillis() <= now) {
+                // auto-delete expired
+                db.collection('playing_now').doc(doc.id).delete().catch(() => {});
+              } else {
+                playingNowCache.push({ id: doc.id, ...d });
+              }
+            });
+            if (currentView === 'playing-now') renderPlayingNow();
+          }, err => console.error('PlayingNow listener error:', err));
+      }
+
       function updateProfilePanel() {
         if (!currentUserData) return;
         panelAvatar.innerHTML = '';
@@ -4055,12 +4921,10 @@
       // ---------- IN-APP MESSAGING ----------
       // ============================================================
 
-      // Build a deterministic conversation ID from two UIDs (sorted so both sides share it)
       function buildConversationId(uidA, uidB) {
         return [uidA, uidB].sort().join('__');
       }
 
-      // Open chat with a given user
       async function openChatWith(userId) {
         if (!currentUser) return;
         if (userId === currentUser.uid) {
@@ -4068,7 +4932,6 @@
           return;
         }
 
-        // Find the partner in the loaded users
         let partner = allUsers.find(u => u.uid === userId);
         if (!partner) {
           try {
@@ -4095,7 +4958,6 @@
         activeChatPartnerData = partner;
         activeConversationId = buildConversationId(currentUser.uid, userId);
 
-        // Header
         chatPartnerAvatar.innerHTML = '';
         if (partner.profilePicture) {
           const img = document.createElement('img');
@@ -4114,7 +4976,6 @@
           ? partner.pickleballClub
           : 'Independent Player';
 
-        // Clear & show loading
         chatMessages.innerHTML = '<div class="chat-empty"><div class="spinner" style="width:26px;height:26px;border-width:3px;margin:0 auto 8px;"></div>Loading messages...</div>';
         chatError.style.display = 'none';
         chatInput.value = '';
@@ -4123,14 +4984,10 @@
         openModal(chatModal);
         setTimeout(() => chatInput.focus(), 200);
 
-        // Attach realtime listener
         subscribeToConversation();
-
-        // Mark messages from this partner as read
         markConversationRead();
       }
 
-      // Real-time listener for messages in the active conversation
       function subscribeToConversation() {
         if (unsubChatMessages) {
           unsubChatMessages();
@@ -4151,7 +5008,6 @@
           });
       }
 
-      // Render messages
       function renderChatMessages(snapshot) {
         chatMessages.innerHTML = '';
 
@@ -4197,13 +5053,11 @@
           chatMessages.appendChild(row);
         });
 
-        // Scroll to bottom
         requestAnimationFrame(() => {
           chatMessages.scrollTop = chatMessages.scrollHeight;
         });
       }
 
-      // Send message
       async function sendChatMessage(text) {
         if (!currentUser || !activeConversationId || !activeChatPartnerId) return;
         const trimmed = (text || '').trim();
@@ -4221,7 +5075,6 @@
         try {
           const convRef = db.collection('conversations').doc(activeConversationId);
 
-          // Ensure the conversation document exists with participants & preview
           const partner = activeChatPartnerData || {};
           await convRef.set({
             participants: [currentUser.uid, activeChatPartnerId],
@@ -4235,7 +5088,6 @@
             updatedAt: firebase.firestore.FieldValue.serverTimestamp()
           }, { merge: true });
 
-          // Add message
           await convRef.collection('messages').add({
             senderId: currentUser.uid,
             senderName: currentUserData.name || 'User',
@@ -4245,7 +5097,6 @@
             readBy: [currentUser.uid]
           });
 
-          // Notify the recipient (best-effort)
           db.collection('notifications').add({
             userId: activeChatPartnerId,
             title: 'New Message',
@@ -4267,7 +5118,6 @@
         }
       }
 
-      // Mark unread messages from partner as read
       async function markConversationRead() {
         if (!activeConversationId) return;
         try {
@@ -4291,14 +5141,12 @@
         }
       }
 
-      // Auto-resize the chat textarea
       function autoResizeChatInput() {
         if (!chatInput) return;
         chatInput.style.height = 'auto';
         chatInput.style.height = Math.min(chatInput.scrollHeight, 100) + 'px';
       }
 
-      // Close chat
       function closeChat() {
         if (unsubChatMessages) {
           unsubChatMessages();
@@ -4310,7 +5158,6 @@
         closeModal(chatModal);
       }
 
-      // Chat event bindings
       if (chatForm) {
         chatForm.addEventListener('submit', (e) => {
           e.preventDefault();
@@ -4341,7 +5188,6 @@
 
         currentUser = user;
 
-        // Check email verification for email/password users
         const isEmailProvider = user.providerData.some(p => p.providerId === 'password');
         if (isEmailProvider && !user.emailVerified) {
           window.location.href = 'index.html';
@@ -4364,7 +5210,6 @@
             return;
           }
 
-          // Listen for real-time suspension
           if (unsubUserDoc) unsubUserDoc();
           unsubUserDoc = db.collection('users').doc(user.uid).onSnapshot(doc => {
             if (doc.exists) {
@@ -4382,6 +5227,7 @@
           // Setup listeners
           setupPostsListener();
           setupUsersListener();
+          setupPlayingNowListener();
           updateProfilePanel();
 
           // Hide loading
