@@ -1,0 +1,2768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>PickleBuddy · Admin Dashboard</title>
+  
+  <!-- PickleBuddy Favicon -->
+  <link rel="icon" type="image/png" href="https://johnstevenwaraya.sirv.com/Picklebuddy/picklebuddy.png">
+  <link rel="shortcut icon" type="image/png" href="https://johnstevenwaraya.sirv.com/Picklebuddy/picklebuddy.png">
+  <link rel="apple-touch-icon" href="https://johnstevenwaraya.sirv.com/Picklebuddy/picklebuddy.png">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ---------- GLOBAL DESIGN SYSTEM ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
+
+    :root {
+      --primary: #ffffff;
+      --orange: #f97316;
+      --orange-dark: #ea580c;
+      --background: #f8f9fa;
+      --text-dark: #1f2937;
+      --text-muted: #6b7280;
+      --border: #e5e7eb;
+      --card-bg: #ffffff;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 12px 28px rgba(0,0,0,0.12);
+      --radius: 16px;
+      --radius-sm: 12px;
+      --footer-height: 48px;
+      --sidebar-width: 260px;
+    }
+
+    body.dark {
+      --primary: #1e1e2f;
+      --background: #121212;
+      --text-dark: #f1f1f1;
+      --text-muted: #a1a1aa;
+      --border: #2d2d3a;
+      --card-bg: #1e1e2f;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+      --shadow-lg: 0 12px 28px rgba(0,0,0,0.5);
+      --primary: #1e1e2f;
+    }
+
+    body {
+      background: var(--background);
+      color: var(--text-dark);
+      min-height: 100vh;
+      padding-bottom: calc(var(--footer-height) + 16px);
+      transition: background 0.2s, color 0.2s;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    /* ---------- FIXED FOOTER ---------- */
+    .fixed-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: var(--footer-height);
+      background: var(--card-bg);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      z-index: 500;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.02);
+    }
+
+    .fixed-footer i {
+      color: var(--orange);
+      margin: 0 4px;
+    }
+
+    /* ---------- TOASTS ---------- */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 360px;
+      width: calc(100% - 40px);
+      pointer-events: none;
+    }
+
+    .toast {
+      background: var(--card-bg);
+      color: var(--text-dark);
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      border-left: 5px solid var(--orange);
+      pointer-events: auto;
+      animation: slideIn 0.25s ease;
+      font-size: 0.9rem;
+    }
+
+    .toast.success { border-left-color: #10b981; }
+    .toast.error { border-left-color: #ef4444; }
+    .toast.warning { border-left-color: #f59e0b; }
+    .toast.info { border-left-color: #3b82f6; }
+
+    .toast i { font-size: 1.2rem; margin-top: 2px; }
+    .toast.success i { color: #10b981; }
+    .toast.error i { color: #ef4444; }
+    .toast.warning i { color: #f59e0b; }
+    .toast.info i { color: #3b82f6; }
+
+    .toast-content { flex: 1; }
+    .toast-title { font-weight: 600; margin-bottom: 2px; }
+    .toast-message { color: var(--text-muted); font-size: 0.85rem; }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeOut {
+      to { opacity: 0; transform: translateX(30px); }
+    }
+
+    /* ---------- MODALS ---------- */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(3px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 16px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s, visibility 0.2s;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-container {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      max-width: 560px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      padding: 24px;
+      position: relative;
+      transform: scale(0.95);
+      transition: transform 0.2s;
+    }
+
+    .modal-overlay.active .modal-container {
+      transform: scale(1);
+    }
+
+    .modal-container.wide {
+      max-width: 720px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 1.3rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      z-index: 2;
+    }
+
+    .modal-close:hover {
+      background: var(--border);
+    }
+
+    .modal-container h2 {
+      margin-bottom: 16px;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    /* ---------- LOADING ---------- */
+    .loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.2s, visibility 0.2s;
+    }
+
+    .loading-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .loading-content {
+      background: var(--card-bg);
+      padding: 28px 36px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--border);
+      border-top-color: var(--orange);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ---------- LAYOUT ---------- */
+    .app-layout {
+      display: flex;
+      min-height: calc(100vh - var(--footer-height) - 16px);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--card-bg);
+      border-right: 1px solid var(--border);
+      padding: 20px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      position: sticky;
+      top: 0;
+      height: calc(100vh - var(--footer-height) - 16px);
+      overflow-y: auto;
+      flex-shrink: 0;
+      z-index: 100;
+    }
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px 20px 12px;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--orange);
+      letter-spacing: -0.5px;
+    }
+
+    .sidebar-logo i {
+      font-size: 1.6rem;
+    }
+
+    .sidebar-badge {
+      font-size: 0.65rem;
+      background: var(--orange);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-weight: 700;
+      margin-left: auto;
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      color: var(--text-dark);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      border: none;
+      background: transparent;
+      width: 100%;
+      text-align: left;
+    }
+
+    .nav-item i {
+      width: 20px;
+      text-align: center;
+      font-size: 1.05rem;
+      color: var(--text-muted);
+    }
+
+    .nav-item:hover {
+      background: var(--background);
+    }
+
+    .nav-item.active {
+      background: rgba(249,115,22,0.1);
+      color: var(--orange);
+    }
+
+    .nav-item.active i {
+      color: var(--orange);
+    }
+
+    .nav-item.logout-item {
+      margin-top: auto;
+      color: #ef4444;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+
+    .nav-item.logout-item i {
+      color: #ef4444;
+    }
+
+    /* Main content */
+    .main-content {
+      flex: 1;
+      padding: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Mobile header */
+    .mobile-header {
+      display: none;
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 150;
+    }
+
+    .mobile-header .logo {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--orange);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hamburger-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-dark);
+      cursor: pointer;
+      padding: 4px 8px;
+    }
+
+    /* Sidebar overlay for mobile */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 199;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s, visibility 0.2s;
+    }
+
+    .sidebar-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* ---------- CARDS & COMPONENTS ---------- */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: box-shadow 0.2s;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title i {
+      color: var(--orange);
+    }
+
+    /* Stats grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: box-shadow 0.2s, transform 0.15s;
+    }
+
+    .stat-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .stat-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .stat-icon.orange { background: rgba(249,115,22,0.15); color: var(--orange); }
+    .stat-icon.blue { background: rgba(59,130,246,0.15); color: #2563eb; }
+    .stat-icon.green { background: rgba(16,185,129,0.15); color: #10b981; }
+    .stat-icon.red { background: rgba(239,68,68,0.15); color: #ef4444; }
+    .stat-icon.purple { background: rgba(139,92,246,0.15); color: #8b5cf6; }
+    .stat-icon.yellow { background: rgba(245,158,11,0.15); color: #f59e0b; }
+
+    .stat-info h3 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .stat-info p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    /* Tables */
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    thead {
+      background: var(--background);
+    }
+
+    th {
+      text-align: left;
+      padding: 14px 16px;
+      font-weight: 600;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: var(--background);
+    }
+
+    .table-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--orange);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .table-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .user-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-cell-info {
+      min-width: 0;
+    }
+
+    .user-cell-name {
+      font-weight: 600;
+      font-size: 0.88rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 160px;
+    }
+
+    .user-cell-email {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 160px;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+
+    .badge-active { background: rgba(16,185,129,0.15); color: #10b981; }
+    .badge-suspended { background: rgba(239,68,68,0.15); color: #ef4444; }
+    .badge-admin { background: rgba(139,92,246,0.15); color: #8b5cf6; }
+    .badge-user { background: rgba(107,114,128,0.15); color: var(--text-muted); }
+    .badge-pending { background: rgba(245,158,11,0.15); color: #f59e0b; }
+    .badge-reviewed { background: rgba(59,130,246,0.15); color: #2563eb; }
+    .badge-resolved { background: rgba(16,185,129,0.15); color: #10b981; }
+    .badge-dismissed { background: rgba(107,114,128,0.15); color: var(--text-muted); }
+    .badge-lf-partner { background: rgba(249,115,22,0.15); color: var(--orange-dark); }
+    .badge-lf-player { background: rgba(59,130,246,0.15); color: #2563eb; }
+
+    /* Buttons */
+    .btn {
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      border: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: var(--border);
+      color: var(--text-dark);
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--orange);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--orange-dark);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-dark);
+    }
+
+    .btn-outline:hover {
+      background: var(--border);
+    }
+
+    .btn-danger {
+      background: #ef4444;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    .btn-success {
+      background: #10b981;
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #059669;
+    }
+
+    .btn-sm {
+      padding: 7px 12px;
+      font-size: 0.78rem;
+    }
+
+    .btn-block {
+      width: 100%;
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    /* Search & Filters */
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .search-bar {
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 11px 16px 11px 42px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text-dark);
+      font-size: 0.9rem;
+    }
+
+    .search-bar input:focus {
+      outline: none;
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(249,115,22,0.15);
+    }
+
+    .search-bar i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 8px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn.active {
+      background: var(--orange);
+      color: white;
+      border-color: var(--orange);
+    }
+
+    .filter-btn:hover:not(.active) {
+      background: var(--background);
+      color: var(--text-dark);
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--text-muted);
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      color: var(--border);
+      margin-bottom: 16px;
+    }
+
+    .empty-state h3 {
+      font-size: 1.1rem;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+
+    .empty-state p {
+      font-size: 0.9rem;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    /* Forms */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-dark);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text-dark);
+      font-size: 0.95rem;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(249,115,22,0.15);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .form-group .error-text {
+      color: #ef4444;
+      font-size: 0.75rem;
+      margin-top: 4px;
+      display: none;
+    }
+
+    .form-group.error input,
+    .form-group.error select,
+    .form-group.error textarea {
+      border-color: #ef4444;
+    }
+
+    .form-group.error .error-text {
+      display: block;
+    }
+
+    /* Detail rows */
+    .detail-row {
+      display: flex;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      font-weight: 600;
+      width: 140px;
+      flex-shrink: 0;
+      color: var(--text-muted);
+    }
+
+    .detail-value {
+      flex: 1;
+      word-break: break-word;
+    }
+
+    /* Report card */
+    .report-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 12px;
+      transition: box-shadow 0.2s;
+    }
+
+    .report-card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .report-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .report-reason {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text-dark);
+    }
+
+    .report-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .report-description {
+      font-size: 0.85rem;
+      color: var(--text-dark);
+      margin-bottom: 12px;
+      padding: 10px;
+      background: var(--background);
+      border-radius: 8px;
+      border-left: 3px solid var(--orange);
+    }
+
+    .report-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+        z-index: 200;
+        height: 100vh;
+        box-shadow: var(--shadow-lg);
+      }
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      .sidebar-overlay {
+        display: block;
+      }
+      .mobile-header {
+        display: flex;
+      }
+      .main-content {
+        max-width: 100%;
+        padding: 16px;
+      }
+      .app-layout {
+        display: block;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .stat-card {
+        padding: 14px;
+        gap: 10px;
+      }
+      .stat-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 1.1rem;
+      }
+      .stat-info h3 {
+        font-size: 1.3rem;
+      }
+      .stat-info p {
+        font-size: 0.72rem;
+      }
+      .modal-container {
+        padding: 18px;
+      }
+      .toast-container {
+        top: 12px;
+        right: 12px;
+        width: calc(100% - 24px);
+      }
+      .detail-label {
+        width: 100px;
+        font-size: 0.8rem;
+      }
+      .detail-value {
+        font-size: 0.82rem;
+      }
+      th, td {
+        padding: 10px 12px;
+        font-size: 0.8rem;
+      }
+    }
+
+    /* Utility */
+    .hidden {
+      display: none !important;
+    }
+    .text-center { text-align: center; }
+    .mt-8 { margin-top: 8px; }
+    .mt-16 { margin-top: 16px; }
+    .mb-8 { margin-bottom: 8px; }
+    .mb-16 { margin-bottom: 16px; }
+    .w-full { width: 100%; }
+    .flex { display: flex; }
+    .flex-wrap { flex-wrap: wrap; }
+    .gap-8 { gap: 8px; }
+    .gap-12 { gap: 12px; }
+    .items-center { align-items: center; }
+    .justify-between { justify-content: space-between; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--background);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fixed Footer -->
+  <footer class="fixed-footer">
+    <span>Made with <i class="fa-solid fa-heart"></i> By John Steven Amistoso Macapañas</span>
+  </footer>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Loading overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-content">
+      <div class="spinner"></div>
+      <span>PickleBuddy Admin</span>
+    </div>
+  </div>
+
+  <!-- Mobile header -->
+  <header class="mobile-header">
+    <div class="logo">
+      <i class="fa-solid fa-shield-halved"></i> Admin
+    </div>
+    <button class="hamburger-btn" id="hamburgerBtn"><i class="fa-solid fa-bars"></i></button>
+  </header>
+
+  <!-- Sidebar overlay (mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- App layout -->
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <i class="fa-solid fa-table-tennis-paddle-ball"></i> PickleBuddy
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-view="dashboard">
+          <i class="fa-solid fa-chart-line"></i> Dashboard
+        </button>
+        <button class="nav-item" data-view="users">
+          <i class="fa-solid fa-users"></i> User Management
+        </button>
+        <button class="nav-item" data-view="posts">
+          <i class="fa-solid fa-rectangle-list"></i> Post Management
+        </button>
+        <button class="nav-item" data-view="reports">
+          <i class="fa-solid fa-flag"></i> Reports
+          <span class="sidebar-badge hidden" id="pendingReportsBadge">0</span>
+        </button>
+        <button class="nav-item" data-view="logs">
+          <i class="fa-solid fa-clipboard-list"></i> Moderation Logs
+        </button>
+        <button class="nav-item" id="backToMainBtn">
+          <i class="fa-solid fa-arrow-left"></i> Back to PickleBuddy
+        </button>
+      </nav>
+
+      <button class="nav-item logout-item" id="sidebarLogoutBtn">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+      </button>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content" id="mainContent">
+      <!-- Views rendered here -->
+    </main>
+  </div>
+
+  <!-- ========== MODALS ========== -->
+
+  <!-- User Detail Modal -->
+  <div class="modal-overlay" id="userDetailModal">
+    <div class="modal-container">
+      <button class="modal-close" id="closeUserDetailModal"><i class="fa-solid fa-xmark"></i></button>
+      <div id="userDetailContent"></div>
+    </div>
+  </div>
+
+  <!-- Suspend User Modal -->
+  <div class="modal-overlay" id="suspendModal">
+    <div class="modal-container">
+      <button class="modal-close" id="closeSuspendModal"><i class="fa-solid fa-xmark"></i></button>
+      <h2><i class="fa-solid fa-ban" style="color:#ef4444;"></i> Suspend User</h2>
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:16px;">
+        You are about to suspend <strong id="suspendUserName">this user</strong>. They will be signed out and prevented from accessing PickleBuddy.
+      </p>
+      <form id="suspendForm">
+        <div class="form-group" id="suspendReasonGroup">
+          <label for="suspendReason">Suspension Reason</label>
+          <select id="suspendReasonPreset">
+            <option value="">Select a reason...</option>
+            <option value="Community Standards violation">Community Standards violation</option>
+            <option value="Harassment">Harassment</option>
+            <option value="Inappropriate content">Inappropriate content</option>
+            <option value="Spam">Spam</option>
+            <option value="Fraudulent activity">Fraudulent activity</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group" id="suspendCustomGroup">
+          <label for="suspendCustomReason">Custom Explanation (Optional)</label>
+          <textarea id="suspendCustomReason" placeholder="Provide additional details..." maxlength="500"></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" id="cancelSuspendBtn">Cancel</button>
+          <button type="submit" class="btn btn-danger" id="confirmSuspendBtn">
+            <i class="fa-solid fa-ban"></i> Suspend User
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Post Detail Modal -->
+  <div class="modal-overlay" id="postDetailModal">
+    <div class="modal-container">
+      <button class="modal-close" id="closePostDetailModal"><i class="fa-solid fa-xmark"></i></button>
+      <div id="postDetailContent"></div>
+    </div>
+  </div>
+
+  <!-- Delete Post Modal -->
+  <div class="modal-overlay" id="deletePostModal">
+    <div class="modal-container">
+      <button class="modal-close" id="closeDeletePostModal"><i class="fa-solid fa-xmark"></i></button>
+      <h2><i class="fa-solid fa-trash" style="color:#ef4444;"></i> Delete Post?</h2>
+      <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:16px;">
+        You are about to permanently remove this post because it may violate PickleBuddy's Community Standards.
+      </p>
+      <form id="deletePostForm">
+        <div class="form-group">
+          <label for="deleteReason">Moderation Reason (Optional)</label>
+          <input type="text" id="deleteReason" placeholder="e.g. Community Standards violation" maxlength="200">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" id="cancelDeletePostBtn">Cancel</button>
+          <button type="submit" class="btn btn-danger" id="confirmDeletePostBtn">
+            <i class="fa-solid fa-trash"></i> Delete Post
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Report Detail Modal -->
+  <div class="modal-overlay" id="reportDetailModal">
+    <div class="modal-container">
+      <button class="modal-close" id="closeReportDetailModal"><i class="fa-solid fa-xmark"></i></button>
+      <div id="reportDetailContent"></div>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal-container" style="max-width:440px;">
+      <h2 id="confirmTitle"><i class="fa-solid fa-triangle-exclamation" style="color:#ef4444;"></i> Confirm</h2>
+      <p id="confirmMessage" style="color:var(--text-muted); font-size:0.92rem; margin-bottom:20px;"></p>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="confirmCancelBtn">Cancel</button>
+        <button class="btn btn-danger" id="confirmOkBtn">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== FIREBASE & JAVASCRIPT ========== -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    (function() {
+      'use strict';
+
+      // ---------- FIREBASE CONFIG ----------
+      const firebaseConfig = {
+        apiKey: "AIzaSyBfIH6Agp53uDqyXgS4HeZvh3zh0FoHeJw",
+        authDomain: "wxyz111802.firebaseapp.com",
+        projectId: "wxyz111802",
+        storageBucket: "wxyz111802.firebasestorage.app",
+        messagingSenderId: "345434733672",
+        appId: "1:345434733672:web:1e44c684ee63fbba500fdd",
+        measurementId: "G-XFSYS20Z09"
+      };
+
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+
+      // ---------- FIRESTORE RULES COMMENT ----------
+      // NOTE: Firestore rules currently allow all reads/writes for development/testing.
+      // This is NOT secure for production. Production rules must restrict access based on auth & roles.
+      //
+      // IMPORTANT: Secure production role management requires secure Firestore rules and
+      // preferably Firebase custom claims or the Admin SDK. Client-side JavaScript cannot
+      // securely grant administrator privileges. Admin roles should already exist in Firestore.
+
+      // ---------- UTILITY FUNCTIONS ----------
+      function showToast(type, title, message) {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        let icon = 'fa-circle-info';
+        if (type === 'success') icon = 'fa-circle-check';
+        if (type === 'error') icon = 'fa-circle-exclamation';
+        if (type === 'warning') icon = 'fa-triangle-exclamation';
+        toast.innerHTML = `
+          <i class="fa-solid ${icon}"></i>
+          <div class="toast-content">
+            <div class="toast-title">${escapeHTML(title)}</div>
+            <div class="toast-message">${escapeHTML(message)}</div>
+          </div>
+        `;
+        container.appendChild(toast);
+        setTimeout(() => {
+          toast.style.animation = 'fadeOut 0.3s forwards';
+          setTimeout(() => toast.remove(), 300);
+        }, 4500);
+      }
+
+      function escapeHTML(str) {
+        if (!str) return '';
+        return String(str).replace(/[&<>"]/g, function(m) {
+          if (m === '&') return '&amp;';
+          if (m === '<') return '&lt;';
+          if (m === '>') return '&gt;';
+          if (m === '"') return '&quot;';
+          return m;
+        });
+      }
+
+      function setLoading(active) {
+        const overlay = document.getElementById('loadingOverlay');
+        if (active) overlay.classList.add('active');
+        else overlay.classList.remove('active');
+      }
+
+      function timeAgo(timestamp) {
+        if (!timestamp) return 'Just now';
+        const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+        const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+        if (seconds < 60) return 'Just now';
+        const minutes = Math.floor(seconds / 60);
+        if (minutes < 60) return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
+        const days = Math.floor(hours / 24);
+        if (days === 1) return 'Yesterday';
+        if (days < 7) return `${days} days ago`;
+        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      }
+
+      function formatDate(timestamp) {
+        if (!timestamp) return '—';
+        const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+      }
+
+      function formatDateTime(timestamp) {
+        if (!timestamp) return '—';
+        const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+        return date.toLocaleString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+      }
+
+      function initialsAvatar(name) {
+        if (!name) return '?';
+        const parts = name.trim().split(' ');
+        if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+        return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+      }
+
+      function createAvatarElement(profilePicture, name, size) {
+        const div = document.createElement('div');
+        div.className = 'table-avatar';
+        if (size) {
+          div.style.width = size + 'px';
+          div.style.height = size + 'px';
+          div.style.fontSize = (size * 0.4) + 'px';
+        }
+        if (profilePicture) {
+          const img = document.createElement('img');
+          img.src = profilePicture;
+          img.alt = name || 'User';
+          img.onerror = function() {
+            div.innerHTML = '';
+            div.textContent = initialsAvatar(name);
+          };
+          div.appendChild(img);
+        } else {
+          div.textContent = initialsAvatar(name);
+        }
+        return div;
+      }
+
+      // ---------- GLOBAL STATE ----------
+      let currentUser = null;
+      let currentUserData = null;
+      let currentView = 'dashboard';
+      let allUsers = [];
+      let allPosts = [];
+      let allReports = [];
+      let allLogs = [];
+      let unsubUsers = null;
+      let unsubPosts = null;
+      let unsubReports = null;
+      let unsubLogs = null;
+      let unsubAdminDoc = null;
+      let pendingSuspendUserId = null;
+      let pendingDeletePostId = null;
+      let userFilter = 'all';
+      let reportFilter = 'all';
+      let confirmCallback = null;
+
+      // ---------- DOM ELEMENTS ----------
+      const mainContent = document.getElementById('mainContent');
+      const sidebar = document.getElementById('sidebar');
+      const sidebarOverlay = document.getElementById('sidebarOverlay');
+      const hamburgerBtn = document.getElementById('hamburgerBtn');
+      const userDetailModal = document.getElementById('userDetailModal');
+      const suspendModal = document.getElementById('suspendModal');
+      const postDetailModal = document.getElementById('postDetailModal');
+      const deletePostModal = document.getElementById('deletePostModal');
+      const reportDetailModal = document.getElementById('reportDetailModal');
+      const confirmModal = document.getElementById('confirmModal');
+      const pendingReportsBadge = document.getElementById('pendingReportsBadge');
+
+      // ---------- MODAL HELPERS ----------
+      function openModal(m) { m.classList.add('active'); }
+      function closeModal(m) { m.classList.remove('active'); }
+
+      document.querySelectorAll('.modal-close').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const modal = e.target.closest('.modal-overlay');
+          if (modal) closeModal(modal);
+        });
+      });
+
+      document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', (e) => {
+          if (e.target === overlay) closeModal(overlay);
+        });
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          document.querySelectorAll('.modal-overlay.active').forEach(m => closeModal(m));
+        }
+      });
+
+      // Confirmation modal
+      function showConfirm(title, message, onConfirm, confirmText) {
+        document.getElementById('confirmTitle').innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color:#ef4444;"></i> ${escapeHTML(title)}`;
+        document.getElementById('confirmMessage').textContent = message;
+        const okBtn = document.getElementById('confirmOkBtn');
+        okBtn.innerHTML = confirmText ? `<i class="fa-solid fa-check"></i> ${escapeHTML(confirmText)}` : '<i class="fa-solid fa-check"></i> Confirm';
+        confirmCallback = onConfirm;
+        openModal(confirmModal);
+      }
+
+      document.getElementById('confirmCancelBtn').addEventListener('click', () => {
+        closeModal(confirmModal);
+        confirmCallback = null;
+      });
+
+      document.getElementById('confirmOkBtn').addEventListener('click', () => {
+        closeModal(confirmModal);
+        if (confirmCallback) {
+          const cb = confirmCallback;
+          confirmCallback = null;
+          cb();
+        }
+      });
+
+      // ---------- NAVIGATION ----------
+      function setActiveNav(view) {
+        document.querySelectorAll('.nav-item[data-view]').forEach(n => n.classList.remove('active'));
+        document.querySelectorAll(`.nav-item[data-view="${view}"]`).forEach(n => n.classList.add('active'));
+      }
+
+      function switchView(view) {
+        currentView = view;
+        setActiveNav(view);
+        closeSidebar();
+        renderView();
+      }
+
+      document.querySelectorAll('.nav-item[data-view]').forEach(item => {
+        item.addEventListener('click', () => switchView(item.dataset.view));
+      });
+
+      document.getElementById('backToMainBtn').addEventListener('click', () => {
+        window.location.href = 'main.html';
+      });
+
+      // Hamburger menu
+      function openSidebar() {
+        sidebar.classList.add('open');
+        sidebarOverlay.classList.add('active');
+      }
+      function closeSidebar() {
+        sidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('active');
+      }
+
+      hamburgerBtn.addEventListener('click', openSidebar);
+      sidebarOverlay.addEventListener('click', closeSidebar);
+
+      // ---------- VIEW RENDERING ----------
+      function renderView() {
+        mainContent.innerHTML = '';
+        switch (currentView) {
+          case 'dashboard': renderDashboard(); break;
+          case 'users': renderUsers(); break;
+          case 'posts': renderPosts(); break;
+          case 'reports': renderReports(); break;
+          case 'logs': renderLogs(); break;
+          default: renderDashboard();
+        }
+      }
+
+      // ---------- DASHBOARD ----------
+      function renderDashboard() {
+        const container = document.createElement('div');
+
+        const title = document.createElement('h2');
+        title.className = 'section-title';
+        title.innerHTML = '<i class="fa-solid fa-chart-line"></i> Dashboard Overview';
+        container.appendChild(title);
+
+        const totalUsers = allUsers.length;
+        const activeUsers = allUsers.filter(u => u.accountStatus === 'active').length;
+        const suspendedUsers = allUsers.filter(u => u.accountStatus === 'suspended').length;
+        const totalPosts = allPosts.length;
+        const lfPartnerPosts = allPosts.filter(p => p.category === 'LF Partner').length;
+        const lfPlayerPosts = allPosts.filter(p => p.category === 'LF Player').length;
+        const pendingReports = allReports.filter(r => r.status === 'pending').length;
+
+        const stats = [
+          { label: 'Total Users', value: totalUsers, icon: 'fa-users', color: 'orange' },
+          { label: 'Active Users', value: activeUsers, icon: 'fa-user-check', color: 'green' },
+          { label: 'Suspended Users', value: suspendedUsers, icon: 'fa-user-slash', color: 'red' },
+          { label: 'Total Posts', value: totalPosts, icon: 'fa-rectangle-list', color: 'blue' },
+          { label: 'LF Partner Posts', value: lfPartnerPosts, icon: 'fa-user-group', color: 'purple' },
+          { label: 'LF Player Posts', value: lfPlayerPosts, icon: 'fa-people-group', color: 'yellow' },
+          { label: 'Pending Reports', value: pendingReports, icon: 'fa-flag', color: 'red' },
+        ];
+
+        const grid = document.createElement('div');
+        grid.className = 'stats-grid';
+
+        stats.forEach(stat => {
+          const card = document.createElement('div');
+          card.className = 'stat-card';
+          card.innerHTML = `
+            <div class="stat-icon ${stat.color}">
+              <i class="fa-solid ${stat.icon}"></i>
+            </div>
+            <div class="stat-info">
+              <h3>${stat.value}</h3>
+              <p>${stat.label}</p>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+
+        container.appendChild(grid);
+
+        // Recent activity
+        const recentTitle = document.createElement('h3');
+        recentTitle.className = 'section-title';
+        recentTitle.style.fontSize = '1.1rem';
+        recentTitle.style.marginTop = '8px';
+        recentTitle.innerHTML = '<i class="fa-solid fa-clock-rotate-left"></i> Recent Activity';
+        container.appendChild(recentTitle);
+
+        const recentCard = document.createElement('div');
+        recentCard.className = 'card';
+
+        const recentPosts = [...allPosts]
+          .sort((a, b) => {
+            const ta = a.createdAt ? a.createdAt.toMillis() : 0;
+            const tb = b.createdAt ? b.createdAt.toMillis() : 0;
+            return tb - ta;
+          })
+          .slice(0, 5);
+
+        if (recentPosts.length === 0) {
+          recentCard.innerHTML = '<p style="font-size:0.88rem; color:var(--text-muted);">No recent posts.</p>';
+        } else {
+          recentPosts.forEach(post => {
+            const row = document.createElement('div');
+            row.style.cssText = 'padding:12px 0; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; gap:12px; align-items:center;';
+            row.innerHTML = `
+              <div style="min-width:0; flex:1;">
+                <div style="font-weight:600; font-size:0.88rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHTML(post.title || 'Untitled')}</div>
+                <div style="font-size:0.78rem; color:var(--text-muted); margin-top:2px;">
+                  by ${escapeHTML(post.authorName || 'Unknown')} · ${timeAgo(post.createdAt)}
+                </div>
+              </div>
+              <span class="badge badge-${post.category === 'LF Partner' ? 'lf-partner' : 'lf-player'}">${escapeHTML(post.category)}</span>
+            `;
+            recentCard.appendChild(row);
+          });
+        }
+
+        container.appendChild(recentCard);
+        mainContent.appendChild(container);
+      }
+
+      // ---------- USERS MANAGEMENT ----------
+      function renderUsers() {
+        const container = document.createElement('div');
+
+        const title = document.createElement('h2');
+        title.className = 'section-title';
+        title.innerHTML = '<i class="fa-solid fa-users"></i> User Management';
+        container.appendChild(title);
+
+        // Toolbar
+        const toolbar = document.createElement('div');
+        toolbar.className = 'toolbar';
+
+        const searchBar = document.createElement('div');
+        searchBar.className = 'search-bar';
+        searchBar.innerHTML = '<i class="fa-solid fa-search"></i><input type="text" id="userSearch" placeholder="Search by name, email, or club...">';
+        toolbar.appendChild(searchBar);
+
+        const filterButtons = document.createElement('div');
+        filterButtons.className = 'filter-buttons';
+
+        ['all', 'active', 'suspended', 'admin'].forEach(f => {
+          const btn = document.createElement('button');
+          btn.className = 'filter-btn' + (userFilter === f ? ' active' : '');
+          btn.textContent = f.charAt(0).toUpperCase() + f.slice(1);
+          btn.dataset.filter = f;
+          btn.addEventListener('click', () => {
+            userFilter = f;
+            document.querySelectorAll('#userFilters .filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderUsersList();
+          });
+          filterButtons.appendChild(btn);
+        });
+        filterButtons.id = 'userFilters';
+        toolbar.appendChild(filterButtons);
+
+        container.appendChild(toolbar);
+
+        const listContainer = document.createElement('div');
+        listContainer.id = 'usersList';
+        container.appendChild(listContainer);
+
+        mainContent.appendChild(container);
+
+        const renderUsersList = () => {
+          const searchVal = (document.getElementById('userSearch')?.value || '').toLowerCase().trim();
+          let filtered = [...allUsers];
+
+          if (userFilter === 'active') filtered = filtered.filter(u => u.accountStatus === 'active');
+          else if (userFilter === 'suspended') filtered = filtered.filter(u => u.accountStatus === 'suspended');
+          else if (userFilter === 'admin') filtered = filtered.filter(u => u.role === 'admin');
+
+          if (searchVal) {
+            filtered = filtered.filter(u =>
+              (u.name || '').toLowerCase().includes(searchVal) ||
+              (u.email || '').toLowerCase().includes(searchVal) ||
+              (u.pickleballClub || '').toLowerCase().includes(searchVal)
+            );
+          }
+
+          if (filtered.length === 0) {
+            listContainer.innerHTML = `
+              <div class="empty-state">
+                <i class="fa-solid fa-users"></i>
+                <h3>No users found</h3>
+                <p>Try adjusting your search or filter criteria.</p>
+              </div>
+            `;
+            return;
+          }
+
+          const tableWrapper = document.createElement('div');
+          tableWrapper.className = 'table-wrapper';
+
+          const table = document.createElement('table');
+          table.innerHTML = `
+            <thead>
+              <tr>
+                <th>Profile</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Club</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Joined</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          `;
+
+          const tbody = table.querySelector('tbody');
+
+          filtered.forEach(user => {
+            const tr = document.createElement('tr');
+
+            // Profile
+            const tdProfile = document.createElement('td');
+            const avatar = createAvatarElement(user.profilePicture, user.name, 36);
+            tdProfile.appendChild(avatar);
+            tr.appendChild(tdProfile);
+
+            // Name
+            const tdName = document.createElement('td');
+            const nameDiv = document.createElement('div');
+            nameDiv.className = 'user-cell-name';
+            nameDiv.textContent = user.name || 'Unknown';
+            tdName.appendChild(nameDiv);
+            tr.appendChild(tdName);
+
+            // Email
+            const tdEmail = document.createElement('td');
+            tdEmail.textContent = user.email || '—';
+            tdEmail.style.fontSize = '0.82rem';
+            tr.appendChild(tdEmail);
+
+            // Mobile
+            const tdMobile = document.createElement('td');
+            tdMobile.textContent = user.mobileNumber || '—';
+            tdMobile.style.fontSize = '0.82rem';
+            tr.appendChild(tdMobile);
+
+            // Club
+            const tdClub = document.createElement('td');
+            tdClub.textContent = user.pickleballClub || '—';
+            tdClub.style.fontSize = '0.82rem';
+            tr.appendChild(tdClub);
+
+            // Role
+            const tdRole = document.createElement('td');
+            const roleBadge = document.createElement('span');
+            roleBadge.className = 'badge ' + (user.role === 'admin' ? 'badge-admin' : 'badge-user');
+            roleBadge.textContent = user.role === 'admin' ? 'Admin' : 'User';
+            tdRole.appendChild(roleBadge);
+            tr.appendChild(tdRole);
+
+            // Status
+            const tdStatus = document.createElement('td');
+            const statusBadge = document.createElement('span');
+            statusBadge.className = 'badge ' + (user.accountStatus === 'suspended' ? 'badge-suspended' : 'badge-active');
+            statusBadge.innerHTML = user.accountStatus === 'suspended'
+              ? '<i class="fa-solid fa-ban"></i> Suspended'
+              : '<i class="fa-solid fa-check"></i> Active';
+            tdStatus.appendChild(statusBadge);
+            tr.appendChild(tdStatus);
+
+            // Joined
+            const tdJoined = document.createElement('td');
+            tdJoined.textContent = formatDate(user.createdAt);
+            tdJoined.style.fontSize = '0.82rem';
+            tr.appendChild(tdJoined);
+
+            // Actions
+            const tdActions = document.createElement('td');
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'action-buttons';
+
+            const viewBtn = document.createElement('button');
+            viewBtn.className = 'btn btn-outline btn-sm';
+            viewBtn.innerHTML = '<i class="fa-solid fa-eye"></i>';
+            viewBtn.title = 'View user';
+            viewBtn.addEventListener('click', () => openUserDetail(user));
+            actionsDiv.appendChild(viewBtn);
+
+            if (user.uid !== currentUser.uid) {
+              if (user.accountStatus === 'suspended') {
+                const unsuspendBtn = document.createElement('button');
+                unsuspendBtn.className = 'btn btn-success btn-sm';
+                unsuspendBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
+                unsuspendBtn.title = 'Unsuspend user';
+                unsuspendBtn.addEventListener('click', () => confirmUnsuspendUser(user));
+                actionsDiv.appendChild(unsuspendBtn);
+              } else {
+                const suspendBtn = document.createElement('button');
+                suspendBtn.className = 'btn btn-danger btn-sm';
+                suspendBtn.innerHTML = '<i class="fa-solid fa-ban"></i>';
+                suspendBtn.title = 'Suspend user';
+                suspendBtn.addEventListener('click', () => openSuspendModal(user));
+                actionsDiv.appendChild(suspendBtn);
+              }
+            }
+
+            tdActions.appendChild(actionsDiv);
+            tr.appendChild(tdActions);
+
+            tbody.appendChild(tr);
+          });
+
+          tableWrapper.appendChild(table);
+          listContainer.innerHTML = '';
+          listContainer.appendChild(tableWrapper);
+        };
+
+        renderUsersList();
+
+        document.getElementById('userSearch').addEventListener('input', debounce(() => renderUsersList(), 300));
+      }
+
+      function openUserDetail(user) {
+        const content = document.getElementById('userDetailContent');
+        content.innerHTML = '';
+
+        const avatar = createAvatarElement(user.profilePicture, user.name, 72);
+        avatar.style.margin = '0 auto 16px';
+        content.appendChild(avatar);
+
+        const name = document.createElement('h2');
+        name.textContent = user.name || 'Unknown';
+        name.style.textAlign = 'center';
+        name.style.marginBottom = '4px';
+        content.appendChild(name);
+
+        const email = document.createElement('p');
+        email.style.cssText = 'text-align:center; color:var(--text-muted); font-size:0.88rem; margin-bottom:16px;';
+        email.textContent = user.email || '—';
+        content.appendChild(email);
+
+        const details = document.createElement('div');
+        details.style.marginBottom = '16px';
+
+        const detailRows = [
+          { label: 'UID', value: user.uid || '—' },
+          { label: 'Mobile', value: user.mobileNumber || '—' },
+          { label: 'Address', value: user.address || '—' },
+          { label: 'Club', value: user.pickleballClub || '—' },
+          { label: 'Role', value: user.role === 'admin' ? 'Administrator' : 'User' },
+          { label: 'Account Status', value: user.accountStatus === 'suspended' ? 'Suspended' : 'Active' },
+          { label: 'Suspension Reason', value: user.suspensionReason || '—' },
+          { label: 'Suspended At', value: user.suspendedAt ? formatDateTime(user.suspendedAt) : '—' },
+          { label: 'Joined', value: formatDateTime(user.createdAt) },
+          { label: 'Last Updated', value: formatDateTime(user.updatedAt) },
+        ];
+
+        detailRows.forEach(row => {
+          const div = document.createElement('div');
+          div.className = 'detail-row';
+          div.innerHTML = `<div class="detail-label">${escapeHTML(row.label)}</div><div class="detail-value">${escapeHTML(String(row.value))}</div>`;
+          details.appendChild(div);
+        });
+
+        content.appendChild(details);
+
+        const actions = document.createElement('div');
+        actions.style.display = 'flex';
+        actions.style.gap = '8px';
+        actions.style.justifyContent = 'center';
+        actions.style.flexWrap = 'wrap';
+
+        if (user.uid !== currentUser.uid) {
+          if (user.accountStatus === 'suspended') {
+            const unsuspendBtn = document.createElement('button');
+            unsuspendBtn.className = 'btn btn-success';
+            unsuspendBtn.innerHTML = '<i class="fa-solid fa-check"></i> Unsuspend User';
+            unsuspendBtn.addEventListener('click', () => {
+              closeModal(userDetailModal);
+              confirmUnsuspendUser(user);
+            });
+            actions.appendChild(unsuspendBtn);
+          } else {
+            const suspendBtn = document.createElement('button');
+            suspendBtn.className = 'btn btn-danger';
+            suspendBtn.innerHTML = '<i class="fa-solid fa-ban"></i> Suspend User';
+            suspendBtn.addEventListener('click', () => {
+              closeModal(userDetailModal);
+              openSuspendModal(user);
+            });
+            actions.appendChild(suspendBtn);
+          }
+        }
+
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'btn btn-outline';
+        closeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i> Close';
+        closeBtn.addEventListener('click', () => closeModal(userDetailModal));
+        actions.appendChild(closeBtn);
+
+        content.appendChild(actions);
+        openModal(userDetailModal);
+      }
+
+      document.getElementById('closeUserDetailModal').addEventListener('click', () => closeModal(userDetailModal));
+
+      // Suspend modal
+      function openSuspendModal(user) {
+        pendingSuspendUserId = user.uid;
+        document.getElementById('suspendUserName').textContent = user.name || 'this user';
+        document.getElementById('suspendReasonPreset').value = '';
+        document.getElementById('suspendCustomReason').value = '';
+        document.getElementById('suspendReasonGroup').classList.remove('error');
+        openModal(suspendModal);
+      }
+
+      document.getElementById('closeSuspendModal').addEventListener('click', () => closeModal(suspendModal));
+      document.getElementById('cancelSuspendBtn').addEventListener('click', () => {
+        closeModal(suspendModal);
+        pendingSuspendUserId = null;
+      });
+
+      document.getElementById('suspendForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const preset = document.getElementById('suspendReasonPreset').value;
+        const custom = document.getElementById('suspendCustomReason').value.trim();
+
+        if (!preset && !custom) {
+          document.getElementById('suspendReasonGroup').classList.add('error');
+          return;
+        }
+        document.getElementById('suspendReasonGroup').classList.remove('error');
+
+        const reason = custom ? (preset ? `${preset} — ${custom}` : custom) : preset;
+
+        setLoading(true);
+        try {
+          await db.collection('users').doc(pendingSuspendUserId).update({
+            accountStatus: 'suspended',
+            suspensionReason: reason,
+            suspendedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          // Log the action
+          await logModerationAction('suspend_user', pendingSuspendUserId, null, reason);
+
+          showToast('success', 'Account suspended', 'The user has been suspended.');
+          closeModal(suspendModal);
+          pendingSuspendUserId = null;
+        } catch (error) {
+          console.error('Suspend error:', error);
+          showToast('error', 'Error', 'Could not suspend user. Please try again.');
+        } finally {
+          setLoading(false);
+        }
+      });
+
+      function confirmUnsuspendUser(user) {
+        showConfirm(
+          'Unsuspend User',
+          `Are you sure you want to unsuspend ${user.name || 'this user'}? They will regain access to PickleBuddy.`,
+          async () => {
+            setLoading(true);
+            try {
+              await db.collection('users').doc(user.uid).update({
+                accountStatus: 'active',
+                suspensionReason: '',
+                suspendedAt: null,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+              });
+
+              await logModerationAction('unsuspend_user', user.uid, null, '');
+
+              showToast('success', 'Account unsuspended', 'The user has been unsuspended.');
+            } catch (error) {
+              console.error('Unsuspend error:', error);
+              showToast('error', 'Error', 'Could not unsuspend user. Please try again.');
+            } finally {
+              setLoading(false);
+            }
+          },
+          'Unsuspend'
+        );
+      }
+
+      // ---------- POST MANAGEMENT ----------
+      function renderPosts() {
+        const container = document.createElement('div');
+
+        const title = document.createElement('h2');
+        title.className = 'section-title';
+        title.innerHTML = '<i class="fa-solid fa-rectangle-list"></i> Post Management';
+        container.appendChild(title);
+
+        // Toolbar
+        const toolbar = document.createElement('div');
+        toolbar.className = 'toolbar';
+
+        const searchBar = document.createElement('div');
+        searchBar.className = 'search-bar';
+        searchBar.innerHTML = '<i class="fa-solid fa-search"></i><input type="text" id="postSearch" placeholder="Search by title, author, or location...">';
+        toolbar.appendChild(searchBar);
+
+        const filterButtons = document.createElement('div');
+        filterButtons.className = 'filter-buttons';
+        filterButtons.id = 'postFilters';
+
+        ['all', 'LF Partner', 'LF Player'].forEach(f => {
+          const btn = document.createElement('button');
+          btn.className = 'filter-btn' + (f === 'all' ? ' active' : '');
+          btn.textContent = f === 'all' ? 'All' : f;
+          btn.dataset.filter = f;
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('#postFilters .filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderPostsList();
+          });
+          filterButtons.appendChild(btn);
+        });
+        toolbar.appendChild(filterButtons);
+
+        container.appendChild(toolbar);
+
+        const listContainer = document.createElement('div');
+        listContainer.id = 'postsList';
+        container.appendChild(listContainer);
+
+        mainContent.appendChild(container);
+
+        const renderPostsList = () => {
+          const searchVal = (document.getElementById('postSearch')?.value || '').toLowerCase().trim();
+          const activeFilter = document.querySelector('#postFilters .filter-btn.active')?.dataset.filter || 'all';
+
+          let filtered = [...allPosts];
+
+          if (activeFilter !== 'all') filtered = filtered.filter(p => p.category === activeFilter);
+
+          if (searchVal) {
+            filtered = filtered.filter(p =>
+              (p.title || '').toLowerCase().includes(searchVal) ||
+              (p.authorName || '').toLowerCase().includes(searchVal) ||
+              (p.location || '').toLowerCase().includes(searchVal)
+            );
+          }
+
+          filtered.sort((a, b) => {
+            const ta = a.createdAt ? a.createdAt.toMillis() : 0;
+            const tb = b.createdAt ? b.createdAt.toMillis() : 0;
+            return tb - ta;
+          });
+
+          if (filtered.length === 0) {
+            listContainer.innerHTML = `
+              <div class="empty-state">
+                <i class="fa-solid fa-rectangle-list"></i>
+                <h3>No posts found</h3>
+                <p>Try adjusting your search or filter criteria.</p>
+              </div>
+            `;
+            return;
+          }
+
+          const tableWrapper = document.createElement('div');
+          tableWrapper.className = 'table-wrapper';
+
+          const table = document.createElement('table');
+          table.innerHTML = `
+            <thead>
+              <tr>
+                <th>Author</th>
+                <th>Category</th>
+                <th>Title</th>
+                <th>Location</th>
+                <th>Created</th>
+                <th>Reports</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          `;
+
+          const tbody = table.querySelector('tbody');
+
+          filtered.forEach(post => {
+            const tr = document.createElement('tr');
+
+            // Author
+            const tdAuthor = document.createElement('td');
+            const userCell = document.createElement('div');
+            userCell.className = 'user-cell';
+            const avatar = createAvatarElement(post.authorProfilePicture, post.authorName, 32);
+            userCell.appendChild(avatar);
+            const authorInfo = document.createElement('div');
+            authorInfo.className = 'user-cell-info';
+            authorInfo.innerHTML = `<div class="user-cell-name">${escapeHTML(post.authorName || 'Unknown')}</div>`;
+            userCell.appendChild(authorInfo);
+            tdAuthor.appendChild(userCell);
+            tr.appendChild(tdAuthor);
+
+            // Category
+            const tdCategory = document.createElement('td');
+            const badge = document.createElement('span');
+            badge.className = 'badge ' + (post.category === 'LF Partner' ? 'badge-lf-partner' : 'badge-lf-player');
+            badge.textContent = post.category;
+            tdCategory.appendChild(badge);
+            tr.appendChild(tdCategory);
+
+            // Title
+            const tdTitle = document.createElement('td');
+            tdTitle.textContent = post.title || 'Untitled';
+            tdTitle.style.fontWeight = '500';
+            tdTitle.style.maxWidth = '220px';
+            tdTitle.style.overflow = 'hidden';
+            tdTitle.style.textOverflow = 'ellipsis';
+            tdTitle.style.whiteSpace = 'nowrap';
+            tr.appendChild(tdTitle);
+
+            // Location
+            const tdLocation = document.createElement('td');
+            tdLocation.textContent = post.location || '—';
+            tdLocation.style.fontSize = '0.82rem';
+            tr.appendChild(tdLocation);
+
+            // Created
+            const tdCreated = document.createElement('td');
+            tdCreated.textContent = formatDate(post.createdAt);
+            tdCreated.style.fontSize = '0.82rem';
+            tr.appendChild(tdCreated);
+
+            // Report count
+            const tdReports = document.createElement('td');
+            const reportCount = allReports.filter(r => r.postId === post.id).length;
+            if (reportCount > 0) {
+              const badge = document.createElement('span');
+              badge.className = 'badge badge-suspended';
+              badge.innerHTML = `<i class="fa-solid fa-flag"></i> ${reportCount}`;
+              tdReports.appendChild(badge);
+            } else {
+              tdReports.textContent = '—';
+              tdReports.style.color = 'var(--text-muted)';
+            }
+            tr.appendChild(tdReports);
+
+            // Actions
+            const tdActions = document.createElement('td');
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'action-buttons';
+
+            const viewBtn = document.createElement('button');
+            viewBtn.className = 'btn btn-outline btn-sm';
+            viewBtn.innerHTML = '<i class="fa-solid fa-eye"></i>';
+            viewBtn.title = 'View post';
+            viewBtn.addEventListener('click', () => openAdminPostDetail(post));
+            actionsDiv.appendChild(viewBtn);
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'btn btn-danger btn-sm';
+            deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+            deleteBtn.title = 'Delete post';
+            deleteBtn.addEventListener('click', () => openDeletePostModal(post));
+            actionsDiv.appendChild(deleteBtn);
+
+            tdActions.appendChild(actionsDiv);
+            tr.appendChild(tdActions);
+
+            tbody.appendChild(tr);
+          });
+
+          tableWrapper.appendChild(table);
+          listContainer.innerHTML = '';
+          listContainer.appendChild(tableWrapper);
+        };
+
+        renderPostsList();
+
+        document.getElementById('postSearch').addEventListener('input', debounce(() => renderPostsList(), 300));
+      }
+
+      function openAdminPostDetail(post) {
+        const content = document.getElementById('postDetailContent');
+        content.innerHTML = '';
+
+        const title = document.createElement('h2');
+        title.style.fontSize = '1.15rem';
+        title.style.marginBottom = '12px';
+        title.textContent = post.title || 'Untitled';
+        content.appendChild(title);
+
+        const badge = document.createElement('span');
+        badge.className = 'badge ' + (post.category === 'LF Partner' ? 'badge-lf-partner' : 'badge-lf-player');
+        badge.textContent = post.category;
+        badge.style.marginBottom = '16px';
+        badge.style.display = 'inline-flex';
+        content.appendChild(badge);
+
+        const details = document.createElement('div');
+
+        const detailRows = [
+          { label: 'Author', value: post.authorName || 'Unknown' },
+          { label: 'Author Club', value: post.authorClub || '—' },
+          { label: 'Description', value: post.description || '—' },
+          { label: 'Location', value: post.location || '—' },
+          { label: 'Venue', value: post.venue || '—' },
+          { label: 'Preferred Date', value: post.preferredDate || '—' },
+          { label: 'Preferred Time', value: post.preferredTime || '—' },
+          { label: 'Skill Level', value: post.skillLevel || '—' },
+          { label: 'Players Needed', value: post.playersNeeded || '—' },
+          { label: 'Contact Preference', value: post.contactPreference || '—' },
+          { label: 'Status', value: post.status || '—' },
+          { label: 'Created', value: formatDateTime(post.createdAt) },
+        ];
+
+        detailRows.forEach(row => {
+          const div = document.createElement('div');
+          div.className = 'detail-row';
+          div.innerHTML = `<div class="detail-label">${escapeHTML(row.label)}</div><div class="detail-value">${escapeHTML(String(row.value))}</div>`;
+          details.appendChild(div);
+        });
+
+        content.appendChild(details);
+
+        const actions = document.createElement('div');
+        actions.style.display = 'flex';
+        actions.style.gap = '8px';
+        actions.style.justifyContent = 'flex-end';
+        actions.style.marginTop = '20px';
+        actions.style.flexWrap = 'wrap';
+
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'btn btn-outline';
+        closeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i> Close';
+        closeBtn.addEventListener('click', () => closeModal(postDetailModal));
+        actions.appendChild(closeBtn);
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'btn btn-danger';
+        deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i> Delete Post';
+        deleteBtn.addEventListener('click', () => {
+          closeModal(postDetailModal);
+          openDeletePostModal(post);
+        });
+        actions.appendChild(deleteBtn);
+
+        content.appendChild(actions);
+        openModal(postDetailModal);
+      }
+
+      document.getElementById('closePostDetailModal').addEventListener('click', () => closeModal(postDetailModal));
+
+      // Delete post modal
+      function openDeletePostModal(post) {
+        pendingDeletePostId = post.id;
+        document.getElementById('deleteReason').value = '';
+        openModal(deletePostModal);
+      }
+
+      document.getElementById('closeDeletePostModal').addEventListener('click', () => closeModal(deletePostModal));
+      document.getElementById('cancelDeletePostBtn').addEventListener('click', () => {
+        closeModal(deletePostModal);
+        pendingDeletePostId = null;
+      });
+
+      document.getElementById('deletePostForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const reason = document.getElementById('deleteReason').value.trim();
+
+        setLoading(true);
+        try {
+          // Get post data before deleting for the log
+          const postDoc = await db.collection('posts').doc(pendingDeletePostId).get();
+          const postData = postDoc.exists ? postDoc.data() : {};
+
+          await db.collection('posts').doc(pendingDeletePostId).delete();
+
+          await logModerationAction('delete_post', postData.authorId || null, pendingDeletePostId, reason);
+
+          showToast('success', 'Post deleted', 'The post has been permanently removed.');
+          closeModal(deletePostModal);
+          pendingDeletePostId = null;
+        } catch (error) {
+          console.error('Delete post error:', error);
+          showToast('error', 'Error', 'Could not delete post. Please try again.');
+        } finally {
+          setLoading(false);
+        }
+      });
+
+      // ---------- REPORTS ----------
+      function renderReports() {
+        const container = document.createElement('div');
+
+        const title = document.createElement('h2');
+        title.className = 'section-title';
+        title.innerHTML = '<i class="fa-solid fa-flag"></i> Report Management';
+        container.appendChild(title);
+
+        const filterButtons = document.createElement('div');
+        filterButtons.className = 'filter-buttons';
+        filterButtons.style.marginBottom = '16px';
+        filterButtons.id = 'reportFilters';
+
+        ['all', 'pending', 'reviewed', 'resolved', 'dismissed'].forEach(f => {
+          const btn = document.createElement('button');
+          btn.className = 'filter-btn' + (reportFilter === f ? ' active' : '');
+          btn.textContent = f.charAt(0).toUpperCase() + f.slice(1);
+          btn.dataset.filter = f;
+          btn.addEventListener('click', () => {
+            reportFilter = f;
+            document.querySelectorAll('#reportFilters .filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderReportsList();
+          });
+          filterButtons.appendChild(btn);
+        });
+        container.appendChild(filterButtons);
+
+        const listContainer = document.createElement('div');
+        listContainer.id = 'reportsList';
+        container.appendChild(listContainer);
+
+        mainContent.appendChild(container);
+
+        const renderReportsList = () => {
+          let filtered = [...allReports];
+
+          if (reportFilter !== 'all') filtered = filtered.filter(r => r.status === reportFilter);
+
+          filtered.sort((a, b) => {
+            const ta = a.createdAt ? a.createdAt.toMillis() : 0;
+            const tb = b.createdAt ? b.createdAt.toMillis() : 0;
+            return tb - ta;
+          });
+
+          if (filtered.length === 0) {
+            listContainer.innerHTML = `
+              <div class="empty-state">
+                <i class="fa-solid fa-flag"></i>
+                <h3>No reports found</h3>
+                <p>There are no reports matching this filter.</p>
+              </div>
+            `;
+            return;
+          }
+
+          listContainer.innerHTML = '';
+
+          filtered.forEach(report => {
+            const card = document.createElement('div');
+            card.className = 'report-card';
+
+            const header = document.createElement('div');
+            header.className = 'report-header';
+
+            const reasonDiv = document.createElement('div');
+            reasonDiv.innerHTML = `
+              <div class="report-reason">${escapeHTML(report.reason || 'Unknown reason')}</div>
+              <div class="report-meta">
+                Reported by ${escapeHTML(report.reporterName || 'Unknown')} · ${timeAgo(report.createdAt)}
+              </div>
+            `;
+            header.appendChild(reasonDiv);
+
+            const statusBadge = document.createElement('span');
+            const statusClass = report.status === 'pending' ? 'badge-pending' :
+                               report.status === 'reviewed' ? 'badge-reviewed' :
+                               report.status === 'resolved' ? 'badge-resolved' : 'badge-dismissed';
+            statusBadge.className = `badge ${statusClass}`;
+            statusBadge.textContent = report.status ? report.status.charAt(0).toUpperCase() + report.status.slice(1) : 'Pending';
+            header.appendChild(statusBadge);
+
+            card.appendChild(header);
+
+            if (report.description) {
+              const desc = document.createElement('div');
+              desc.className = 'report-description';
+              desc.textContent = report.description;
+              card.appendChild(desc);
+            }
+
+            const actions = document.createElement('div');
+            actions.className = 'report-actions';
+
+            const viewReportBtn = document.createElement('button');
+            viewReportBtn.className = 'btn btn-outline btn-sm';
+            viewReportBtn.innerHTML = '<i class="fa-solid fa-eye"></i> View Details';
+            viewReportBtn.addEventListener('click', () => openReportDetail(report));
+            actions.appendChild(viewReportBtn);
+
+            if (report.postId) {
+              const viewPostBtn = document.createElement('button');
+              viewPostBtn.className = 'btn btn-outline btn-sm';
+              viewPostBtn.innerHTML = '<i class="fa-solid fa-file-lines"></i> View Post';
+              viewPostBtn.addEventListener('click', () => {
+                const post = allPosts.find(p => p.id === report.postId);
+                if (post) openAdminPostDetail(post);
+                else showToast('warning', 'Post not found', 'This post may have already been deleted.');
+              });
+              actions.appendChild(viewPostBtn);
+            }
+
+            if (report.reportedUserId) {
+              const viewUserBtn = document.createElement('button');
+              viewUserBtn.className = 'btn btn-outline btn-sm';
+              viewUserBtn.innerHTML = '<i class="fa-solid fa-user"></i> View User';
+              viewUserBtn.addEventListener('click', () => {
+                const user = allUsers.find(u => u.uid === report.reportedUserId);
+                if (user) openUserDetail(user);
+                else showToast('warning', 'User not found', 'This user may no longer exist.');
+              });
+              actions.appendChild(viewUserBtn);
+            }
+
+            if (report.status === 'pending' || report.status === 'reviewed') {
+              const resolveBtn = document.createElement('button');
+              resolveBtn.className = 'btn btn-success btn-sm';
+              resolveBtn.innerHTML = '<i class="fa-solid fa-check"></i> Mark Resolved';
+              resolveBtn.addEventListener('click', () => updateReportStatus(report.id, 'resolved'));
+              actions.appendChild(resolveBtn);
+
+              const dismissBtn = document.createElement('button');
+              dismissBtn.className = 'btn btn-outline btn-sm';
+              dismissBtn.innerHTML = '<i class="fa-solid fa-xmark"></i> Dismiss';
+              dismissBtn.addEventListener('click', () => updateReportStatus(report.id, 'dismissed'));
+              actions.appendChild(dismissBtn);
+            }
+
+            card.appendChild(actions);
+            listContainer.appendChild(card);
+          });
+        };
+
+        renderReportsList();
+      }
+
+      function openReportDetail(report) {
+        const content = document.getElementById('reportDetailContent');
+        content.innerHTML = '';
+
+        const title = document.createElement('h2');
+        title.innerHTML = '<i class="fa-solid fa-flag" style="color:var(--orange);"></i> Report Details';
+        content.appendChild(title);
+
+        const details = document.createElement('div');
+
+        const reportedUser = allUsers.find(u => u.uid === report.reportedUserId);
+        const reportedPost = allPosts.find(p => p.id === report.postId);
+
+        const detailRows = [
+          { label: 'Reporter', value: report.reporterName || report.reporterId || '—' },
+          { label: 'Reported User', value: reportedUser ? (reportedUser.name || 'Unknown') : (report.reportedUserId || '—') },
+          { label: 'Post', value: reportedPost ? (reportedPost.title || 'Untitled') : (report.postId || '—') },
+          { label: 'Reason', value: report.reason || '—' },
+          { label: 'Description', value: report.description || '—' },
+          { label: 'Status', value: report.status || 'pending' },
+          { label: 'Reported At', value: formatDateTime(report.createdAt) },
+        ];
+
+        detailRows.forEach(row => {
+          const div = document.createElement('div');
+          div.className = 'detail-row';
+          div.innerHTML = `<div class="detail-label">${escapeHTML(row.label)}</div><div class="detail-value">${escapeHTML(String(row.value))}</div>`;
+          details.appendChild(div);
+        });
+
+        content.appendChild(details);
+
+        const actions = document.createElement('div');
+        actions.style.display = 'flex';
+        actions.style.gap = '8px';
+        actions.style.justifyContent = 'flex-end';
+        actions.style.marginTop = '20px';
+        actions.style.flexWrap = 'wrap';
+
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'btn btn-outline';
+        closeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i> Close';
+        closeBtn.addEventListener('click', () => closeModal(reportDetailModal));
+        actions.appendChild(closeBtn);
+
+        if (report.status === 'pending' || report.status === 'reviewed') {
+          const resolveBtn = document.createElement('button');
+          resolveBtn.className = 'btn btn-success';
+          resolveBtn.innerHTML = '<i class="fa-solid fa-check"></i> Mark Resolved';
+          resolveBtn.addEventListener('click', () => {
+            closeModal(reportDetailModal);
+            updateReportStatus(report.id, 'resolved');
+          });
+          actions.appendChild(resolveBtn);
+
+          const dismissBtn = document.createElement('button');
+          dismissBtn.className = 'btn btn-outline';
+          dismissBtn.innerHTML = '<i class="fa-solid fa-xmark"></i> Dismiss Report';
+          dismissBtn.addEventListener('click', () => {
+            closeModal(reportDetailModal);
+            updateReportStatus(report.id, 'dismissed');
+          });
+          actions.appendChild(dismissBtn);
+        }
+
+        content.appendChild(actions);
+        openModal(reportDetailModal);
+      }
+
+      document.getElementById('closeReportDetailModal').addEventListener('click', () => closeModal(reportDetailModal));
+
+      async function updateReportStatus(reportId, status) {
+        setLoading(true);
+        try {
+          await db.collection('reports').doc(reportId).update({
+            status: status,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          const action = status === 'resolved' ? 'resolve_report' : 'dismiss_report';
+          await logModerationAction(action, null, null, `Report ${reportId} ${status}`);
+
+          showToast('success', 'Report updated', `Report marked as ${status}.`);
+        } catch (error) {
+          console.error('Report update error:', error);
+          showToast('error', 'Error', 'Could not update report. Please try again.');
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      // ---------- MODERATION LOGS ----------
+      function renderLogs() {
+        const container = document.createElement('div');
+
+        const title = document.createElement('h2');
+        title.className = 'section-title';
+        title.innerHTML = '<i class="fa-solid fa-clipboard-list"></i> Moderation Logs';
+        container.appendChild(title);
+
+        const listContainer = document.createElement('div');
+        container.appendChild(listContainer);
+
+        mainContent.appendChild(container);
+
+        if (allLogs.length === 0) {
+          listContainer.innerHTML = `
+            <div class="empty-state">
+              <i class="fa-solid fa-clipboard-list"></i>
+              <h3>No moderation logs</h3>
+              <p>Moderation actions will appear here.</p>
+            </div>
+          `;
+          return;
+        }
+
+        const sortedLogs = [...allLogs].sort((a, b) => {
+          const ta = a.createdAt ? a.createdAt.toMillis() : 0;
+          const tb = b.createdAt ? b.createdAt.toMillis() : 0;
+          return tb - ta;
+        });
+
+        const tableWrapper = document.createElement('div');
+        tableWrapper.className = 'table-wrapper';
+
+        const table = document.createElement('table');
+        table.innerHTML = `
+          <thead>
+            <tr>
+              <th>Admin</th>
+              <th>Action</th>
+              <th>Target</th>
+              <th>Reason</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        `;
+
+        const tbody = table.querySelector('tbody');
+
+        sortedLogs.forEach(log => {
+          const tr = document.createElement('tr');
+
+          const tdAdmin = document.createElement('td');
+          tdAdmin.textContent = log.adminName || log.adminId || 'Unknown';
+          tdAdmin.style.fontSize = '0.85rem';
+          tr.appendChild(tdAdmin);
+
+          const tdAction = document.createElement('td');
+          const actionBadge = document.createElement('span');
+          actionBadge.className = 'badge ' + (log.action && log.action.includes('delete') ? 'badge-suspended' :
+                                              log.action && log.action.includes('suspend') ? 'badge-pending' :
+                                              log.action && log.action.includes('resolve') ? 'badge-resolved' : 'badge-reviewed');
+          actionBadge.textContent = (log.action || 'unknown').replace(/_/g, ' ');
+          tdAction.appendChild(actionBadge);
+          tr.appendChild(tdAction);
+
+          const tdTarget = document.createElement('td');
+          if (log.targetUserId) {
+            const targetUser = allUsers.find(u => u.uid === log.targetUserId);
+            tdTarget.textContent = targetUser ? (targetUser.name || log.targetUserId) : log.targetUserId;
+          } else if (log.targetPostId) {
+            const targetPost = allPosts.find(p => p.id === log.targetPostId);
+            tdTarget.textContent = targetPost ? (targetPost.title || 'Untitled Post') : log.targetPostId;
+          } else {
+            tdTarget.textContent = '—';
+          }
+          tdTarget.style.fontSize = '0.82rem';
+          tr.appendChild(tdTarget);
+
+          const tdReason = document.createElement('td');
+          tdReason.textContent = log.reason || '—';
+          tdReason.style.fontSize = '0.82rem';
+          tdReason.style.maxWidth = '200px';
+          tdReason.style.overflow = 'hidden';
+          tdReason.style.textOverflow = 'ellipsis';
+          tdReason.style.whiteSpace = 'nowrap';
+          tr.appendChild(tdReason);
+
+          const tdDate = document.createElement('td');
+          tdDate.textContent = formatDateTime(log.createdAt);
+          tdDate.style.fontSize = '0.82rem';
+          tr.appendChild(tdDate);
+
+          tbody.appendChild(tr);
+        });
+
+        tableWrapper.appendChild(table);
+        listContainer.appendChild(tableWrapper);
+      }
+
+      // ---------- MODERATION LOG HELPER ----------
+      async function logModerationAction(action, targetUserId, targetPostId, reason) {
+        try {
+          await db.collection('moderationLogs').add({
+            adminId: currentUser.uid,
+            adminName: currentUserData.name || 'Admin',
+            action: action,
+            targetUserId: targetUserId || null,
+            targetPostId: targetPostId || null,
+            reason: reason || '',
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        } catch (error) {
+          console.error('Log error:', error);
+        }
+      }
+
+      // ---------- DEBOUNCE ----------
+      function debounce(fn, delay) {
+        let timeout;
+        return function(...args) {
+          clearTimeout(timeout);
+          timeout = setTimeout(() => fn.apply(this, args), delay);
+        };
+      }
+
+      // ---------- LOGOUT ----------
+      function handleLogout() {
+        showConfirm(
+          'Logout',
+          'Are you sure you want to log out of the Admin Dashboard?',
+          async () => {
+            try {
+              if (unsubUsers) unsubUsers();
+              if (unsubPosts) unsubPosts();
+              if (unsubReports) unsubReports();
+              if (unsubLogs) unsubLogs();
+              if (unsubAdminDoc) unsubAdminDoc();
+              await auth.signOut();
+              window.location.href = 'login.html';
+            } catch (error) {
+              console.error('Logout error:', error);
+              showToast('error', 'Error', 'Could not log out. Please try again.');
+            }
+          },
+          'Logout'
+        );
+      }
+
+      document.getElementById('sidebarLogoutBtn').addEventListener('click', handleLogout);
+
+      // ---------- REAL-TIME LISTENERS ----------
+      function setupUsersListener() {
+        if (unsubUsers) unsubUsers();
+        unsubUsers = db.collection('users').onSnapshot(snapshot => {
+          allUsers = [];
+          snapshot.forEach(doc => {
+            allUsers.push({ uid: doc.id, ...doc.data() });
+          });
+
+          // Update pending reports badge
+          updatePendingReportsBadge();
+
+          // Re-render current view
+          if (currentView === 'dashboard' || currentView === 'users' || currentView === 'reports' || currentView === 'logs') {
+            renderView();
+          }
+        }, error => {
+          console.error('Users listener error:', error);
+        });
+      }
+
+      function setupPostsListener() {
+        if (unsubPosts) unsubPosts();
+        unsubPosts = db.collection('posts')
+          .orderBy('createdAt', 'desc')
+          .limit(200)
+          .onSnapshot(snapshot => {
+            allPosts = [];
+            snapshot.forEach(doc => {
+              allPosts.push({ id: doc.id, ...doc.data() });
+            });
+
+            if (currentView === 'dashboard' || currentView === 'posts' || currentView === 'reports' || currentView === 'logs') {
+              renderView();
+            }
+          }, error => {
+            console.error('Posts listener error:', error);
+          });
+      }
+
+      function setupReportsListener() {
+        if (unsubReports) unsubReports();
+        unsubReports = db.collection('reports')
+          .orderBy('createdAt', 'desc')
+          .limit(200)
+          .onSnapshot(snapshot => {
+            allReports = [];
+            snapshot.forEach(doc => {
+              allReports.push({ id: doc.id, ...doc.data() });
+            });
+
+            updatePendingReportsBadge();
+
+            if (currentView === 'dashboard' || currentView === 'reports' || currentView === 'posts') {
+              renderView();
+            }
+          }, error => {
+            console.error('Reports listener error:', error);
+          });
+      }
+
+      function setupLogsListener() {
+        if (unsubLogs) unsubLogs();
+        unsubLogs = db.collection('moderationLogs')
+          .orderBy('createdAt', 'desc')
+          .limit(200)
+          .onSnapshot(snapshot => {
+            allLogs = [];
+            snapshot.forEach(doc => {
+              allLogs.push({ id: doc.id, ...doc.data() });
+            });
+
+            if (currentView === 'logs') {
+              renderView();
+            }
+          }, error => {
+            console.error('Logs listener error:', error);
+          });
+      }
+
+      function updatePendingReportsBadge() {
+        const pendingCount = allReports.filter(r => r.status === 'pending').length;
+        if (pendingCount > 0) {
+          pendingReportsBadge.textContent = pendingCount;
+          pendingReportsBadge.classList.remove('hidden');
+        } else {
+          pendingReportsBadge.classList.add('hidden');
+        }
+      }
+
+      // ---------- AUTH STATE ----------
+      auth.onAuthStateChanged(async (user) => {
+        if (!user) {
+          window.location.href = 'login.html';
+          return;
+        }
+
+        currentUser = user;
+
+        // Check email verification for email/password users
+        const isEmailProvider = user.providerData.some(p => p.providerId === 'password');
+        if (isEmailProvider && !user.emailVerified) {
+          window.location.href = 'login.html';
+          return;
+        }
+
+        try {
+          const userDoc = await db.collection('users').doc(user.uid).get();
+          if (!userDoc.exists) {
+            window.location.href = 'main.html';
+            return;
+          }
+
+          currentUserData = userDoc.data();
+
+          // Check account status
+          if (currentUserData.accountStatus === 'suspended') {
+            window.location.href = 'login.html';
+            return;
+          }
+
+          // Check admin role
+          if (currentUserData.role !== 'admin') {
+            window.location.href = 'main.html';
+            return;
+          }
+
+          // Listen for real-time changes to admin's own document (suspension/role change)
+          if (unsubAdminDoc) unsubAdminDoc();
+          unsubAdminDoc = db.collection('users').doc(user.uid).onSnapshot(doc => {
+            if (doc.exists) {
+              const data = doc.data();
+              if (data.accountStatus === 'suspended' || data.role !== 'admin') {
+                showToast('error', 'Access revoked', 'Your admin access has been revoked.');
+                setTimeout(() => {
+                  auth.signOut();
+                  window.location.href = 'login.html';
+                }, 1500);
+              }
+            }
+          });
+
+          // Setup listeners
+          setupUsersListener();
+          setupPostsListener();
+          setupReportsListener();
+          setupLogsListener();
+
+          // Hide loading and render initial view
+          setLoading(false);
+          renderView();
+
+        } catch (error) {
+          console.error('Auth state error:', error);
+          window.location.href = 'login.html';
+        }
+      });
+
+      // ---------- INITIAL THEME ----------
+      const savedTheme = localStorage.getItem('picklebuddy-theme');
+      if (savedTheme === 'dark') {
+        document.body.classList.add('dark');
+      }
+
+    })();
+  </script>
+</body>
+</html>
