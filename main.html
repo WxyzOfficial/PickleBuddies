@@ -1473,8 +1473,10 @@
     .standards-content h2 { font-size: 1.1rem; margin: 14px 0 6px; }
     .standards-content ul, .standards-content ol { padding-left: 20px; margin-bottom: 10px; }
 
-    .download-app-btn {
-    display: inline-block;
+.download-app-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 12px 22px;
     background: #2563eb;
     color: white;
@@ -1482,11 +1484,15 @@
     border-radius: 10px;
     font-weight: 600;
     transition: 0.2s;
-    }
+}
 
-    .download-app-btn:hover {
+.download-app-btn:hover {
     transform: translateY(-2px);
-    }
+}
+
+.download-app-btn i {
+    margin-right: 8px;
+}
   </style>
 </head>
 <body>
@@ -1595,12 +1601,13 @@
           Keep your posts respectful. Follow the Community Standards and help make PickleBuddy a welcoming place for all players.
         </p>
 
-        <h1></h1> <br>
-
-        <a href="/app/picklebuddy.apk" download="PickleBuddy.apk" class="download-app-btn">
-            📱 Download App
-        </a>
       </div>
+
+              <a href="/app/picklebuddy.apk" download="PickleBuddy.apk" class="download-app-btn">
+    <i class="fa-brands fa-android"></i>
+    Download App
+</a>
+
     </aside>
   </div>
 
