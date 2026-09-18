@@ -1662,12 +1662,12 @@
         <div class="form-row">
           <div class="form-group" id="postLocationGroup">
             <label for="postLocation">Location</label>
-            <input type="text" id="postLocation" placeholder="Catbalogan City, Samar">
+            <input type="text" id="postLocation" placeholder="Enter your city or municipality">
             <div class="error-text">Location is required.</div>
           </div>
           <div class="form-group">
             <label for="postVenue">Preferred Court / Venue (Optional)</label>
-            <input type="text" id="postVenue" placeholder="City Sports Complex">
+            <input type="text" id="postVenue" placeholder="Local sports complex or court">
           </div>
         </div>
         <div class="form-row">
@@ -1936,7 +1936,7 @@
         </div>
         <div class="form-group">
           <label for="mpLocation">Preferred Location</label>
-          <input type="text" id="mpLocation" placeholder="Catbalogan City, Samar">
+          <input type="text" id="mpLocation" placeholder="Enter your city or municipality">
         </div>
         <div class="modal-actions">
           <button type="button" class="btn btn-outline" id="cancelMatchPrefsBtn">Cancel</button>
@@ -1960,7 +1960,7 @@
         <div class="form-row">
           <div class="form-group">
             <label for="pnLocation">Where are you playing?</label>
-            <input type="text" id="pnLocation" placeholder="City Sports Complex">
+            <input type="text" id="pnLocation" placeholder="Name of court, city, or municipality">
           </div>
           <div class="form-group">
             <label for="pnSkill">Your Skill Level</label>
@@ -2149,6 +2149,37 @@
         if (!timestamp) return '—';
         const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
         return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+      }
+
+      // ---------- GLOBAL LOCATION UTILITIES ----------
+      // Generic helpers that work with ANY address format, not tied to a specific city/region.
+      // They simply take the last N comma-separated parts as a "general location",
+      // which usually corresponds to "City/Municipality, Province/State" style.
+
+      /**
+       * Return a shortened "general location" from any user-supplied address.
+       * Example: "123 Main St, Brgy. Example, Quezon City, Metro Manila"
+       *   → "Quezon City, Metro Manila"
+       * Falls back to the raw string if parsing fails.
+       */
+      function generalLocationFromAddress(address) {
+        if (!address) return '';
+        const parts = String(address).split(',').map(p => p.trim()).filter(Boolean);
+        if (parts.length === 0) return '';
+        if (parts.length === 1) return parts[0];
+        if (parts.length === 2) return parts.join(', ');
+        // Take last two meaningful parts
+        return parts.slice(-2).join(', ');
+      }
+
+      /**
+       * Return the first meaningful "city-level" keyword from an address.
+       * Useful for loose matching in Smart Match.
+       */
+      function cityKeywordFromLocation(location) {
+        if (!location) return '';
+        const first = String(location).split(',')[0].trim();
+        return first.toLowerCase();
       }
 
       function initialsAvatar(name) {
@@ -2784,12 +2815,11 @@
           info.appendChild(club);
         }
 
-        // Show general location only (city-level)
+        // Show general location only (auto-adaptive, works for any format)
         if (user.address) {
           const loc = document.createElement('div');
           loc.className = 'player-detail';
-          const parts = user.address.split(',');
-          const generalLoc = parts.length > 1 ? parts.slice(-2).join(',').trim() : user.address;
+          const generalLoc = generalLocationFromAddress(user.address);
           loc.innerHTML = `<i class="fa-solid fa-location-dot"></i> ${escapeHTML(generalLoc)}`;
           info.appendChild(loc);
         }
@@ -3115,8 +3145,8 @@
       function openMatchPrefsModal() {
         const loc = document.getElementById('mpLocation');
         if (!loc.value && currentUserData && currentUserData.address) {
-          const parts = currentUserData.address.split(',');
-          loc.value = parts.length > 1 ? parts.slice(-2).join(',').trim() : currentUserData.address;
+          // Auto-fill with the general location derived from the user's address
+          loc.value = generalLocationFromAddress(currentUserData.address);
         }
         openModal(document.getElementById('matchPrefsModal'));
       }
@@ -3128,6 +3158,14 @@
         const candidates = allUsers.filter(u =>
           u.uid !== currentUser.uid && u.accountStatus === 'active'
         );
+
+        // Build normalized tokens for the current user's preferred location
+        const myLocFull = (prefs.location || '').toLowerCase().trim();
+        const myLocTokens = myLocFull
+          .split(/[\s,]+/)
+          .map(t => t.trim())
+          .filter(t => t.length > 2);
+        const myCityKeyword = myLocTokens[0] || '';
 
         const scored = candidates.map(u => {
           let score = 0;
@@ -3143,15 +3181,18 @@
             score += 5;
           }
 
-          // Location match (25 pts)
-          const myLoc = (prefs.location || '').toLowerCase().trim();
+          // Location match — works with any country/city/province
           const theirLoc = ((u.address || '') + ' ' + (u.pickleballClub || '')).toLowerCase();
-          if (myLoc && theirLoc.includes(myLoc.split(',')[0])) {
+          if (myLocFull && theirLoc.includes(myLocFull)) {
             score += 25; reasons.push('Same area');
-          } else if (myLoc && theirLoc) {
-            const words = myLoc.split(/[\s,]+/).filter(w => w.length > 3);
-            if (words.some(w => theirLoc.includes(w))) {
+          } else if (myCityKeyword && theirLoc.includes(myCityKeyword)) {
+            score += 20; reasons.push('Same city');
+          } else if (myLocTokens.length > 0) {
+            const overlap = myLocTokens.filter(t => theirLoc.includes(t)).length;
+            if (overlap >= 2) {
               score += 15; reasons.push('Nearby');
+            } else if (overlap === 1) {
+              score += 8; reasons.push('Region match');
             }
           }
 
@@ -4504,8 +4545,7 @@
         if (user.address) {
           const loc = document.createElement('p');
           loc.style.cssText = 'text-align:center; color:var(--text-muted); font-size:0.85rem; margin-bottom:4px;';
-          const parts = user.address.split(',');
-          const generalLoc = parts.length > 1 ? parts.slice(-2).join(',').trim() : user.address;
+          const generalLoc = generalLocationFromAddress(user.address);
           loc.innerHTML = `<i class="fa-solid fa-location-dot" style="color:var(--orange);"></i> ${escapeHTML(generalLoc)}`;
           content.appendChild(loc);
         }
