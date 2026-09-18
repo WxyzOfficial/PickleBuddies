@@ -646,6 +646,26 @@
       display: none !important;
     }
 
+    /* ============================================================
+       CRITICAL FIX: Ensure only ONE form is visible at a time.
+       These rules are applied BEFORE JavaScript runs, so the
+       register form never stacks on top of the login form on
+       initial page load.
+       ============================================================ */
+    #loginForm {
+      display: block;
+    }
+    #registerForm {
+      display: none;
+    }
+    /* When the register tab is active, swap visibility */
+    #authCard.show-register #loginForm {
+      display: none;
+    }
+    #authCard.show-register #registerForm {
+      display: block;
+    }
+
     /* Email verification state */
     .verify-panel {
       text-align: center;
@@ -773,7 +793,7 @@
     <div class="login-left">
       <h1>PickleBuddy</h1>
       <p>Find Players. Find Partners. Play Together.</p>
-      <span class="tagline"><i class="fa-solid fa-table-tennis-paddle-ball"></i> Made for Pickleball Enthusiasts in Catbalogan City</span>
+      <span class="tagline"><i class="fa-solid fa-table-tennis-paddle-ball"></i> Made for Pickleball Enthusiasts</span>
 
       <!-- Live User Count Badge -->
       <div class="user-count-badge" id="userCountBadge" title="Registered PickleBuddy members">
@@ -788,8 +808,8 @@
       <div class="auth-card" id="authCard">
         <!-- Tabs -->
         <div class="auth-tabs" id="authTabs">
-          <button class="auth-tab active" data-tab="login">Login</button>
-          <button class="auth-tab" data-tab="register">Create Account</button>
+          <button class="auth-tab active" data-tab="login" type="button">Login</button>
+          <button class="auth-tab" data-tab="register" type="button">Create Account</button>
         </div>
 
         <!-- Login Form -->
@@ -817,8 +837,8 @@
           </button>
         </form>
 
-        <!-- Register Form (hidden by default) -->
-        <form id="registerForm" class="auth-form hidden">
+        <!-- Register Form (hidden by default via CSS above) -->
+        <form id="registerForm" class="auth-form">
           <div class="form-group" id="regNameGroup">
             <label for="regName">Full Name</label>
             <input type="text" id="regName" placeholder="John Doe" autocomplete="name">
@@ -855,7 +875,7 @@
           </div>
           <div class="form-group" id="regAddressGroup">
             <label for="regAddress">Address</label>
-            <input type="text" id="regAddress" placeholder="Catbalogan City, Samar">
+            <input type="text" id="regAddress" placeholder="Enter your city or municipality">
             <div class="error-text">Address is required.</div>
           </div>
           <div class="form-group" id="regMobileGroup">
@@ -881,12 +901,12 @@
         </form>
 
         <!-- Google Sign-In (always visible) -->
-        <button class="btn btn-google btn-block" id="googleSignInBtn">
+        <button class="btn btn-google btn-block" id="googleSignInBtn" type="button">
           <i class="fa-brands fa-google"></i> Continue with Google
         </button>
 
         <div class="auth-toggle-text">
-          <span id="toggleMessage">Don't have an account? <a id="toggleAuthLink">Create one</a></span>
+          <span id="toggleMessage">Don't have an account? <a href="#" id="toggleAuthLink">Create one</a></span>
         </div>
 
         <!-- Email verification panel (hidden initially) -->
@@ -959,7 +979,7 @@
         </div>
         <div class="form-group" id="cpAddressGroup">
           <label for="cpAddress">Address</label>
-          <input type="text" id="cpAddress" placeholder="Catbalogan City, Samar">
+          <input type="text" id="cpAddress" placeholder="Enter your city or municipality">
           <div class="error-text">Address is required.</div>
         </div>
         <div class="form-group" id="cpMobileGroup">
@@ -1017,10 +1037,6 @@
       firebase.initializeApp(firebaseConfig);
       const auth = firebase.auth();
       const db = firebase.firestore();
-
-      // ---------- FIRESTORE RULES COMMENT ----------
-      // NOTE: Firestore rules for this project currently allow all reads/writes for development/testing.
-      // This is NOT secure for production. Production rules must restrict access based on auth & roles.
 
       // ---------- UTILITY FUNCTIONS ----------
       function showToast(type, title, message) {
@@ -1094,13 +1110,12 @@
       }
 
       // ---------- DOM ELEMENTS ----------
+      const authCard = document.getElementById('authCard');
       const loginForm = document.getElementById('loginForm');
       const registerForm = document.getElementById('registerForm');
       const authTabs = document.getElementById('authTabs');
-      const toggleAuthLink = document.getElementById('toggleAuthLink');
       const toggleMessage = document.getElementById('toggleMessage');
       const verifyPanel = document.getElementById('verifyPanel');
-      const authCard = document.getElementById('authCard');
       const googleSignInBtn = document.getElementById('googleSignInBtn');
       const standardsModal = document.getElementById('standardsModal');
       const closeStandardsModal = document.getElementById('closeStandardsModal');
@@ -1138,7 +1153,7 @@
         });
       });
 
-      // ---------- PASSWORD STRENGTH METER (register form) ----------
+      // ---------- PASSWORD STRENGTH METER ----------
       const regPasswordInput = document.getElementById('regPassword');
       const passwordStrength = document.getElementById('passwordStrength');
       const strengthBarFill = document.getElementById('strengthBarFill');
@@ -1439,7 +1454,6 @@
         }
       });
 
-      // Community standards modal triggers
       viewStandardsLink.addEventListener('click', (e) => {
         e.preventDefault();
         openModal(standardsModal);
@@ -1451,7 +1465,6 @@
       // ---------- FORGOT PASSWORD ----------
       forgotPasswordLink.addEventListener('click', (e) => {
         e.preventDefault();
-        // Prefill with whatever email is already entered in login
         const loginEmailVal = document.getElementById('loginEmail').value.trim();
         if (loginEmailVal && isValidEmail(loginEmailVal)) {
           document.getElementById('fpEmail').value = loginEmailVal;
@@ -1489,35 +1502,35 @@
       });
 
       // ---------- TAB SWITCHING ----------
+      // Uses a CSS class on the authCard to control visibility.
+      // The register form is hidden by default via CSS, so there is
+      // never a moment where both forms are stacked on top of each other.
       function setActiveTab(tab) {
-        document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-        document.querySelector(`.auth-tab[data-tab="${tab}"]`).classList.add('active');
-        if (tab === 'login') {
-          loginForm.classList.remove('hidden');
-          registerForm.classList.add('hidden');
-          toggleMessage.innerHTML = `Don't have an account? <a id="toggleAuthLink">Create one</a>`;
+        document.querySelectorAll('.auth-tab').forEach(t => {
+          t.classList.toggle('active', t.dataset.tab === tab);
+        });
+
+        if (tab === 'register') {
+          authCard.classList.add('show-register');
+          toggleMessage.innerHTML = `Already have an account? <a href="#" id="toggleAuthLink">Login</a>`;
         } else {
-          loginForm.classList.add('hidden');
-          registerForm.classList.remove('hidden');
-          toggleMessage.innerHTML = `Already have an account? <a id="toggleAuthLink">Login</a>`;
-        }
-        // Re-bind toggle link
-        const newToggle = document.getElementById('toggleAuthLink');
-        if (newToggle) {
-          newToggle.addEventListener('click', () => {
-            const currentTab = document.querySelector('.auth-tab.active').dataset.tab;
-            setActiveTab(currentTab === 'login' ? 'register' : 'login');
-          });
+          authCard.classList.remove('show-register');
+          toggleMessage.innerHTML = `Don't have an account? <a href="#" id="toggleAuthLink">Create one</a>`;
         }
       }
 
+      // Tab click handler (event delegation)
       authTabs.addEventListener('click', (e) => {
         const tab = e.target.closest('.auth-tab');
         if (tab) setActiveTab(tab.dataset.tab);
       });
 
-      toggleAuthLink.addEventListener('click', () => {
-        const currentTab = document.querySelector('.auth-tab.active').dataset.tab;
+      // Toggle link handler (event delegation)
+      toggleMessage.addEventListener('click', (e) => {
+        const link = e.target.closest('#toggleAuthLink');
+        if (!link) return;
+        e.preventDefault();
+        const currentTab = document.querySelector('.auth-tab.active')?.dataset.tab || 'login';
         setActiveTab(currentTab === 'login' ? 'register' : 'login');
       });
 
@@ -1582,7 +1595,12 @@
 
           showToast('success', 'Account created', 'Verification email has been sent.');
           verifyEmailDisplay.textContent = email;
-          authCard.querySelectorAll('form, .auth-tabs, .btn-google, .auth-toggle-text').forEach(el => el.classList.add('hidden'));
+          // Hide both forms, tabs, google button, toggle text and show verify panel
+          loginForm.style.display = 'none';
+          registerForm.style.display = 'none';
+          authTabs.style.display = 'none';
+          googleSignInBtn.style.display = 'none';
+          toggleMessage.parentElement.style.display = 'none';
           verifyPanel.classList.remove('hidden');
 
         } catch (error) {
@@ -1737,13 +1755,11 @@
       });
 
       // ---------- LIVE USER COUNT ----------
-      // Uses a real-time listener on the users collection to show the total number of registered members.
       let userCountUnsub = null;
 
       function setupUserCountListener() {
         if (userCountUnsub) userCountUnsub();
         userCountUnsub = db.collection('users').onSnapshot(snapshot => {
-          // Count only non-suspended users (adjust as desired)
           let count = 0;
           snapshot.forEach(doc => {
             const data = doc.data();
@@ -1756,7 +1772,6 @@
         });
       }
 
-      // Smooth count-up animation
       function animateUserCount(targetCount) {
         if (!userCountNumber) return;
         const currentText = userCountNumber.textContent.replace(/[^0-9]/g, '');
@@ -1770,7 +1785,6 @@
         function step(now) {
           const elapsed = now - startTime;
           const progress = Math.min(elapsed / duration, 1);
-          // ease-out cubic
           const eased = 1 - Math.pow(1 - progress, 3);
           const value = Math.round(startCount + (targetCount - startCount) * eased);
           userCountNumber.textContent = value.toLocaleString();
@@ -1779,21 +1793,28 @@
         requestAnimationFrame(step);
       }
 
-      // Start the user count listener immediately (no auth required for reading this data)
       setupUserCountListener();
 
       // ---------- AUTH STATE LISTENER ----------
       auth.onAuthStateChanged(async (user) => {
         if (!user) {
-          authCard.querySelectorAll('form, .auth-tabs, .btn-google, .auth-toggle-text').forEach(el => el.classList.remove('hidden'));
+          // Not logged in — restore the login form view cleanly.
           verifyPanel.classList.add('hidden');
+          authTabs.style.display = '';
+          googleSignInBtn.style.display = '';
+          toggleMessage.parentElement.style.display = '';
+          setActiveTab('login');
           return;
         }
 
         try {
           const isEmailProvider = user.providerData.some(p => p.providerId === 'password');
           if (isEmailProvider && !user.emailVerified) {
-            authCard.querySelectorAll('form, .auth-tabs, .btn-google, .auth-toggle-text').forEach(el => el.classList.add('hidden'));
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'none';
+            authTabs.style.display = 'none';
+            googleSignInBtn.style.display = 'none';
+            toggleMessage.parentElement.style.display = 'none';
             verifyPanel.classList.remove('hidden');
             verifyEmailDisplay.textContent = user.email;
             return;
@@ -1818,7 +1839,6 @@
             return;
           }
 
-          // Listen for real-time suspension while online
           db.collection('users').doc(user.uid).onSnapshot((doc) => {
             if (doc.exists) {
               const data = doc.data();
@@ -1837,6 +1857,11 @@
           showToast('error', 'Error', 'Could not verify account. Please try again.');
         }
       });
+
+      // ---------- INITIAL STATE ----------
+      // The register form is already hidden by CSS, but we ensure
+      // the correct toggle text is shown on first load.
+      setActiveTab('login');
 
       // ---------- INITIAL THEME ----------
       const savedTheme = localStorage.getItem('picklebuddy-theme');
