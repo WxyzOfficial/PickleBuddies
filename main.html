@@ -3920,7 +3920,7 @@
               await currentUser.delete();
 
               showToast('success', 'Account deleted', 'Your account has been permanently deleted.');
-              window.location.href = 'login.html';
+              window.location.href = 'index.html';
             } catch (error) {
               console.error('Delete account error:', error);
               if (error.code === 'auth/requires-recent-login') {
@@ -3948,7 +3948,7 @@
               if (unsubUsers) unsubUsers();
               if (unsubChatMessages) unsubChatMessages();
               await auth.signOut();
-              window.location.href = 'login.html';
+              window.location.href = 'index.html';
             } catch (error) {
               console.error('Logout error:', error);
               showToast('error', 'Error', 'Could not log out. Please try again.');
@@ -3962,7 +3962,7 @@
       // ---------- SUSPENSION ----------
       document.getElementById('signOutSuspendedBtn').addEventListener('click', async () => {
         await auth.signOut();
-        window.location.href = 'login.html';
+        window.location.href = 'index.html';
       });
 
       // ---------- DEBOUNCE ----------
@@ -4335,7 +4335,7 @@
       // ---------- AUTH STATE ----------
       auth.onAuthStateChanged(async (user) => {
         if (!user) {
-          window.location.href = 'login.html';
+          window.location.href = 'index.html';
           return;
         }
 
@@ -4344,14 +4344,14 @@
         // Check email verification for email/password users
         const isEmailProvider = user.providerData.some(p => p.providerId === 'password');
         if (isEmailProvider && !user.emailVerified) {
-          window.location.href = 'login.html';
+          window.location.href = 'index.html';
           return;
         }
 
         try {
           const userDoc = await db.collection('users').doc(user.uid).get();
           if (!userDoc.exists) {
-            window.location.href = 'login.html';
+            window.location.href = 'index.html';
             return;
           }
 
@@ -4392,7 +4392,7 @@
 
         } catch (error) {
           console.error('Auth state error:', error);
-          window.location.href = 'login.html';
+          window.location.href = 'index.html';
         }
       });
 
