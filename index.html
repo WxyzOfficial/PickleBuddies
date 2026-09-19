@@ -3,65 +3,92 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>PickleBuddy · Login</title>
+  <title>PickleBuddy · Find Players. Find Partners. Play Together.</title>
+  <meta name="description" content="PickleBuddy is the community platform where pickleball players find partners, teammates, and clubs. Join the fastest-growing pickleball community.">
 
-  <!-- PickleBuddy Favicon -->
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://johnstevenwaraya.sirv.com/Picklebuddy/picklebuddy.png">
   <link rel="shortcut icon" type="image/png" href="https://johnstevenwaraya.sirv.com/Picklebuddy/picklebuddy.png">
   <link rel="apple-touch-icon" href="https://johnstevenwaraya.sirv.com/Picklebuddy/picklebuddy.png">
-  
-  <!-- Font Awesome 6 (free) -->
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
   <style>
-    /* ---------- GLOBAL DESIGN SYSTEM ---------- */
-    * {
+    /* ==========================================================
+       GLOBAL RESET & DESIGN SYSTEM
+       ========================================================== */
+    *, *::before, *::after {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
     }
 
     :root {
-      --primary: #ffffff;
       --orange: #f97316;
       --orange-dark: #ea580c;
+      --orange-light: #fb923c;
+      --orange-soft: rgba(249, 115, 22, 0.12);
       --background: #f8f9fa;
-      --text-dark: #1f2937;
-      --text-muted: #6b7280;
+      --background-alt: #ffffff;
+      --text-dark: #0f172a;
+      --text-body: #1f2937;
+      --text-muted: #64748b;
       --border: #e5e7eb;
       --card-bg: #ffffff;
+      --green: #10b981;
+      --blue: #3b82f6;
+      --purple: #8b5cf6;
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-      --shadow-lg: 0 12px 28px rgba(0,0,0,0.12);
-      --radius: 16px;
-      --radius-sm: 12px;
+      --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+      --shadow-lg: 0 20px 50px rgba(0,0,0,0.12);
+      --shadow-xl: 0 30px 70px rgba(0,0,0,0.18);
+      --radius: 20px;
+      --radius-sm: 14px;
+      --radius-lg: 28px;
       --footer-height: 48px;
+      --max-width: 1200px;
     }
 
     body.dark {
-      --primary: #1e1e2f;
-      --background: #121212;
-      --text-dark: #f1f1f1;
-      --text-muted: #a1a1aa;
-      --border: #2d2d3a;
-      --card-bg: #1e1e2f;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
-      --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
-      --shadow-lg: 0 12px 28px rgba(0,0,0,0.5);
-      --primary: #1e1e2f;
+      --background: #0a0a12;
+      --background-alt: #12121c;
+      --text-dark: #f1f5f9;
+      --text-body: #e2e8f0;
+      --text-muted: #94a3b8;
+      --border: #26263a;
+      --card-bg: #14141f;
+      --shadow-md: 0 4px 20px rgba(0,0,0,0.5);
+      --shadow-lg: 0 20px 50px rgba(0,0,0,0.6);
+      --shadow-xl: 0 30px 70px rgba(0,0,0,0.7);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
     }
 
     body {
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
       background: var(--background);
-      color: var(--text-dark);
-      min-height: 100vh;
-      padding-bottom: calc(var(--footer-height) + 16px);
-      transition: background 0.2s, color 0.2s;
+      color: var(--text-body);
+      line-height: 1.6;
       font-size: 16px;
-      line-height: 1.5;
+      overflow-x: hidden;
+      padding-bottom: var(--footer-height);
+      transition: background 0.3s, color 0.3s;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* ---------- FIXED FOOTER ---------- */
+    /* ==========================================================
+       FIXED FOOTER
+       ========================================================== */
     .fixed-footer {
       position: fixed;
       bottom: 0;
@@ -75,9 +102,9 @@
       justify-content: center;
       font-size: 0.85rem;
       color: var(--text-muted);
-      z-index: 500;
-      backdrop-filter: blur(6px);
-      box-shadow: 0 -2px 8px rgba(0,0,0,0.02);
+      z-index: 900;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
     .fixed-footer i {
@@ -85,946 +112,1949 @@
       margin: 0 4px;
     }
 
-    /* ---------- TOASTS & MODALS ---------- */
-    .toast-container {
+    /* ==========================================================
+       NAVIGATION BAR
+       ========================================================== */
+    .navbar {
       position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      max-width: 360px;
-      width: calc(100% - 40px);
-      pointer-events: none;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 800;
+      padding: 16px 24px;
+      transition: all 0.3s ease;
+      background: transparent;
     }
 
-    .toast {
-      background: var(--card-bg);
-      color: var(--text-dark);
-      padding: 14px 18px;
-      border-radius: var(--radius-sm);
-      box-shadow: var(--shadow-lg);
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      border-left: 5px solid var(--orange);
-      pointer-events: auto;
-      animation: slideIn 0.25s ease;
-      font-size: 0.9rem;
+    .navbar.scrolled {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+      padding: 10px 24px;
     }
 
-    .toast.success { border-left-color: #10b981; }
-    .toast.error { border-left-color: #ef4444; }
-    .toast.warning { border-left-color: #f59e0b; }
-    .toast.info { border-left-color: #3b82f6; }
-
-    .toast i {
-      font-size: 1.2rem;
-      margin-top: 2px;
+    body.dark .navbar.scrolled {
+      background: rgba(18, 18, 28, 0.85);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.4);
     }
 
-    .toast.success i { color: #10b981; }
-    .toast.error i { color: #ef4444; }
-    .toast.warning i { color: #f59e0b; }
-    .toast.info i { color: #3b82f6; }
-
-    .toast-content {
-      flex: 1;
-    }
-
-    .toast-title {
-      font-weight: 600;
-      margin-bottom: 2px;
-    }
-
-    .toast-message {
-      color: var(--text-muted);
-      font-size: 0.85rem;
-    }
-
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateX(30px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-
-    @keyframes fadeOut {
-      to { opacity: 0; transform: translateX(30px); }
-    }
-
-    /* Modal system */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(3px);
+    .nav-container {
+      max-width: var(--max-width);
+      margin: 0 auto;
       display: flex;
       align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      padding: 16px;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.2s, visibility 0.2s;
+      justify-content: space-between;
+      gap: 20px;
     }
 
-    .modal-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .modal-container {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      max-width: 560px;
-      width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: var(--shadow-lg);
-      padding: 24px;
-      position: relative;
-      transform: scale(0.95);
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      text-decoration: none;
+      letter-spacing: -0.5px;
       transition: transform 0.2s;
     }
 
-    .modal-overlay.active .modal-container {
-      transform: scale(1);
+    .nav-logo:hover {
+      transform: scale(1.02);
     }
 
-    .modal-close {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      background: none;
-      border: none;
-      font-size: 1.3rem;
-      color: var(--text-muted);
-      cursor: pointer;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
+    .nav-logo .logo-icon {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.2s;
+      color: white;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
     }
 
-    .modal-close:hover {
-      background: var(--border);
-    }
-
-    .modal-container h2 {
-      margin-bottom: 16px;
-      font-size: 1.4rem;
-      font-weight: 700;
+    .nav-logo .logo-text {
       color: var(--text-dark);
     }
 
-    .modal-actions {
+    .nav-logo .logo-text span {
+      color: var(--orange);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-link {
+      padding: 10px 16px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-radius: 10px;
+      transition: all 0.2s;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+    }
+
+    .nav-link:hover {
+      color: var(--text-dark);
+      background: rgba(0,0,0,0.04);
+    }
+
+    body.dark .nav-link:hover {
+      background: rgba(255,255,255,0.06);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text-body);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      font-size: 0.95rem;
+    }
+
+    .nav-icon-btn:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+      transform: translateY(-1px);
+    }
+
+    .nav-cta {
+      padding: 10px 22px;
+      background: var(--orange);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+      box-shadow: 0 4px 14px rgba(249, 115, 22, 0.35);
+    }
+
+    .nav-cta:hover {
+      background: var(--orange-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(249, 115, 22, 0.5);
+    }
+
+    /* Mobile menu toggle */
+    .mobile-menu-toggle {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text-body);
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    /* ==========================================================
+       HERO SECTION
+       ========================================================== */
+    .hero {
+      position: relative;
+      padding: 140px 24px 80px;
+      overflow: hidden;
+      background: linear-gradient(180deg, var(--background) 0%, var(--background-alt) 100%);
+    }
+
+    /* Decorative background blobs */
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero::before {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, var(--orange) 0%, transparent 70%);
+      top: -150px;
+      right: -150px;
+      animation: floatSlow 12s ease-in-out infinite;
+    }
+
+    .hero::after {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, #fbbf24 0%, transparent 70%);
+      bottom: -100px;
+      left: -150px;
+      animation: floatSlow 15s ease-in-out infinite reverse;
+    }
+
+    @keyframes floatSlow {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, -30px) scale(1.1); }
+    }
+
+    .hero-container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--orange-soft);
+      color: var(--orange-dark);
+      border-radius: 40px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+      border: 1px solid rgba(249, 115, 22, 0.2);
+    }
+
+    body.dark .hero-badge {
+      background: rgba(249, 115, 22, 0.15);
+      color: var(--orange-light);
+    }
+
+    .hero-badge .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--orange);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      color: var(--text-dark);
+      margin-bottom: 24px;
+    }
+
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, var(--orange) 0%, #fbbf24 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    .hero-description {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+      max-width: 540px;
+      line-height: 1.7;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 28px;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: all 0.25s;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
+      color: white;
+      box-shadow: 0 8px 24px rgba(249, 115, 22, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(249, 115, 22, 0.55);
+    }
+
+    .btn-secondary {
+      background: var(--card-bg);
+      color: var(--text-dark);
+      border: 1.5px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-large {
+      padding: 18px 36px;
+      font-size: 1.05rem;
+      border-radius: 16px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+
+    .hero-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .hero-stat .stat-value {
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.5px;
+      line-height: 1;
+    }
+
+    .hero-stat .stat-label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Hero visual / preview card */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-preview {
+      width: 100%;
+      max-width: 440px;
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xl);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transform: rotate(-2deg);
+      transition: transform 0.4s ease;
+      animation: floatCard 5s ease-in-out infinite;
+    }
+
+    .hero-preview:hover {
+      transform: rotate(0deg) scale(1.02);
+    }
+
+    @keyframes floatCard {
+      0%, 100% { transform: rotate(-2deg) translateY(0); }
+      50% { transform: rotate(-2deg) translateY(-12px); }
+    }
+
+    .preview-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--background);
+    }
+
+    .preview-dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .preview-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .preview-dot.red { background: #ef4444; }
+    .preview-dot.yellow { background: #f59e0b; }
+    .preview-dot.green { background: #10b981; }
+
+    .preview-title {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-left: 6px;
+    }
+
+    .preview-body {
+      padding: 20px;
+    }
+
+    .preview-post {
+      background: var(--background);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+
+    .preview-post-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .preview-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .preview-avatar.blue {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+    }
+
+    .preview-user-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .preview-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .preview-time {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .preview-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .preview-badge.partner {
+      background: rgba(249, 115, 22, 0.15);
+      color: var(--orange-dark);
+    }
+
+    .preview-badge.player {
+      background: rgba(59, 130, 246, 0.15);
+      color: #2563eb;
+    }
+
+    .preview-post-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+
+    .preview-post-meta {
       display: flex;
       gap: 12px;
-      justify-content: flex-end;
-      margin-top: 24px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
       flex-wrap: wrap;
     }
 
-    /* Loading overlay */
-    .loading-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.4);
-      backdrop-filter: blur(4px);
+    .preview-post-meta span {
       display: flex;
       align-items: center;
-      justify-content: center;
-      z-index: 2000;
-      visibility: hidden;
-      opacity: 0;
-      transition: opacity 0.2s, visibility 0.2s;
+      gap: 4px;
     }
 
-    .loading-overlay.active {
-      opacity: 1;
-      visibility: visible;
+    .preview-post-meta i {
+      color: var(--orange);
     }
 
-    .loading-content {
+    /* Floating mini-cards around preview */
+    .float-card {
+      position: absolute;
       background: var(--card-bg);
-      padding: 28px 36px;
-      border-radius: var(--radius);
+      border-radius: 14px;
+      padding: 10px 14px;
       box-shadow: var(--shadow-lg);
-      text-align: center;
+      border: 1px solid var(--border);
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 16px;
+      gap: 10px;
+      font-size: 0.8rem;
       font-weight: 600;
       color: var(--text-dark);
+      animation: floatCard2 4s ease-in-out infinite;
+      z-index: 2;
     }
 
-    .spinner {
-      width: 40px;
-      height: 40px;
-      border: 4px solid var(--border);
-      border-top-color: var(--orange);
+    .float-card i {
+      color: var(--orange);
+      font-size: 1rem;
+    }
+
+    .float-card.fc-1 {
+      top: 10%;
+      left: -30px;
+      animation-delay: 0s;
+    }
+
+    .float-card.fc-2 {
+      bottom: 15%;
+      right: -30px;
+      animation-delay: 1.5s;
+    }
+
+    .float-card.fc-3 {
+      bottom: 5%;
+      left: 10%;
+      animation-delay: 0.8s;
+    }
+
+    .float-card .live-dot-inline {
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      background: #10b981;
+      animation: pulse 1.6s infinite;
     }
 
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ---------- LOGIN PAGE SPECIFIC ---------- */
-    .login-split {
-      display: flex;
-      min-height: calc(100vh - var(--footer-height) - 16px);
+    @keyframes floatCard2 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
 
-    .login-left {
-      flex: 1;
-      background: linear-gradient(145deg, var(--orange) 0%, var(--orange-dark) 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 24px;
-      color: white;
-      text-align: center;
+    /* ==========================================================
+       FEATURES SECTION
+       ========================================================== */
+    .section {
+      padding: 100px 24px;
       position: relative;
-      overflow: hidden;
     }
 
-    .login-left::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 30%),
-                        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.12) 0%, transparent 35%);
-      pointer-events: none;
+    .section-alt {
+      background: var(--background-alt);
     }
 
-    .login-left h1 {
-      font-size: 3.2rem;
+    .section-container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 60px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 6px 14px;
+      background: var(--orange-soft);
+      color: var(--orange-dark);
+      border-radius: 40px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    body.dark .section-tag {
+      background: rgba(249, 115, 22, 0.15);
+      color: var(--orange-light);
+    }
+
+    .section-title {
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
       font-weight: 800;
       letter-spacing: -1px;
+      color: var(--text-dark);
+      line-height: 1.15;
       margin-bottom: 16px;
-      z-index: 1;
     }
 
-    .login-left p {
-      font-size: 1.3rem;
-      opacity: 0.95;
-      max-width: 360px;
-      margin-bottom: 8px;
-      z-index: 1;
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.7;
     }
 
-    .login-left .tagline {
-      font-size: 1.1rem;
-      font-weight: 500;
-      opacity: 0.9;
-      margin-top: 8px;
-      border-top: 2px solid rgba(255,255,255,0.3);
-      padding-top: 20px;
-      display: inline-block;
-      z-index: 1;
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
     }
 
-    /* Live user count badge */
-    .user-count-badge {
-      margin-top: 24px;
-      background: rgba(255,255,255,0.18);
-      backdrop-filter: blur(6px);
-      border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 40px;
-      padding: 10px 22px;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      z-index: 1;
-      transition: transform 0.2s;
-      animation: fadeInUp 0.5s ease;
+    .feature-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      border: 1px solid var(--border);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
     }
 
-    .user-count-badge:hover {
-      transform: translateY(-2px);
+    .feature-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--orange) 0%, #fbbf24 100%);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
     }
 
-    .user-count-badge i {
-      font-size: 1.1rem;
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(249, 115, 22, 0.3);
     }
 
-    .user-count-badge .count-number {
-      font-size: 1.15rem;
-      font-weight: 800;
-      letter-spacing: -0.5px;
+    .feature-card:hover::before {
+      transform: scaleX(1);
     }
 
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .login-right {
-      flex: 1;
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
-      background: var(--background);
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
+      color: white;
+      box-shadow: 0 8px 20px rgba(249, 115, 22, 0.3);
     }
 
-    .auth-card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-md);
-      width: 100%;
-      max-width: 420px;
-      padding: 28px 24px;
-      border: 1px solid var(--border);
+    .feature-icon.green {
+      background: linear-gradient(135deg, #10b981, #059669);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
     }
 
-    .auth-tabs {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 24px;
-      background: var(--background);
-      padding: 4px;
-      border-radius: 40px;
+    .feature-icon.blue {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
     }
 
-    .auth-tab {
-      flex: 1;
-      padding: 12px 16px;
-      border-radius: 40px;
-      border: none;
-      background: transparent;
-      font-weight: 600;
-      font-size: 0.95rem;
+    .feature-icon.purple {
+      background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+      box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+    }
+
+    .feature-icon.pink {
+      background: linear-gradient(135deg, #ec4899, #db2777);
+      box-shadow: 0 8px 20px rgba(236, 72, 153, 0.3);
+    }
+
+    .feature-icon.amber {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+    }
+
+    .feature-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 10px;
+      letter-spacing: -0.3px;
+    }
+
+    .feature-description {
+      font-size: 0.92rem;
       color: var(--text-muted);
-      cursor: pointer;
-      transition: all 0.2s;
+      line-height: 1.65;
     }
 
-    .auth-tab.active {
-      background: var(--card-bg);
-      color: var(--text-dark);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: var(--text-dark);
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      width: 100%;
-      padding: 12px 14px;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      background: var(--card-bg);
-      color: var(--text-dark);
-      font-size: 0.95rem;
-      transition: border 0.2s, box-shadow 0.2s;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      outline: none;
-      border-color: var(--orange);
-      box-shadow: 0 0 0 3px rgba(249,115,22,0.15);
-    }
-
-    .form-group .error-text {
-      color: #ef4444;
-      font-size: 0.75rem;
-      margin-top: 4px;
-      display: none;
-    }
-
-    .form-group.error input {
-      border-color: #ef4444;
-    }
-
-    .form-group.error .error-text {
-      display: block;
-    }
-
-    /* Password input wrapper with toggle */
-    .password-wrapper {
+    /* ==========================================================
+       HOW IT WORKS SECTION
+       ========================================================== */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
       position: relative;
     }
 
-    .password-wrapper input {
-      padding-right: 46px;
+    .steps-grid::before {
+      content: "";
+      position: absolute;
+      top: 40px;
+      left: 15%;
+      right: 15%;
+      height: 2px;
+      background: repeating-linear-gradient(90deg, var(--border) 0, var(--border) 8px, transparent 8px, transparent 16px);
+      z-index: 0;
     }
 
-    .password-toggle-btn {
-      position: absolute;
-      right: 6px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      width: 36px;
-      height: 36px;
+    .step-card {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-number {
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
+      background: var(--card-bg);
+      border: 3px solid var(--orange);
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--orange);
+      margin: 0 auto 20px;
+      box-shadow: 0 10px 30px rgba(249, 115, 22, 0.15);
+      position: relative;
+    }
+
+    .step-number::after {
+      content: "";
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      border: 2px dashed rgba(249, 115, 22, 0.3);
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+      to { transform: rotate(360deg); }
+    }
+
+    .step-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 10px;
+    }
+
+    .step-description {
+      font-size: 0.92rem;
       color: var(--text-muted);
-      font-size: 0.95rem;
-      transition: background 0.2s, color 0.2s;
+      line-height: 1.65;
+      max-width: 280px;
+      margin: 0 auto;
     }
 
-    .password-toggle-btn:hover {
-      background: var(--background);
-      color: var(--orange);
+    /* ==========================================================
+       COMMUNITY / SHOWCASE SECTION
+       ========================================================== */
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
     }
 
-    .password-toggle-btn:focus {
-      outline: none;
-      color: var(--orange);
+    .showcase-content h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--text-dark);
+      line-height: 1.15;
+      margin-bottom: 20px;
     }
 
-    /* Password strength meter */
-    .password-strength {
-      margin-top: 8px;
-      display: none;
-    }
-
-    .password-strength.visible {
-      display: block;
-    }
-
-    .strength-bar {
-      height: 4px;
-      background: var(--border);
-      border-radius: 2px;
-      overflow: hidden;
-      margin-bottom: 4px;
-    }
-
-    .strength-bar-fill {
-      height: 100%;
-      width: 0%;
-      border-radius: 2px;
-      transition: width 0.3s, background 0.3s;
-    }
-
-    .strength-text {
-      font-size: 0.72rem;
-      font-weight: 600;
+    .showcase-content p {
+      font-size: 1.05rem;
       color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 28px;
     }
 
-    /* Forgot password link */
-    .forgot-password-link {
-      display: block;
-      text-align: right;
-      font-size: 0.82rem;
-      color: var(--orange);
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      margin-top: -8px;
-      margin-bottom: 16px;
-      transition: color 0.15s;
+    .showcase-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 32px;
     }
 
-    .forgot-password-link:hover {
-      color: var(--orange-dark);
-      text-decoration: underline;
-    }
-
-    .checkbox-group {
+    .showcase-list li {
       display: flex;
       align-items: flex-start;
-      gap: 10px;
-      margin: 16px 0;
-      font-size: 0.85rem;
+      gap: 12px;
+      font-size: 0.95rem;
+      color: var(--text-body);
     }
 
-    .checkbox-group input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--orange);
+    .showcase-list i {
+      color: var(--green);
+      font-size: 1.1rem;
       margin-top: 2px;
       flex-shrink: 0;
     }
 
-    .checkbox-group a {
-      color: var(--orange);
-      font-weight: 600;
-      text-decoration: underline;
-      cursor: pointer;
+    .showcase-visual {
+      position: relative;
     }
 
-    .btn {
-      padding: 12px 20px;
-      border-radius: var(--radius-sm);
-      border: none;
-      font-weight: 600;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: inline-flex;
+    .showcase-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+    }
+
+    .showcase-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .showcase-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #10b981, #059669);
+      display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      background: var(--border);
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .showcase-user-info {
+      flex: 1;
+    }
+
+    .showcase-user-info .name {
+      font-weight: 700;
+      font-size: 0.95rem;
       color: var(--text-dark);
+    }
+
+    .showcase-user-info .location {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .showcase-user-info .location i {
+      color: var(--orange);
+      font-size: 0.75rem;
+    }
+
+    .match-score-badge {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #10b981, #059669);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .match-reasons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .match-reason-tag {
+      font-size: 0.72rem;
+      padding: 4px 10px;
+      background: rgba(16, 185, 129, 0.12);
+      color: #10b981;
+      border-radius: 20px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* ==========================================================
+       CTA SECTION
+       ========================================================== */
+    .cta-section {
+      padding: 100px 24px;
+    }
+
+    .cta-box {
+      max-width: 900px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 50%, #dc2626 100%);
+      border-radius: var(--radius-lg);
+      padding: 70px 40px;
+      text-align: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(249, 115, 22, 0.35);
+    }
+
+    .cta-box::before {
+      content: "";
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      top: -150px;
+      right: -100px;
+      pointer-events: none;
+    }
+
+    .cta-box::after {
+      content: "";
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      bottom: -100px;
+      left: -50px;
+      pointer-events: none;
+    }
+
+    .cta-box h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
       line-height: 1.2;
     }
 
-    .btn-primary {
-      background: var(--orange);
-      color: white;
+    .cta-box p {
+      font-size: 1.1rem;
+      opacity: 0.95;
+      margin-bottom: 36px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+      z-index: 1;
+      line-height: 1.7;
     }
 
-    .btn-primary:hover {
-      background: var(--orange-dark);
-    }
-
-    .btn-outline {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-dark);
-    }
-
-    .btn-outline:hover {
-      background: var(--border);
-    }
-
-    .btn-google {
+    .cta-box .btn {
       background: white;
-      color: #1f2937;
+      color: var(--orange-dark);
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+    }
+
+    .cta-box .btn:hover {
+      background: #fff7ed;
+      transform: translateY(-3px);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.3);
+    }
+
+    /* ==========================================================
+       DOWNLOAD APP SECTION
+       ========================================================== */
+    .download-section {
+      padding: 60px 24px 100px;
+    }
+
+    .download-card {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
       border: 1px solid var(--border);
-      margin-top: 12px;
-    }
-
-    .btn-google i {
-      color: #db4437;
-    }
-
-    .btn-block {
-      width: 100%;
-    }
-
-    .btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .auth-toggle-text {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-
-    .auth-toggle-text a {
-      color: var(--orange);
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    /* ============================================================
-       CRITICAL FIX: Ensure only ONE form is visible at a time.
-       These rules are applied BEFORE JavaScript runs, so the
-       register form never stacks on top of the login form on
-       initial page load.
-       ============================================================ */
-    #loginForm {
-      display: block;
-    }
-    #registerForm {
-      display: none;
-    }
-    /* When the register tab is active, swap visibility */
-    #authCard.show-register #loginForm {
-      display: none;
-    }
-    #authCard.show-register #registerForm {
-      display: block;
-    }
-
-    /* Email verification state */
-    .verify-panel {
-      text-align: center;
-      padding: 12px 0;
-    }
-
-    .verify-panel i {
-      font-size: 3.5rem;
-      color: var(--orange);
-      margin-bottom: 16px;
-    }
-
-    .verify-panel h3 {
-      font-size: 1.5rem;
-      margin-bottom: 8px;
-    }
-
-    .verify-panel p {
-      color: var(--text-muted);
-      margin-bottom: 16px;
-      font-size: 0.95rem;
-    }
-
-    .verify-panel .email-highlight {
-      font-weight: 700;
-      color: var(--text-dark);
-      background: var(--border);
-      padding: 2px 8px;
-      border-radius: 20px;
-      display: inline-block;
-      margin: 4px 0;
-    }
-
-    .verify-actions {
+      padding: 48px 40px;
       display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 20px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+      box-shadow: var(--shadow-md);
     }
 
-    /* ---------- RESPONSIVE ---------- */
-    @media (max-width: 800px) {
-      .login-split {
-        flex-direction: column;
-      }
-      .login-left {
-        padding: 36px 20px;
-        min-height: 200px;
-      }
-      .login-left h1 {
-        font-size: 2.5rem;
-      }
-      .login-left p {
-        font-size: 1rem;
-      }
-      .login-right {
-        padding: 20px 16px;
-      }
-      .auth-card {
-        padding: 20px 16px;
-      }
+    .download-info {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex: 1;
+      min-width: 280px;
     }
 
-    @media (max-width: 480px) {
-      .login-left h1 {
-        font-size: 2rem;
-      }
-      .modal-container {
-        padding: 18px;
-      }
-      .toast-container {
-        top: 12px;
-        right: 12px;
-        width: calc(100% - 24px);
-      }
+    .download-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2rem;
+      flex-shrink: 0;
+      box-shadow: 0 12px 30px rgba(59, 130, 246, 0.35);
     }
 
-    /* Community standards modal content */
-    .standards-content {
-      max-height: 60vh;
-      overflow-y: auto;
-      padding-right: 8px;
-      font-size: 0.9rem;
+    .download-text h3 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
+    }
+
+    .download-text p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
       line-height: 1.6;
     }
 
-    .standards-content h1, .standards-content h2, .standards-content h3 {
-      margin-top: 16px;
-      margin-bottom: 8px;
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 32px;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: white;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.25s;
+      box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+      font-family: inherit;
     }
 
-    .standards-content h1 { font-size: 1.3rem; }
-    .standards-content h2 { font-size: 1.1rem; }
-    .standards-content ul {
-      padding-left: 20px;
-      margin-bottom: 12px;
+    .download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(59, 130, 246, 0.55);
     }
-    .standards-content ol {
-      padding-left: 20px;
-      margin-bottom: 12px;
+
+    .download-btn i {
+      font-size: 1.3rem;
+    }
+
+    /* ==========================================================
+       FAQ SECTION
+       ========================================================== */
+    .faq-list {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .faq-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+
+    .faq-item:hover {
+      border-color: rgba(249, 115, 22, 0.3);
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: 20px 24px;
+      background: none;
+      border: none;
+      text-align: left;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .faq-question:hover {
+      color: var(--orange);
+    }
+
+    .faq-question i {
+      color: var(--orange);
+      transition: transform 0.3s;
+      flex-shrink: 0;
+    }
+
+    .faq-item.active .faq-question i {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 400px;
+    }
+
+    .faq-answer-content {
+      padding: 0 24px 20px;
+      font-size: 0.93rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ==========================================================
+       FOOTER CONTENT (above fixed footer)
+       ========================================================== */
+    .footer-content {
+      padding: 60px 24px 40px;
+      background: var(--background-alt);
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-grid {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+    }
+
+    .footer-brand .nav-logo {
+      margin-bottom: 16px;
+    }
+
+    .footer-brand p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 340px;
+      margin-bottom: 20px;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 10px;
+    }
+
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .footer-social a:hover {
+      background: var(--orange);
+      color: white;
+      border-color: var(--orange);
+      transform: translateY(-3px);
+    }
+
+    .footer-column h4 {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .footer-column ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-column a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .footer-column a:hover {
+      color: var(--orange);
+    }
+
+    /* ==========================================================
+       RESPONSIVE
+       ========================================================== */
+    @media (max-width: 1024px) {
+      .hero-container {
+        grid-template-columns: 1fr;
+        gap: 60px;
+        text-align: center;
+      }
+
+      .hero-description {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-cta-group {
+        justify-content: center;
+      }
+
+      .hero-stats {
+        justify-content: center;
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .showcase-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 12px 16px;
+      }
+
+      .navbar.scrolled {
+        padding: 8px 16px;
+      }
+
+      .nav-links,
+      .nav-actions .nav-cta {
+        display: none;
+      }
+
+      .mobile-menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .nav-links.mobile-open {
+        display: flex;
+        position: fixed;
+        top: 64px;
+        left: 16px;
+        right: 16px;
+        flex-direction: column;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 12px;
+        gap: 4px;
+        box-shadow: var(--shadow-lg);
+        z-index: 799;
+      }
+
+      .nav-links.mobile-open .nav-link {
+        width: 100%;
+        text-align: left;
+      }
+
+      .hero {
+        padding: 110px 20px 60px;
+      }
+
+      .section {
+        padding: 70px 20px;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .steps-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .steps-grid::before {
+        display: none;
+      }
+
+      .cta-box {
+        padding: 50px 24px;
+      }
+
+      .download-card {
+        padding: 32px 24px;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .download-info {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .float-card.fc-1 { left: 0; }
+      .float-card.fc-2 { right: 0; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        letter-spacing: -1px;
+      }
+
+      .hero-stats {
+        gap: 24px;
+      }
+
+      .hero-stat .stat-value {
+        font-size: 1.5rem;
+      }
+
+      .btn {
+        padding: 13px 22px;
+        font-size: 0.92rem;
+      }
+
+      .btn-large {
+        padding: 15px 26px;
+        font-size: 1rem;
+      }
+
+      .feature-card {
+        padding: 24px 20px;
+      }
+
+      .cta-box h2 {
+        letter-spacing: -0.5px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Fixed Footer -->
+  <!-- ==========================================================
+       NAVBAR
+       ========================================================== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">
+        <div class="logo-icon">
+          <i class="fa-solid fa-table-tennis-paddle-ball"></i>
+        </div>
+        <span class="logo-text">Pickle<span>Buddy</span></span>
+      </a>
+
+      <div class="nav-links" id="navLinks">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#how-it-works" class="nav-link">How It Works</a>
+        <a href="#community" class="nav-link">Community</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+      </div>
+
+      <div class="nav-actions">
+        <button class="nav-icon-btn" id="themeToggle" title="Toggle theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <button class="nav-cta" id="navLoginBtn">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i> Login
+        </button>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" title="Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==========================================================
+       HERO SECTION
+       ========================================================== -->
+  <section class="hero">
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span>
+          <span id="heroBadgeText">Join the fastest-growing pickleball community</span>
+        </div>
+
+        <h1>
+          Find Players.<br>
+          Find Partners.<br>
+          <span class="gradient-text">Play Together.</span>
+        </h1>
+
+        <p class="hero-description">
+          PickleBuddy connects you with pickleball players nearby. Whether you're looking for a doubles partner, a club to join, or someone to hit the court with today — we've got you covered.
+        </p>
+
+        <div class="hero-cta-group">
+          <button class="btn btn-primary btn-large" id="heroGetStarted">
+            <i class="fa-solid fa-rocket"></i> Get Started Free
+          </button>
+          <a href="#features" class="btn btn-secondary btn-large">
+            <i class="fa-solid fa-circle-play"></i> See Features
+          </a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="stat-value" id="statPlayers">—</div>
+            <div class="stat-label">Players</div>
+          </div>
+          <div class="hero-stat">
+            <div class="stat-value">24/7</div>
+            <div class="stat-label">Always Available</div>
+          </div>
+          <div class="hero-stat">
+            <div class="stat-value">100%</div>
+            <div class="stat-label">Free Forever</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="float-card fc-1">
+          <i class="fa-solid fa-user-check"></i>
+          <span>Verified Players</span>
+        </div>
+
+        <div class="float-card fc-2">
+          <span class="live-dot-inline"></span>
+          <span>Live Now</span>
+        </div>
+
+        <div class="float-card fc-3">
+          <i class="fa-solid fa-star"></i>
+          <span>Smart Match</span>
+        </div>
+
+        <div class="hero-preview">
+          <div class="preview-header">
+            <div class="preview-dots">
+              <span class="preview-dot red"></span>
+              <span class="preview-dot yellow"></span>
+              <span class="preview-dot green"></span>
+            </div>
+            <span class="preview-title">Community Feed</span>
+          </div>
+          <div class="preview-body">
+            <div class="preview-post">
+              <div class="preview-post-header">
+                <div class="preview-avatar">JD</div>
+                <div class="preview-user-info">
+                  <div class="preview-name">Juan Dela Cruz</div>
+                  <div class="preview-time">5 minutes ago</div>
+                </div>
+                <span class="preview-badge partner">LF Partner</span>
+              </div>
+              <div class="preview-post-title">Looking for a doubles partner this Saturday</div>
+              <div class="preview-post-meta">
+                <span><i class="fa-solid fa-location-dot"></i> Quezon City</span>
+                <span><i class="fa-solid fa-chart-line"></i> Intermediate</span>
+              </div>
+            </div>
+
+            <div class="preview-post">
+              <div class="preview-post-header">
+                <div class="preview-avatar blue">MS</div>
+                <div class="preview-user-info">
+                  <div class="preview-name">Maria Santos</div>
+                  <div class="preview-time">12 minutes ago</div>
+                </div>
+                <span class="preview-badge player">LF Player</span>
+              </div>
+              <div class="preview-post-title">Our club needs 2 more for Sunday doubles</div>
+              <div class="preview-post-meta">
+                <span><i class="fa-solid fa-location-dot"></i> Makati City</span>
+                <span><i class="fa-solid fa-users"></i> 2 slots left</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       FEATURES SECTION
+       ========================================================== -->
+  <section class="section section-alt" id="features">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tag">Features</span>
+        <h2 class="section-title">Everything you need to play more pickleball</h2>
+        <p class="section-subtitle">
+          PickleBuddy is built from the ground up for the pickleball community — with all the tools you need to find, connect, and play.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+          </div>
+          <h3 class="feature-title">Smart Match</h3>
+          <p class="feature-description">
+            Our intelligent algorithm recommends players based on skill level, playing style, schedule, and location. Find your perfect match in seconds.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon green">
+            <i class="fa-solid fa-satellite-dish"></i>
+          </div>
+          <h3 class="feature-title">Playing Now</h3>
+          <p class="feature-description">
+            Activate "I'm Playing Now" and appear on a live list. Nearby players looking for a game can instantly message you to hit the court.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon blue">
+            <i class="fa-solid fa-comments"></i>
+          </div>
+          <h3 class="feature-title">In-App Messaging</h3>
+          <p class="feature-description">
+            Chat directly with other players, coordinate matches, and share court details — all in one place with real-time messaging.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon purple">
+            <i class="fa-solid fa-user-plus"></i>
+          </div>
+          <h3 class="feature-title">Need Players</h3>
+          <p class="feature-description">
+            Create a game with exact open slots. Players join with one tap, and the post auto-updates to "Full" once all spots are taken.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon amber">
+            <i class="fa-solid fa-people-group"></i>
+          </div>
+          <h3 class="feature-title">Clubs & Community</h3>
+          <p class="feature-description">
+            Discover pickleball clubs near you, join communities, and grow your local pickleball network.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon pink">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <h3 class="feature-title">Safe & Respectful</h3>
+          <p class="feature-description">
+            Built-in reporting, community standards, and moderation keep PickleBuddy a safe space for players of all ages and skill levels.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       HOW IT WORKS
+       ========================================================== -->
+  <section class="section" id="how-it-works">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tag">How It Works</span>
+        <h2 class="section-title">Start playing in 3 easy steps</h2>
+        <p class="section-subtitle">
+          No complicated setup. No subscriptions. Just create an account and start connecting with players.
+        </p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3 class="step-title">Create Your Profile</h3>
+          <p class="step-description">
+            Sign up in seconds with email or Google. Add your skill level, location, and playing preferences.
+          </p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3 class="step-title">Find or Post a Game</h3>
+          <p class="step-description">
+            Browse the feed, use Smart Match, or post your own request. Go live on Playing Now for instant games.
+          </p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3 class="step-title">Connect & Play</h3>
+          <p class="step-description">
+            Message players in-app, agree on a court, and hit the court. Leave a report if anyone misbehaves.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       COMMUNITY SHOWCASE
+       ========================================================== -->
+  <section class="section section-alt" id="community">
+    <div class="section-container">
+      <div class="showcase-grid">
+        <div class="showcase-content">
+          <span class="section-tag">Community</span>
+          <h2>Built for real pickleball players</h2>
+          <p>
+            PickleBuddy is designed by players, for players. We understand what it takes to organize games, find compatible partners, and build a thriving local pickleball scene.
+          </p>
+
+          <ul class="showcase-list">
+            <li>
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Match by skill, style, schedule, and location</span>
+            </li>
+            <li>
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Real-time chat with players and club organizers</span>
+            </li>
+            <li>
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Auto-updating "Need Players" posts with slot tracking</span>
+            </li>
+            <li>
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Live "Playing Now" feed to join games instantly</span>
+            </li>
+            <li>
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Community Standards and reporting keep it safe</span>
+            </li>
+          </ul>
+
+          <button class="btn btn-primary btn-large" id="showcaseJoinBtn">
+            <i class="fa-solid fa-user-plus"></i> Join PickleBuddy
+          </button>
+        </div>
+
+        <div class="showcase-visual">
+          <div class="showcase-card">
+            <div class="showcase-card-header">
+              <div class="showcase-avatar">JD</div>
+              <div class="showcase-user-info">
+                <div class="name">Juan Dela Cruz</div>
+                <div class="location">
+                  <i class="fa-solid fa-location-dot"></i>
+                  Quezon City · Intermediate
+                </div>
+              </div>
+              <div class="match-score-badge">92%</div>
+            </div>
+            <div class="match-reasons">
+              <span class="match-reason-tag">
+                <i class="fa-solid fa-check"></i> Skill match
+              </span>
+              <span class="match-reason-tag">
+                <i class="fa-solid fa-check"></i> Same area
+              </span>
+              <span class="match-reason-tag">
+                <i class="fa-solid fa-check"></i> Playing now
+              </span>
+              <span class="match-reason-tag">
+                <i class="fa-solid fa-check"></i> Doubles
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       CTA SECTION
+       ========================================================== -->
+  <section class="cta-section">
+    <div class="cta-box">
+      <h2>Ready to find your next pickleball partner?</h2>
+      <p>
+        Join thousands of players already connecting on PickleBuddy. It's free, fast, and built for the pickleball community.
+      </p>
+      <button class="btn btn-large" id="ctaJoinBtn">
+        <i class="fa-solid fa-rocket"></i> Get Started Free
+      </button>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       DOWNLOAD APP SECTION
+       ========================================================== -->
+  <section class="download-section">
+    <div class="download-card">
+      <div class="download-info">
+        <div class="download-icon">
+          <i class="fa-brands fa-android"></i>
+        </div>
+        <div class="download-text">
+          <h3>Get PickleBuddy on Android</h3>
+          <p>Install our mobile app for the fastest way to find players near you — with push notifications and instant chat.</p>
+        </div>
+      </div>
+      <a href="/app/picklebuddy.apk" download="PickleBuddy.apk" class="download-btn">
+        <i class="fa-brands fa-android"></i>
+        <span>Download APK</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       FAQ SECTION
+       ========================================================== -->
+  <section class="section section-alt" id="faq">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tag">FAQ</span>
+        <h2 class="section-title">Frequently asked questions</h2>
+        <p class="section-subtitle">
+          Everything you need to know before joining PickleBuddy.
+        </p>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Is PickleBuddy free to use?</span>
+            <i class="fa-solid fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              Yes! PickleBuddy is completely free to use. Create your account, post games, chat with players, and use Smart Match at no cost. No subscriptions, no hidden fees.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>How does Smart Match work?</span>
+            <i class="fa-solid fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              Smart Match uses your preferences — skill level, playing style, schedule, location, and game type — to score and rank compatible players. You'll see a match percentage and reasons why each player fits.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>What is "Playing Now"?</span>
+            <i class="fa-solid fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              When you activate "I'm Playing Now", you appear on a live list for the next 2 hours. Nearby players who are also looking for a game can see you and message you directly to hit the court.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Is my personal information safe?</span>
+            <i class="fa-solid fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              Yes. We only show a general location (like your city) publicly, never your full address. Your mobile number is only shown to other players when you explicitly choose to share it on a post.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>How do I report a problem?</span>
+            <i class="fa-solid fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              Every post has a Report option in the menu. Our moderators review all reports and take appropriate action based on the Community Standards. You can report harassment, spam, fake info, and more.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Can I delete my account anytime?</span>
+            <i class="fa-solid fa-plus"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              Absolutely. Go to Settings → Danger Zone → Delete Account. Your profile, posts, and personal data will be permanently removed from PickleBuddy.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       FOOTER CONTENT
+       ========================================================== -->
+  <div class="footer-content">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo">
+          <div class="logo-icon">
+            <i class="fa-solid fa-table-tennis-paddle-ball"></i>
+          </div>
+          <span class="logo-text">Pickle<span>Buddy</span></span>
+        </a>
+        <p>
+          PickleBuddy connects pickleball players everywhere. Find partners, join clubs, and play more pickleball — together.
+        </p>
+        <div class="footer-social">
+          <a href="#" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" title="Twitter"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-column">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#community">Community</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Community Standards</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================
+       FIXED FOOTER
+       ========================================================== -->
   <footer class="fixed-footer">
     <span>Made with <i class="fa-solid fa-heart"></i> By John Steven Amistoso Macapañas</span>
   </footer>
 
-  <!-- Toast container -->
-  <div class="toast-container" id="toastContainer"></div>
-
-  <!-- Loading overlay -->
-  <div class="loading-overlay" id="loadingOverlay">
-    <div class="loading-content">
-      <div class="spinner"></div>
-      <span>PickleBuddy</span>
-    </div>
-  </div>
-
-  <!-- ========== LOGIN PAGE CONTENT ========== -->
-  <div class="login-split">
-    <!-- Left branding section -->
-    <div class="login-left">
-      <h1>PickleBuddy</h1>
-      <p>Find Players. Find Partners. Play Together.</p>
-      <span class="tagline"><i class="fa-solid fa-table-tennis-paddle-ball"></i> Made for Pickleball Enthusiasts</span>
-
-      <!-- Live User Count Badge -->
-      <div class="user-count-badge" id="userCountBadge" title="Registered PickleBuddy members">
-        <i class="fa-solid fa-users"></i>
-        <span class="count-number" id="userCountNumber">—</span>
-        <span>Players</span>
-      </div>
-    </div>
-
-    <!-- Right authentication card -->
-    <div class="login-right">
-      <div class="auth-card" id="authCard">
-        <!-- Tabs -->
-        <div class="auth-tabs" id="authTabs">
-          <button class="auth-tab active" data-tab="login" type="button">Login</button>
-          <button class="auth-tab" data-tab="register" type="button">Create Account</button>
-        </div>
-
-        <!-- Login Form -->
-        <form id="loginForm" class="auth-form">
-          <div class="form-group" id="loginEmailGroup">
-            <label for="loginEmail">Email Address</label>
-            <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email">
-            <div class="error-text">Please enter a valid email address.</div>
-          </div>
-          <div class="form-group" id="loginPasswordGroup">
-            <label for="loginPassword">Password</label>
-            <div class="password-wrapper">
-              <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
-              <button type="button" class="password-toggle-btn" data-target="loginPassword" title="Show password">
-                <i class="fa-solid fa-eye"></i>
-              </button>
-            </div>
-            <div class="error-text">Password is required.</div>
-          </div>
-          <a class="forgot-password-link" id="forgotPasswordLink">
-            <i class="fa-solid fa-key"></i> Forgot password?
-          </a>
-          <button type="submit" class="btn btn-primary btn-block" id="loginBtn">
-            <i class="fa-solid fa-arrow-right-to-bracket"></i> Login
-          </button>
-        </form>
-
-        <!-- Register Form (hidden by default via CSS above) -->
-        <form id="registerForm" class="auth-form">
-          <div class="form-group" id="regNameGroup">
-            <label for="regName">Full Name</label>
-            <input type="text" id="regName" placeholder="John Doe" autocomplete="name">
-            <div class="error-text">Name must be at least 2 characters.</div>
-          </div>
-          <div class="form-group" id="regEmailGroup">
-            <label for="regEmail">Email Address</label>
-            <input type="email" id="regEmail" placeholder="you@example.com" autocomplete="email">
-            <div class="error-text">Please enter a valid email.</div>
-          </div>
-          <div class="form-group" id="regPasswordGroup">
-            <label for="regPassword">Password</label>
-            <div class="password-wrapper">
-              <input type="password" id="regPassword" placeholder="••••••••" autocomplete="new-password">
-              <button type="button" class="password-toggle-btn" data-target="regPassword" title="Show password">
-                <i class="fa-solid fa-eye"></i>
-              </button>
-            </div>
-            <div class="password-strength" id="passwordStrength">
-              <div class="strength-bar"><div class="strength-bar-fill" id="strengthBarFill"></div></div>
-              <div class="strength-text" id="strengthText">Enter a password</div>
-            </div>
-            <div class="error-text">Min 8 chars, 1 uppercase, 1 lowercase, 1 number.</div>
-          </div>
-          <div class="form-group" id="regConfirmGroup">
-            <label for="regConfirm">Confirm Password</label>
-            <div class="password-wrapper">
-              <input type="password" id="regConfirm" placeholder="••••••••" autocomplete="off">
-              <button type="button" class="password-toggle-btn" data-target="regConfirm" title="Show password">
-                <i class="fa-solid fa-eye"></i>
-              </button>
-            </div>
-            <div class="error-text">Passwords do not match.</div>
-          </div>
-          <div class="form-group" id="regAddressGroup">
-            <label for="regAddress">Address</label>
-            <input type="text" id="regAddress" placeholder="Enter your city or municipality">
-            <div class="error-text">Address is required.</div>
-          </div>
-          <div class="form-group" id="regMobileGroup">
-            <label for="regMobile">Mobile Number</label>
-            <input type="tel" id="regMobile" placeholder="09XXXXXXXXX or +639XXXXXXXXX">
-            <div class="error-text">Enter a valid PH mobile number.</div>
-          </div>
-          <div class="form-group" id="regClubGroup">
-            <label for="regClub">Pickleball Club (Optional)</label>
-            <input type="text" id="regClub" placeholder="Independent Player / No Club">
-          </div>
-          <div class="checkbox-group">
-            <input type="checkbox" id="standardsCheck">
-            <label for="standardsCheck">
-              I have read and agree to PickleBuddy's 
-              <a href="#" id="viewStandardsLink">Community Standards</a>.
-            </label>
-          </div>
-          <div class="error-text" id="standardsError" style="display:none; margin-bottom:12px;">You must accept the Community Standards to register.</div>
-          <button type="submit" class="btn btn-primary btn-block" id="registerBtn">
-            <i class="fa-solid fa-user-plus"></i> Create Account
-          </button>
-        </form>
-
-        <!-- Google Sign-In (always visible) -->
-        <button class="btn btn-google btn-block" id="googleSignInBtn" type="button">
-          <i class="fa-brands fa-google"></i> Continue with Google
-        </button>
-
-        <div class="auth-toggle-text">
-          <span id="toggleMessage">Don't have an account? <a href="#" id="toggleAuthLink">Create one</a></span>
-        </div>
-
-        <!-- Email verification panel (hidden initially) -->
-        <div id="verifyPanel" class="verify-panel hidden">
-          <i class="fa-solid fa-envelope-circle-check"></i>
-          <h3>Verify Your Email</h3>
-          <p>We sent a verification link to:</p>
-          <p class="email-highlight" id="verifyEmailDisplay">user@email.com</p>
-          <p>Please verify your email address before accessing PickleBuddy.</p>
-          <div class="verify-actions">
-            <button class="btn btn-primary" id="verifiedBtn"><i class="fa-solid fa-check"></i> I've Verified My Email</button>
-            <button class="btn btn-outline" id="resendVerificationBtn"><i class="fa-solid fa-paper-plane"></i> Resend Verification Email</button>
-            <button class="btn btn-outline" id="signOutFromVerifyBtn"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========== MODALS ========== -->
-  <!-- Community Standards Modal -->
-  <div class="modal-overlay" id="standardsModal">
-    <div class="modal-container">
-      <button class="modal-close" id="closeStandardsModal"><i class="fa-solid fa-xmark"></i></button>
-      <h2><i class="fa-solid fa-scale-balanced"></i> PickleBuddy Community Standards</h2>
-      <div class="standards-content" id="standardsContent"></div>
-      <div class="modal-actions">
-        <button class="btn btn-primary" id="acceptStandardsBtn">I Understand</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Forgot Password Modal -->
-  <div class="modal-overlay" id="forgotPasswordModal">
-    <div class="modal-container" style="max-width:440px;">
-      <button class="modal-close" id="closeForgotPasswordModal"><i class="fa-solid fa-xmark"></i></button>
-      <h2><i class="fa-solid fa-key"></i> Reset Password</h2>
-      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:16px;">
-        Enter the email address associated with your PickleBuddy account and we'll send you a link to reset your password.
-      </p>
-      <form id="forgotPasswordForm">
-        <div class="form-group" id="fpEmailGroup">
-          <label for="fpEmail">Email Address</label>
-          <input type="email" id="fpEmail" placeholder="you@example.com" autocomplete="email">
-          <div class="error-text">Please enter a valid email address.</div>
-        </div>
-        <div class="modal-actions">
-          <button type="button" class="btn btn-outline" id="cancelForgotPasswordBtn">Cancel</button>
-          <button type="submit" class="btn btn-primary" id="sendResetBtn">
-            <i class="fa-solid fa-paper-plane"></i> Send Reset Link
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Complete Profile Modal (for Google users missing data) -->
-  <div class="modal-overlay" id="completeProfileModal">
-    <div class="modal-container">
-      <h2><i class="fa-solid fa-user-pen"></i> Complete Your PickleBuddy Profile</h2>
-      <form id="completeProfileForm">
-        <div class="form-group" id="cpNameGroup">
-          <label for="cpName">Full Name</label>
-          <input type="text" id="cpName" placeholder="John Doe">
-          <div class="error-text">Name must be at least 2 characters.</div>
-        </div>
-        <div class="form-group">
-          <label for="cpEmail">Email (read-only)</label>
-          <input type="email" id="cpEmail" readonly disabled style="background:var(--border);">
-        </div>
-        <div class="form-group" id="cpAddressGroup">
-          <label for="cpAddress">Address</label>
-          <input type="text" id="cpAddress" placeholder="Enter your city or municipality">
-          <div class="error-text">Address is required.</div>
-        </div>
-        <div class="form-group" id="cpMobileGroup">
-          <label for="cpMobile">Mobile Number</label>
-          <input type="tel" id="cpMobile" placeholder="09XXXXXXXXX or +639XXXXXXXXX">
-          <div class="error-text">Enter a valid PH mobile number.</div>
-        </div>
-        <div class="form-group">
-          <label for="cpClub">Pickleball Club (Optional)</label>
-          <input type="text" id="cpClub" placeholder="Independent Player / No Club">
-        </div>
-        <button type="submit" class="btn btn-primary btn-block" id="cpSubmitBtn">
-          <i class="fa-solid fa-floppy-disk"></i> Save Profile
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Suspended Account Modal -->
-  <div class="modal-overlay" id="suspendedModal">
-    <div class="modal-container" style="max-width:480px;">
-      <div style="text-align:center;">
-        <i class="fa-solid fa-ban" style="font-size:3rem; color:#ef4444; margin-bottom:16px;"></i>
-        <h2>Account Suspended</h2>
-        <p style="color:var(--text-muted); margin-bottom:16px;">Your PickleBuddy account has been suspended for violating the Community Standards.</p>
-        <p><strong>Reason:</strong> <span id="suspensionReasonDisplay">—</span></p>
-        <p style="margin-top:16px; font-size:0.9rem;">If you believe this was a mistake, contact the PickleBuddy administrator.</p>
-        <button class="btn btn-outline btn-block" id="signOutSuspendedBtn" style="margin-top:20px;">
-          <i class="fa-solid fa-right-from-bracket"></i> Sign Out
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========== FIREBASE & JAVASCRIPT ========== -->
+  <!-- ==========================================================
+       FIREBASE SDK (for live player count)
+       ========================================================== -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
+  <!-- ==========================================================
+       JAVASCRIPT
+       ========================================================== -->
   <script>
     (function() {
       'use strict';
 
-      // ---------- FIREBASE CONFIG ----------
-      const firebaseConfig = {
+      // ==========================================================
+      // FIREBASE CONFIG (same as login.html / main.html)
+      // ==========================================================
+      const FIREBASE_CONFIG = {
         apiKey: "AIzaSyBfIH6Agp53uDqyXgS4HeZvh3zh0FoHeJw",
         authDomain: "wxyz111802.firebaseapp.com",
         projectId: "wxyz111802",
@@ -1034,840 +2064,194 @@
         measurementId: "G-XFSYS20Z09"
       };
 
-      firebase.initializeApp(firebaseConfig);
-      const auth = firebase.auth();
-      const db = firebase.firestore();
+      // ---------- THEME TOGGLE ----------
+      const themeToggle = document.getElementById('themeToggle');
+      const themeIcon = themeToggle.querySelector('i');
 
-      // ---------- UTILITY FUNCTIONS ----------
-      function showToast(type, title, message) {
-        const container = document.getElementById('toastContainer');
-        const toast = document.createElement('div');
-        toast.className = `toast ${type}`;
-        let icon = 'fa-circle-info';
-        if (type === 'success') icon = 'fa-circle-check';
-        if (type === 'error') icon = 'fa-circle-exclamation';
-        if (type === 'warning') icon = 'fa-triangle-exclamation';
-        toast.innerHTML = `
-          <i class="fa-solid ${icon}"></i>
-          <div class="toast-content">
-            <div class="toast-title">${escapeHTML(title)}</div>
-            <div class="toast-message">${escapeHTML(message)}</div>
-          </div>
-        `;
-        container.appendChild(toast);
-        setTimeout(() => {
-          toast.style.animation = 'fadeOut 0.3s forwards';
-          setTimeout(() => toast.remove(), 300);
-        }, 4500);
-      }
-
-      function escapeHTML(str) {
-        if (!str) return '';
-        return String(str).replace(/[&<>"]/g, function(m) {
-          if (m === '&') return '&amp;';
-          if (m === '<') return '&lt;';
-          if (m === '>') return '&gt;';
-          if (m === '"') return '&quot;';
-          return m;
-        });
-      }
-
-      function setLoading(active) {
-        const overlay = document.getElementById('loadingOverlay');
-        if (active) overlay.classList.add('active');
-        else overlay.classList.remove('active');
-      }
-
-      function isValidEmail(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-      }
-
-      function isValidPHMobile(mobile) {
-        return /^(09|\+639)\d{9}$/.test(mobile.replace(/\s+/g, ''));
-      }
-
-      function isStrongPassword(pw) {
-        return pw.length >= 8 && /[A-Z]/.test(pw) && /[a-z]/.test(pw) && /[0-9]/.test(pw);
-      }
-
-      function friendlyAuthError(code) {
-        const map = {
-          'auth/email-already-in-use': 'An account using this email address already exists.',
-          'auth/invalid-email': 'The email address you entered is not valid.',
-          'auth/weak-password': 'Your password is too weak. Use at least 8 characters with uppercase, lowercase, and a number.',
-          'auth/wrong-password': 'The email address or password you entered is incorrect.',
-          'auth/user-not-found': 'The email address or password you entered is incorrect.',
-          'auth/too-many-requests': 'Too many attempts. Please try again later.',
-          'auth/popup-closed-by-user': 'The Google sign-in popup was closed before completing.',
-          'auth/network-request-failed': 'Network error. Please check your connection and try again.',
-          'auth/requires-recent-login': 'Please sign in again before performing this action.',
-          'auth/operation-not-allowed': 'This sign-in method is not enabled. Contact support.',
-          'auth/invalid-credential': 'The email address or password you entered is incorrect.',
-          'auth/missing-password': 'Please enter your password.',
-          'auth/internal-error': 'An internal error occurred. Please try again.',
-        };
-        return map[code] || 'An error occurred. Please try again.';
-      }
-
-      // ---------- DOM ELEMENTS ----------
-      const authCard = document.getElementById('authCard');
-      const loginForm = document.getElementById('loginForm');
-      const registerForm = document.getElementById('registerForm');
-      const authTabs = document.getElementById('authTabs');
-      const toggleMessage = document.getElementById('toggleMessage');
-      const verifyPanel = document.getElementById('verifyPanel');
-      const googleSignInBtn = document.getElementById('googleSignInBtn');
-      const standardsModal = document.getElementById('standardsModal');
-      const closeStandardsModal = document.getElementById('closeStandardsModal');
-      const acceptStandardsBtn = document.getElementById('acceptStandardsBtn');
-      const viewStandardsLink = document.getElementById('viewStandardsLink');
-      const completeProfileModal = document.getElementById('completeProfileModal');
-      const completeProfileForm = document.getElementById('completeProfileForm');
-      const suspendedModal = document.getElementById('suspendedModal');
-      const signOutSuspendedBtn = document.getElementById('signOutSuspendedBtn');
-      const suspensionReasonDisplay = document.getElementById('suspensionReasonDisplay');
-      const verifyEmailDisplay = document.getElementById('verifyEmailDisplay');
-      const verifiedBtn = document.getElementById('verifiedBtn');
-      const resendVerificationBtn = document.getElementById('resendVerificationBtn');
-      const signOutFromVerifyBtn = document.getElementById('signOutFromVerifyBtn');
-      const forgotPasswordModal = document.getElementById('forgotPasswordModal');
-      const forgotPasswordLink = document.getElementById('forgotPasswordLink');
-      const forgotPasswordForm = document.getElementById('forgotPasswordForm');
-      const closeForgotPasswordModal = document.getElementById('closeForgotPasswordModal');
-      const cancelForgotPasswordBtn = document.getElementById('cancelForgotPasswordBtn');
-      const userCountNumber = document.getElementById('userCountNumber');
-
-      // ---------- SHOW / HIDE PASSWORD TOGGLES ----------
-      document.querySelectorAll('.password-toggle-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const targetId = btn.dataset.target;
-          const input = document.getElementById(targetId);
-          if (!input) return;
-          const isHidden = input.type === 'password';
-          input.type = isHidden ? 'text' : 'password';
-          const icon = btn.querySelector('i');
-          if (icon) {
-            icon.className = isHidden ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
-          }
-          btn.title = isHidden ? 'Hide password' : 'Show password';
-        });
-      });
-
-      // ---------- PASSWORD STRENGTH METER ----------
-      const regPasswordInput = document.getElementById('regPassword');
-      const passwordStrength = document.getElementById('passwordStrength');
-      const strengthBarFill = document.getElementById('strengthBarFill');
-      const strengthText = document.getElementById('strengthText');
-
-      function evaluatePasswordStrength(pw) {
-        if (!pw) return { score: 0, label: 'Enter a password', color: 'var(--text-muted)' };
-
-        let score = 0;
-        if (pw.length >= 8) score++;
-        if (pw.length >= 12) score++;
-        if (/[A-Z]/.test(pw)) score++;
-        if (/[a-z]/.test(pw)) score++;
-        if (/[0-9]/.test(pw)) score++;
-        if (/[^A-Za-z0-9]/.test(pw)) score++;
-
-        if (pw.length < 6) return { score: 1, label: 'Very weak', color: '#ef4444' };
-        if (score <= 2) return { score: 2, label: 'Weak', color: '#ef4444' };
-        if (score <= 3) return { score: 3, label: 'Fair', color: '#f59e0b' };
-        if (score <= 4) return { score: 4, label: 'Good', color: '#3b82f6' };
-        return { score: 5, label: 'Strong', color: '#10b981' };
-      }
-
-      if (regPasswordInput) {
-        regPasswordInput.addEventListener('input', () => {
-          const pw = regPasswordInput.value;
-          if (!pw) {
-            passwordStrength.classList.remove('visible');
-            return;
-          }
-          passwordStrength.classList.add('visible');
-          const result = evaluatePasswordStrength(pw);
-          const pct = (result.score / 5) * 100;
-          strengthBarFill.style.width = pct + '%';
-          strengthBarFill.style.background = result.color;
-          strengthText.textContent = result.label;
-          strengthText.style.color = result.color;
-        });
-      }
-
-      // ---------- COMMUNITY STANDARDS CONTENT ----------
-      function injectStandardsContent() {
-        const content = document.getElementById('standardsContent');
-        content.innerHTML = `
-          <h1>PickleBuddy Community Standards</h1>
-          <p><strong>Effective Date: 18 September 2026</strong></p>
-          <p>Welcome to <strong>PickleBuddy</strong>, a community platform designed to help pickleball players find partners, opponents, and fellow players to enjoy the sport together.</p>
-          <p>To keep PickleBuddy safe, respectful, inclusive, and enjoyable for everyone, all users are expected to follow these Community Standards. By using PickleBuddy, you agree to follow these rules.</p>
-
-          <h2>1. Be Respectful to Other Users</h2>
-          <p>Treat all PickleBuddy users with courtesy and respect.</p>
-          <p>Users must not:</p>
-          <ul>
-            <li>Insult, ridicule, humiliate, or deliberately embarrass another person.</li>
-            <li>Use offensive, degrading, or disrespectful language toward other users.</li>
-            <li>Start or encourage unnecessary arguments, fights, or harassment.</li>
-            <li>Make personal attacks against another user's appearance, abilities, background, skill level, or personal life.</li>
-            <li>Intentionally provoke or disturb other members of the community.</li>
-          </ul>
-          <p>Different skill levels, opinions, personalities, and playing styles should be respected.</p>
-
-          <h2>2. No Inappropriate Terms or Language</h2>
-          <p>Users must not post, send, display, or share inappropriate terms, words, phrases, or language.</p>
-          <p>This includes:</p>
-          <ul>
-            <li>Profanity or excessive vulgar language.</li>
-            <li>Sexually explicit or sexually suggestive language.</li>
-            <li>Obscene or indecent expressions.</li>
-            <li>Slurs or derogatory terms targeting a person or group.</li>
-            <li>Threatening or abusive language.</li>
-            <li>Language intended to harass, intimidate, shame, or offend another user.</li>
-            <li>Repeated use of inappropriate language after being warned by moderators.</li>
-          </ul>
-          <p>PickleBuddy is intended to be a welcoming community for players of different ages and backgrounds. Keep conversations appropriate for a public community platform.</p>
-
-          <h2>3. No Harassment or Bullying</h2>
-          <p>PickleBuddy does not tolerate harassment or bullying.</p>
-          <p>Users must not repeatedly contact, insult, threaten, embarrass, stalk, or intentionally disturb another user.</p>
-          <p>Harassment may include:</p>
-          <ul>
-            <li>Repeated unwanted messages.</li>
-            <li>Persistent unwanted invitations or requests to play.</li>
-            <li>Mocking or targeting a particular user.</li>
-            <li>Coordinated harassment by multiple users.</li>
-            <li>Threatening another person online or in person.</li>
-            <li>Continuing unwanted interaction after someone has asked to be left alone.</li>
-          </ul>
-
-          <h2>4. No Hate Speech or Discrimination</h2>
-          <p>Users must not attack, threaten, or demean another person based on protected or personal characteristics.</p>
-          <p>This includes discrimination or hateful content directed at someone because of their:</p>
-          <ul>
-            <li>Race or ethnicity.</li>
-            <li>Nationality.</li>
-            <li>Religion.</li>
-            <li>Sex or gender.</li>
-            <li>Sexual orientation.</li>
-            <li>Disability.</li>
-            <li>Age.</li>
-            <li>Other personal characteristics.</li>
-          </ul>
-          <p>PickleBuddy is intended to be a community where players can participate without being subjected to discrimination or hateful behavior.</p>
-
-          <h2>5. No Sexual or Explicit Content</h2>
-          <p>Users must not upload, post, send, or share sexually explicit or pornographic content through PickleBuddy.</p>
-          <p>This includes:</p>
-          <ul>
-            <li>Pornographic images or videos.</li>
-            <li>Explicit sexual messages.</li>
-            <li>Sexually explicit profile information.</li>
-            <li>Unwanted sexual messages or advances.</li>
-            <li>Requests for sexual images or content.</li>
-            <li>Sexualized content involving minors.</li>
-          </ul>
-          <p>Keep profiles, messages, posts, and other content appropriate for a general community platform.</p>
-
-          <h2>6. No Threats or Violence</h2>
-          <p>Users must not threaten, encourage, organize, or glorify violence against another person.</p>
-          <p>This includes:</p>
-          <ul>
-            <li>Threats of physical harm.</li>
-            <li>Threats against another user's property.</li>
-            <li>Statements intended to frighten or intimidate someone.</li>
-            <li>Encouraging others to harm a person.</li>
-            <li>Using PickleBuddy to arrange physical confrontations.</li>
-          </ul>
-          <p>If a disagreement occurs, resolve it respectfully or report the issue instead of escalating it.</p>
-
-          <h2>7. No Spam or Unwanted Solicitation</h2>
-          <p>Users must not use PickleBuddy to repeatedly send unwanted or irrelevant content.</p>
-          <p>This includes:</p>
-          <ul>
-            <li>Repeated promotional messages.</li>
-            <li>Excessive posting of the same content.</li>
-            <li>Fake giveaways or misleading promotions.</li>
-            <li>Unsolicited advertisements.</li>
-            <li>Mass messaging of users.</li>
-            <li>Content intended primarily to promote unrelated products or services.</li>
-          </ul>
-
-          <h2>8. Use Accurate and Appropriate Profile Information</h2>
-          <p>Users should provide truthful and appropriate information about themselves.</p>
-          <p>Users must not:</p>
-          <ul>
-            <li>Impersonate another person.</li>
-            <li>Create an account pretending to be another individual.</li>
-            <li>Use another person's identity without permission.</li>
-            <li>Use misleading information to deceive other players.</li>
-            <li>Create accounts for fraudulent or abusive purposes.</li>
-          </ul>
-          <p>Do not use someone else's photographs or personal information without their permission.</p>
-
-          <h2>9. Protect Personal Information</h2>
-          <p>Respect the privacy of other PickleBuddy users.</p>
-          <p>Users must not post or distribute another person's private information without their permission.</p>
-          <p>This includes:</p>
-          <ul>
-            <li>Home addresses.</li>
-            <li>Phone numbers.</li>
-            <li>Private social-media accounts.</li>
-            <li>Passwords.</li>
-            <li>Private conversations.</li>
-            <li>Personal identification documents.</li>
-            <li>Financial information.</li>
-            <li>Other sensitive personal information.</li>
-          </ul>
-          <p>Do not share screenshots or private conversations involving another user without appropriate permission.</p>
-
-          <h2>10. No Scams or Fraud</h2>
-          <p>PickleBuddy must not be used to deceive or defraud other users.</p>
-          <p>Users must not:</p>
-          <ul>
-            <li>Pretend to be someone else for financial or personal gain.</li>
-            <li>Request money through deceptive means.</li>
-            <li>Promote fraudulent offers or schemes.</li>
-            <li>Use fake information to obtain benefits from other users.</li>
-            <li>Attempt to steal another user's account or information.</li>
-          </ul>
-          <p>Report suspicious activity to PickleBuddy moderators.</p>
-
-          <h2>11. Keep Player Matching Safe and Respectful</h2>
-          <p>PickleBuddy is intended to help users find people to play pickleball with. Users should respect the preferences and boundaries of other players.</p>
-          <p>Users must not:</p>
-          <ul>
-            <li>Pressure someone into playing after they decline.</li>
-            <li>Repeatedly send invitations after being rejected.</li>
-            <li>Misrepresent their skill level for the purpose of deceiving another player.</li>
-            <li>Arrange meetings for harmful, illegal, or abusive purposes.</li>
-            <li>Use the player-matching feature for purposes unrelated to the PickleBuddy community.</li>
-          </ul>
-          <p>When meeting another player for the first time, users are encouraged to choose a safe and appropriate public location.</p>
-
-          <h2>12. No Illegal Activities</h2>
-          <p>PickleBuddy must not be used to organize, promote, facilitate, or participate in illegal activities.</p>
-          <p>Content involving illegal activities may be removed and may be reported to the appropriate authorities when required or appropriate.</p>
-
-          <h2>13. No Harmful or Malicious Content</h2>
-          <p>Users must not intentionally distribute content designed to harm PickleBuddy or its users.</p>
-          <p>This includes:</p>
-          <ul>
-            <li>Malware or malicious files.</li>
-            <li>Phishing links.</li>
-            <li>Attempts to steal login credentials.</li>
-            <li>Attempts to compromise another user's account.</li>
-            <li>Malicious scripts or code.</li>
-            <li>Links designed to deceive or exploit users.</li>
-          </ul>
-
-          <h2>14. No False Reports or Abuse of Reporting Features</h2>
-          <p>PickleBuddy's reporting system exists to protect the community.</p>
-          <p>Users must not:</p>
-          <ul>
-            <li>Submit intentionally false reports against another user.</li>
-            <li>Repeatedly report users without a legitimate reason.</li>
-            <li>Abuse reporting tools to harass another person.</li>
-            <li>Attempt to manipulate moderation decisions through false information.</li>
-          </ul>
-          <p>Reports should be made honestly and in good faith.</p>
-
-          <h2>15. Respect PickleBuddy's Community and Platform</h2>
-          <p>Users are expected to use PickleBuddy for its intended purpose: connecting pickleball players and building a positive local playing community.</p>
-          <p>Users should:</p>
-          <ul>
-            <li>Communicate respectfully.</li>
-            <li>Keep content appropriate.</li>
-            <li>Respect other players' boundaries.</li>
-            <li>Follow applicable laws and platform rules.</li>
-            <li>Cooperate with legitimate moderation actions.</li>
-            <li>Report serious violations when they occur.</li>
-          </ul>
-
-          <h2>16. Content Moderation and Enforcement</h2>
-          <p>PickleBuddy may review content or accounts that are reported or identified as potentially violating these Community Standards.</p>
-          <p>Depending on the severity and frequency of a violation, PickleBuddy may take actions including:</p>
-          <ol>
-            <li>Content Removal</li>
-            <li>Warning</li>
-            <li>Temporary Restriction</li>
-            <li>Temporary Suspension</li>
-            <li>Permanent Account Removal</li>
-            <li>Referral to Authorities</li>
-          </ol>
-          <p>The severity of the violation, the user's history, and the circumstances surrounding the incident may be considered when determining an appropriate action.</p>
-
-          <h2>17. Reporting a Violation</h2>
-          <p>If you encounter content or behavior that violates these Community Standards, use PickleBuddy's reporting feature or contact the platform administrators.</p>
-          <p>When submitting a report, provide as much relevant information as possible, such as:</p>
-          <ul>
-            <li>The username or profile involved.</li>
-            <li>The type of violation.</li>
-            <li>A description of what happened.</li>
-            <li>Relevant screenshots or other evidence, when appropriate.</li>
-          </ul>
-          <p>Do not retaliate against another user. Report the issue and allow the moderation process to handle it.</p>
-
-          <h2>18. Our Goal</h2>
-          <p>PickleBuddy exists to make it easier for people to find pickleball partners, meet fellow players, and enjoy the sport together.</p>
-          <p>A strong community depends on everyone doing their part.</p>
-          <p><strong>Play fairly. Communicate respectfully. Respect boundaries. Keep the community safe.</strong></p>
-          <p>By using PickleBuddy, you agree to help maintain a friendly, respectful, and welcoming environment for everyone.</p>
-        `;
-      }
-      injectStandardsContent();
-
-      // ---------- MODAL CONTROL ----------
-      function openModal(modal) {
-        modal.classList.add('active');
-      }
-
-      function closeModal(modal) {
-        modal.classList.remove('active');
-      }
-
-      document.querySelectorAll('.modal-close').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const modal = e.target.closest('.modal-overlay');
-          if (modal && modal.id !== 'completeProfileModal' && modal.id !== 'suspendedModal') {
-            closeModal(modal);
-          }
-        });
-      });
-
-      document.querySelectorAll('.modal-overlay').forEach(overlay => {
-        overlay.addEventListener('click', (e) => {
-          if (e.target === overlay && overlay.id !== 'completeProfileModal' && overlay.id !== 'suspendedModal') {
-            closeModal(overlay);
-          }
-        });
-      });
-
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-          document.querySelectorAll('.modal-overlay.active').forEach(m => {
-            if (m.id !== 'completeProfileModal' && m.id !== 'suspendedModal') {
-              closeModal(m);
-            }
-          });
-        }
-      });
-
-      viewStandardsLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        openModal(standardsModal);
-      });
-
-      closeStandardsModal.addEventListener('click', () => closeModal(standardsModal));
-      acceptStandardsBtn.addEventListener('click', () => closeModal(standardsModal));
-
-      // ---------- FORGOT PASSWORD ----------
-      forgotPasswordLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        const loginEmailVal = document.getElementById('loginEmail').value.trim();
-        if (loginEmailVal && isValidEmail(loginEmailVal)) {
-          document.getElementById('fpEmail').value = loginEmailVal;
+      function applyTheme(theme) {
+        if (theme === 'dark') {
+          document.body.classList.add('dark');
+          themeIcon.className = 'fa-solid fa-sun';
         } else {
-          document.getElementById('fpEmail').value = '';
+          document.body.classList.remove('dark');
+          themeIcon.className = 'fa-solid fa-moon';
         }
-        document.getElementById('fpEmailGroup').classList.remove('error');
-        openModal(forgotPasswordModal);
+      }
+
+      const savedTheme = localStorage.getItem('picklebuddy-theme') || 'light';
+      applyTheme(savedTheme);
+
+      themeToggle.addEventListener('click', () => {
+        const isDark = document.body.classList.contains('dark');
+        const newTheme = isDark ? 'light' : 'dark';
+        localStorage.setItem('picklebuddy-theme', newTheme);
+        applyTheme(newTheme);
       });
 
-      closeForgotPasswordModal.addEventListener('click', () => closeModal(forgotPasswordModal));
-      cancelForgotPasswordBtn.addEventListener('click', () => closeModal(forgotPasswordModal));
+      // ---------- NAVBAR SCROLL EFFECT ----------
+      const navbar = document.getElementById('navbar');
 
-      forgotPasswordForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('fpEmail').value.trim();
-        if (!isValidEmail(email)) {
-          document.getElementById('fpEmailGroup').classList.add('error');
-          return;
-        }
-        document.getElementById('fpEmailGroup').classList.remove('error');
-
-        setLoading(true);
-        try {
-          await auth.sendPasswordResetEmail(email);
-          showToast('success', 'Reset link sent', `A password reset link has been sent to ${email}. Check your inbox.`);
-          closeModal(forgotPasswordModal);
-          forgotPasswordForm.reset();
-        } catch (error) {
-          console.error('Forgot password error:', error);
-          showToast('error', 'Could not send reset link', friendlyAuthError(error.code));
-        } finally {
-          setLoading(false);
-        }
-      });
-
-      // ---------- TAB SWITCHING ----------
-      // Uses a CSS class on the authCard to control visibility.
-      // The register form is hidden by default via CSS, so there is
-      // never a moment where both forms are stacked on top of each other.
-      function setActiveTab(tab) {
-        document.querySelectorAll('.auth-tab').forEach(t => {
-          t.classList.toggle('active', t.dataset.tab === tab);
-        });
-
-        if (tab === 'register') {
-          authCard.classList.add('show-register');
-          toggleMessage.innerHTML = `Already have an account? <a href="#" id="toggleAuthLink">Login</a>`;
+      function handleScroll() {
+        if (window.scrollY > 20) {
+          navbar.classList.add('scrolled');
         } else {
-          authCard.classList.remove('show-register');
-          toggleMessage.innerHTML = `Don't have an account? <a href="#" id="toggleAuthLink">Create one</a>`;
+          navbar.classList.remove('scrolled');
         }
       }
 
-      // Tab click handler (event delegation)
-      authTabs.addEventListener('click', (e) => {
-        const tab = e.target.closest('.auth-tab');
-        if (tab) setActiveTab(tab.dataset.tab);
-      });
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      handleScroll();
 
-      // Toggle link handler (event delegation)
-      toggleMessage.addEventListener('click', (e) => {
-        const link = e.target.closest('#toggleAuthLink');
-        if (!link) return;
-        e.preventDefault();
-        const currentTab = document.querySelector('.auth-tab.active')?.dataset.tab || 'login';
-        setActiveTab(currentTab === 'login' ? 'register' : 'login');
-      });
+      // ---------- MOBILE MENU ----------
+      const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+      const navLinks = document.getElementById('navLinks');
 
-      // ---------- FORM VALIDATION HELPERS ----------
-      function markError(groupId, show) {
-        const group = document.getElementById(groupId);
-        if (show) group.classList.add('error');
-        else group.classList.remove('error');
-      }
-
-      // ---------- REGISTER ----------
-      registerForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const name = document.getElementById('regName').value.trim();
-        const email = document.getElementById('regEmail').value.trim();
-        const password = document.getElementById('regPassword').value;
-        const confirm = document.getElementById('regConfirm').value;
-        const address = document.getElementById('regAddress').value.trim();
-        const mobile = document.getElementById('regMobile').value.trim();
-        const club = document.getElementById('regClub').value.trim() || 'Independent Player / No Club';
-        const standardsChecked = document.getElementById('standardsCheck').checked;
-
-        let valid = true;
-        if (name.length < 2) { markError('regNameGroup', true); valid = false; } else markError('regNameGroup', false);
-        if (!isValidEmail(email)) { markError('regEmailGroup', true); valid = false; } else markError('regEmailGroup', false);
-        if (!isStrongPassword(password)) { markError('regPasswordGroup', true); valid = false; } else markError('regPasswordGroup', false);
-        if (password !== confirm) { markError('regConfirmGroup', true); valid = false; } else markError('regConfirmGroup', false);
-        if (!address) { markError('regAddressGroup', true); valid = false; } else markError('regAddressGroup', false);
-        if (!isValidPHMobile(mobile)) { markError('regMobileGroup', true); valid = false; } else markError('regMobileGroup', false);
-        
-        const standardsError = document.getElementById('standardsError');
-        if (!standardsChecked) { standardsError.style.display = 'block'; valid = false; } 
-        else standardsError.style.display = 'none';
-
-        if (!valid) return;
-
-        setLoading(true);
-        try {
-          const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-          const user = userCredential.user;
-
-          await user.sendEmailVerification();
-
-          await db.collection('users').doc(user.uid).set({
-            uid: user.uid,
-            name: name,
-            email: email,
-            address: address,
-            mobileNumber: mobile,
-            pickleballClub: club,
-            profilePicture: '',
-            role: 'user',
-            accountStatus: 'active',
-            suspensionReason: '',
-            suspendedAt: null,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-            communityStandardsAccepted: true,
-            communityStandardsAcceptedAt: firebase.firestore.FieldValue.serverTimestamp()
-          });
-
-          showToast('success', 'Account created', 'Verification email has been sent.');
-          verifyEmailDisplay.textContent = email;
-          // Hide both forms, tabs, google button, toggle text and show verify panel
-          loginForm.style.display = 'none';
-          registerForm.style.display = 'none';
-          authTabs.style.display = 'none';
-          googleSignInBtn.style.display = 'none';
-          toggleMessage.parentElement.style.display = 'none';
-          verifyPanel.classList.remove('hidden');
-
-        } catch (error) {
-          console.error('Registration error:', error);
-          showToast('error', 'Registration failed', friendlyAuthError(error.code));
-        } finally {
-          setLoading(false);
+      mobileMenuToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navLinks.classList.toggle('mobile-open');
+        const icon = mobileMenuToggle.querySelector('i');
+        if (navLinks.classList.contains('mobile-open')) {
+          icon.className = 'fa-solid fa-xmark';
+        } else {
+          icon.className = 'fa-solid fa-bars';
         }
       });
 
-      // ---------- LOGIN ----------
-      loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('loginEmail').value.trim();
-        const password = document.getElementById('loginPassword').value;
-
-        if (!isValidEmail(email)) { markError('loginEmailGroup', true); return; } else markError('loginEmailGroup', false);
-        if (!password) { markError('loginPasswordGroup', true); return; } else markError('loginPasswordGroup', false);
-
-        setLoading(true);
-        try {
-          await auth.signInWithEmailAndPassword(email, password);
-        } catch (error) {
-          console.error('Login error:', error);
-          showToast('error', 'Login failed', friendlyAuthError(error.code));
-        } finally {
-          setLoading(false);
-        }
-      });
-
-      // ---------- GOOGLE SIGN-IN ----------
-      googleSignInBtn.addEventListener('click', async () => {
-        setLoading(true);
-        const provider = new firebase.auth.GoogleAuthProvider();
-        try {
-          const result = await auth.signInWithPopup(provider);
-          const user = result.user;
-          const userDoc = await db.collection('users').doc(user.uid).get();
-          if (!userDoc.exists) {
-            document.getElementById('cpName').value = user.displayName || '';
-            document.getElementById('cpEmail').value = user.email || '';
-            openModal(completeProfileModal);
-          } else {
-            const data = userDoc.data();
-            if (data.accountStatus === 'suspended') {
-              suspensionReasonDisplay.textContent = data.suspensionReason || 'Violation of Community Standards';
-              openModal(suspendedModal);
-              await auth.signOut();
-            } else {
-              window.location.href = 'main.html';
-            }
-          }
-        } catch (error) {
-          console.error('Google sign-in error:', error);
-          showToast('error', 'Google sign-in failed', friendlyAuthError(error.code));
-        } finally {
-          setLoading(false);
-        }
-      });
-
-      // ---------- COMPLETE PROFILE (Google new user) ----------
-      completeProfileForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const name = document.getElementById('cpName').value.trim();
-        const address = document.getElementById('cpAddress').value.trim();
-        const mobile = document.getElementById('cpMobile').value.trim();
-        const club = document.getElementById('cpClub').value.trim() || 'Independent Player / No Club';
-
-        let valid = true;
-        if (name.length < 2) { markError('cpNameGroup', true); valid = false; } else markError('cpNameGroup', false);
-        if (!address) { markError('cpAddressGroup', true); valid = false; } else markError('cpAddressGroup', false);
-        if (!isValidPHMobile(mobile)) { markError('cpMobileGroup', true); valid = false; } else markError('cpMobileGroup', false);
-        if (!valid) return;
-
-        setLoading(true);
-        try {
-          const user = auth.currentUser;
-          if (!user) throw new Error('No user');
-
-          await db.collection('users').doc(user.uid).set({
-            uid: user.uid,
-            name: name,
-            email: user.email,
-            address: address,
-            mobileNumber: mobile,
-            pickleballClub: club,
-            profilePicture: '',
-            role: 'user',
-            accountStatus: 'active',
-            suspensionReason: '',
-            suspendedAt: null,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-            communityStandardsAccepted: true,
-            communityStandardsAcceptedAt: firebase.firestore.FieldValue.serverTimestamp()
-          });
-
-          closeModal(completeProfileModal);
-          showToast('success', 'Profile complete', 'Welcome to PickleBuddy!');
-          window.location.href = 'main.html';
-        } catch (error) {
-          console.error('Profile completion error:', error);
-          showToast('error', 'Error', 'Could not save profile. Please try again.');
-        } finally {
-          setLoading(false);
-        }
-      });
-
-      // ---------- VERIFICATION ACTIONS ----------
-      verifiedBtn.addEventListener('click', async () => {
-        const user = auth.currentUser;
-        if (!user) return;
-        setLoading(true);
-        try {
-          await user.reload();
-          if (user.emailVerified) {
-            showToast('success', 'Email verified', 'You can now access PickleBuddy.');
-            window.location.href = 'main.html';
-          } else {
-            showToast('warning', 'Not verified', 'Your email is still not verified. Please check your inbox.');
-          }
-        } catch (error) {
-          showToast('error', 'Error', 'Could not verify email status. Try again.');
-        } finally {
-          setLoading(false);
-        }
-      });
-
-      resendVerificationBtn.addEventListener('click', async () => {
-        const user = auth.currentUser;
-        if (!user) return;
-        setLoading(true);
-        try {
-          await user.sendEmailVerification();
-          showToast('success', 'Email sent', 'Verification link resent to your email.');
-        } catch (error) {
-          showToast('error', 'Error', friendlyAuthError(error.code));
-        } finally {
-          setLoading(false);
-        }
-      });
-
-      signOutFromVerifyBtn.addEventListener('click', async () => {
-        await auth.signOut();
-        window.location.reload();
-      });
-
-      signOutSuspendedBtn.addEventListener('click', async () => {
-        await auth.signOut();
-        closeModal(suspendedModal);
-        window.location.reload();
-      });
-
-      // ---------- LIVE USER COUNT ----------
-      let userCountUnsub = null;
-
-      function setupUserCountListener() {
-        if (userCountUnsub) userCountUnsub();
-        userCountUnsub = db.collection('users').onSnapshot(snapshot => {
-          let count = 0;
-          snapshot.forEach(doc => {
-            const data = doc.data();
-            if (data.accountStatus !== 'suspended') count++;
-          });
-          animateUserCount(count);
-        }, error => {
-          console.error('User count listener error:', error);
-          if (userCountNumber) userCountNumber.textContent = '—';
+      // Close mobile menu when clicking a link
+      navLinks.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('mobile-open');
+          mobileMenuToggle.querySelector('i').className = 'fa-solid fa-bars';
         });
+      });
+
+      // Close mobile menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (navLinks.classList.contains('mobile-open') &&
+            !navLinks.contains(e.target) &&
+            !mobileMenuToggle.contains(e.target)) {
+          navLinks.classList.remove('mobile-open');
+          mobileMenuToggle.querySelector('i').className = 'fa-solid fa-bars';
+        }
+      });
+
+      // ---------- NAVIGATION TO LOGIN ----------
+      function goToLogin() {
+        window.location.href = 'login.html';
       }
 
-      function animateUserCount(targetCount) {
-        if (!userCountNumber) return;
-        const currentText = userCountNumber.textContent.replace(/[^0-9]/g, '');
-        const startCount = parseInt(currentText, 10) || 0;
-        if (startCount === targetCount) {
-          userCountNumber.textContent = targetCount.toLocaleString();
-          return;
-        }
-        const duration = 700;
+      document.getElementById('navLoginBtn').addEventListener('click', goToLogin);
+      document.getElementById('heroGetStarted').addEventListener('click', goToLogin);
+      document.getElementById('showcaseJoinBtn').addEventListener('click', goToLogin);
+      document.getElementById('ctaJoinBtn').addEventListener('click', goToLogin);
+
+      // ---------- FAQ ACCORDION ----------
+      document.querySelectorAll('.faq-question').forEach(question => {
+        question.addEventListener('click', () => {
+          const item = question.parentElement;
+          const isActive = item.classList.contains('active');
+
+          document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+
+          if (!isActive) {
+            item.classList.add('active');
+          }
+        });
+      });
+
+      // ---------- SMOOTH SCROLL FOR ANCHOR LINKS ----------
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const href = this.getAttribute('href');
+          if (href === '#' || href === '') return;
+          const target = document.querySelector(href);
+          if (target) {
+            e.preventDefault();
+            const offsetTop = target.getBoundingClientRect().top + window.pageYOffset - 80;
+            window.scrollTo({
+              top: offsetTop,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+
+      // ==========================================================
+      // LIVE PLAYER COUNT (real-time from Firestore)
+      // ==========================================================
+      const statPlayers = document.getElementById('statPlayers');
+
+      function animateNumber(el, target, duration) {
+        const start = 0;
         const startTime = performance.now();
         function step(now) {
           const elapsed = now - startTime;
           const progress = Math.min(elapsed / duration, 1);
           const eased = 1 - Math.pow(1 - progress, 3);
-          const value = Math.round(startCount + (targetCount - startCount) * eased);
-          userCountNumber.textContent = value.toLocaleString();
+          const value = Math.round(start + (target - start) * eased);
+          el.textContent = value > 0 ? value.toLocaleString() + '+' : '0';
           if (progress < 1) requestAnimationFrame(step);
         }
         requestAnimationFrame(step);
       }
 
-      setupUserCountListener();
-
-      // ---------- AUTH STATE LISTENER ----------
-      auth.onAuthStateChanged(async (user) => {
-        if (!user) {
-          // Not logged in — restore the login form view cleanly.
-          verifyPanel.classList.add('hidden');
-          authTabs.style.display = '';
-          googleSignInBtn.style.display = '';
-          toggleMessage.parentElement.style.display = '';
-          setActiveTab('login');
-          return;
-        }
-
+      function loadPlayerCount() {
         try {
-          const isEmailProvider = user.providerData.some(p => p.providerId === 'password');
-          if (isEmailProvider && !user.emailVerified) {
-            loginForm.style.display = 'none';
-            registerForm.style.display = 'none';
-            authTabs.style.display = 'none';
-            googleSignInBtn.style.display = 'none';
-            toggleMessage.parentElement.style.display = 'none';
-            verifyPanel.classList.remove('hidden');
-            verifyEmailDisplay.textContent = user.email;
+          if (typeof firebase === 'undefined') {
+            statPlayers.textContent = '0';
             return;
           }
 
-          const userDoc = await db.collection('users').doc(user.uid).get();
-          if (!userDoc.exists) {
-            if (user.providerData.some(p => p.providerId === 'google.com')) {
-              document.getElementById('cpName').value = user.displayName || '';
-              document.getElementById('cpEmail').value = user.email || '';
-              openModal(completeProfileModal);
-            }
-            return;
+          // Reuse an existing Firebase app if one is already initialized
+          let app;
+          if (firebase.apps && firebase.apps.length > 0) {
+            app = firebase.app();
+          } else {
+            app = firebase.initializeApp(FIREBASE_CONFIG);
           }
 
-          const userData = userDoc.data();
+          const db = firebase.firestore();
 
-          if (userData.accountStatus === 'suspended') {
-            suspensionReasonDisplay.textContent = userData.suspensionReason || 'Violation of Community Standards';
-            openModal(suspendedModal);
-            await auth.signOut();
-            return;
-          }
-
-          db.collection('users').doc(user.uid).onSnapshot((doc) => {
-            if (doc.exists) {
+          // Real-time listener — updates automatically whenever a user
+          // registers, is deleted, or is suspended
+          db.collection('users').onSnapshot(snapshot => {
+            let count = 0;
+            snapshot.forEach(doc => {
               const data = doc.data();
-              if (data.accountStatus === 'suspended') {
-                suspensionReasonDisplay.textContent = data.suspensionReason || 'Violation of Community Standards';
-                openModal(suspendedModal);
-                auth.signOut();
-              }
-            }
+              if (data.accountStatus !== 'suspended') count++;
+            });
+            animateNumber(statPlayers, count, 1200);
+          }, err => {
+            console.error('Player count listener error:', err);
+            statPlayers.textContent = '0';
           });
-
-          window.location.href = 'main.html';
-
-        } catch (error) {
-          console.error('Auth state error:', error);
-          showToast('error', 'Error', 'Could not verify account. Please try again.');
+        } catch (e) {
+          console.error('Firebase init error:', e);
+          statPlayers.textContent = '0';
         }
-      });
-
-      // ---------- INITIAL STATE ----------
-      // The register form is already hidden by CSS, but we ensure
-      // the correct toggle text is shown on first load.
-      setActiveTab('login');
-
-      // ---------- INITIAL THEME ----------
-      const savedTheme = localStorage.getItem('picklebuddy-theme');
-      if (savedTheme === 'dark') {
-        document.body.classList.add('dark');
       }
+
+      loadPlayerCount();
+
+      // ---------- SCROLL REVEAL ANIMATIONS ----------
+      const revealEls = document.querySelectorAll('.feature-card, .step-card, .section-header, .cta-box, .download-card, .faq-item, .showcase-card');
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+      revealEls.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+        observer.observe(el);
+      });
 
     })();
   </script>
