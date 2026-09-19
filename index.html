@@ -253,6 +253,9 @@
       transition: all 0.2s;
       font-family: inherit;
       box-shadow: 0 4px 14px rgba(249, 115, 22, 0.35);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .nav-cta:hover {
@@ -1540,8 +1543,9 @@
         <button class="nav-icon-btn" id="themeToggle" title="Toggle theme">
           <i class="fa-solid fa-moon"></i>
         </button>
-        <button class="nav-cta" id="navLoginBtn">
-          <i class="fa-solid fa-arrow-right-to-bracket"></i> Login
+        <button class="nav-cta" id="navAuthBtn">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i>
+          <span id="navAuthBtnText">Login</span>
         </button>
         <button class="mobile-menu-toggle" id="mobileMenuToggle" title="Menu">
           <i class="fa-solid fa-bars"></i>
@@ -1573,7 +1577,8 @@
 
         <div class="hero-cta-group">
           <button class="btn btn-primary btn-large" id="heroGetStarted">
-            <i class="fa-solid fa-rocket"></i> Get Started Free
+            <i class="fa-solid fa-rocket"></i>
+            <span id="heroGetStartedText">Get Started Free</span>
           </button>
           <a href="#features" class="btn btn-secondary btn-large">
             <i class="fa-solid fa-circle-play"></i> See Features
@@ -1814,7 +1819,8 @@
           </ul>
 
           <button class="btn btn-primary btn-large" id="showcaseJoinBtn">
-            <i class="fa-solid fa-user-plus"></i> Join PickleBuddy
+            <i class="fa-solid fa-user-plus"></i>
+            <span id="showcaseJoinBtnText">Join PickleBuddy</span>
           </button>
         </div>
 
@@ -1861,7 +1867,8 @@
         Join thousands of players already connecting on PickleBuddy. It's free, fast, and built for the pickleball community.
       </p>
       <button class="btn btn-large" id="ctaJoinBtn">
-        <i class="fa-solid fa-rocket"></i> Get Started Free
+        <i class="fa-solid fa-rocket"></i>
+        <span id="ctaJoinBtnText">Get Started Free</span>
       </button>
     </div>
   </section>
@@ -2039,9 +2046,10 @@
   </footer>
 
   <!-- ==========================================================
-       FIREBASE SDK (for live player count)
+       FIREBASE SDK
        ========================================================== -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
   <!-- ==========================================================
@@ -2052,7 +2060,7 @@
       'use strict';
 
       // ==========================================================
-      // FIREBASE CONFIG (same as login.html / main.html)
+      // FIREBASE CONFIG
       // ==========================================================
       const FIREBASE_CONFIG = {
         apiKey: "AIzaSyBfIH6Agp53uDqyXgS4HeZvh3zh0FoHeJw",
@@ -2064,10 +2072,126 @@
         measurementId: "G-XFSYS20Z09"
       };
 
-      // ---------- THEME TOGGLE ----------
+      // Initialize Firebase (reuse existing app if any)
+      let app;
+      if (firebase.apps && firebase.apps.length > 0) {
+        app = firebase.app();
+      } else {
+        app = firebase.initializeApp(FIREBASE_CONFIG);
+      }
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+
+      // ==========================================================
+      // DOM REFERENCES
+      // ==========================================================
       const themeToggle = document.getElementById('themeToggle');
       const themeIcon = themeToggle.querySelector('i');
+      const navbar = document.getElementById('navbar');
+      const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+      const navLinks = document.getElementById('navLinks');
+      const navAuthBtn = document.getElementById('navAuthBtn');
+      const navAuthBtnText = document.getElementById('navAuthBtnText');
+      const heroGetStarted = document.getElementById('heroGetStarted');
+      const heroGetStartedText = document.getElementById('heroGetStartedText');
+      const showcaseJoinBtn = document.getElementById('showcaseJoinBtn');
+      const showcaseJoinBtnText = document.getElementById('showcaseJoinBtnText');
+      const ctaJoinBtn = document.getElementById('ctaJoinBtn');
+      const ctaJoinBtnText = document.getElementById('ctaJoinBtnText');
+      const statPlayers = document.getElementById('statPlayers');
+      const heroBadgeText = document.getElementById('heroBadgeText');
 
+      // ==========================================================
+      // AUTH STATE — swap CTA buttons based on login status
+      // ==========================================================
+      let isLoggedIn = false;
+
+      /**
+       * Update every call-to-action button on the page.
+       * - Logged out:  "Get Started Free" / "Login"  → login.html
+       * - Logged in:   "Dashboard"                   → main.html
+       */
+      function updateCTAButtons(loggedIn) {
+        isLoggedIn = loggedIn;
+
+        if (loggedIn) {
+          // ---------- LOGGED IN ----------
+          // Navbar button
+          navAuthBtnText.textContent = 'Dashboard';
+          navAuthBtn.querySelector('i').className = 'fa-solid fa-gauge-high';
+
+          // Hero button
+          heroGetStartedText.textContent = 'Dashboard';
+          heroGetStarted.querySelector('i').className = 'fa-solid fa-gauge-high';
+
+          // Showcase button
+          showcaseJoinBtnText.textContent = 'Open Dashboard';
+          showcaseJoinBtn.querySelector('i').className = 'fa-solid fa-gauge-high';
+
+          // CTA box button
+          ctaJoinBtnText.textContent = 'Go to Dashboard';
+          ctaJoinBtn.querySelector('i').className = 'fa-solid fa-gauge-high';
+
+          // Hero badge
+          if (heroBadgeText) {
+            heroBadgeText.textContent = 'Welcome back — continue your pickleball journey';
+          }
+        } else {
+          // ---------- LOGGED OUT ----------
+          navAuthBtnText.textContent = 'Login';
+          navAuthBtn.querySelector('i').className = 'fa-solid fa-arrow-right-to-bracket';
+
+          heroGetStartedText.textContent = 'Get Started Free';
+          heroGetStarted.querySelector('i').className = 'fa-solid fa-rocket';
+
+          showcaseJoinBtnText.textContent = 'Join PickleBuddy';
+          showcaseJoinBtn.querySelector('i').className = 'fa-solid fa-user-plus';
+
+          ctaJoinBtnText.textContent = 'Get Started Free';
+          ctaJoinBtn.querySelector('i').className = 'fa-solid fa-rocket';
+
+          if (heroBadgeText) {
+            heroBadgeText.textContent = 'Join the fastest-growing pickleball community';
+          }
+        }
+      }
+
+      /**
+       * Navigate based on auth state.
+       * Logged in  → main.html
+       * Logged out → login.html
+       */
+      function navigateForAuth() {
+        if (isLoggedIn) {
+          window.location.href = 'main.html';
+        } else {
+          window.location.href = 'login.html';
+        }
+      }
+
+      // Wire up every CTA button to the smart navigation
+      navAuthBtn.addEventListener('click', navigateForAuth);
+      heroGetStarted.addEventListener('click', navigateForAuth);
+      showcaseJoinBtn.addEventListener('click', navigateForAuth);
+      ctaJoinBtn.addEventListener('click', navigateForAuth);
+
+      // ==========================================================
+      // LISTEN TO AUTH STATE
+      // ==========================================================
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          // Email/password users must be verified before being treated as "logged in"
+          const isEmailProvider = user.providerData.some(p => p.providerId === 'password');
+          const verified = !isEmailProvider || user.emailVerified;
+          updateCTAButtons(verified);
+        } else {
+          updateCTAButtons(false);
+        }
+      });
+
+      // ==========================================================
+      // THEME TOGGLE
+      // ==========================================================
       function applyTheme(theme) {
         if (theme === 'dark') {
           document.body.classList.add('dark');
@@ -2088,9 +2212,9 @@
         applyTheme(newTheme);
       });
 
-      // ---------- NAVBAR SCROLL EFFECT ----------
-      const navbar = document.getElementById('navbar');
-
+      // ==========================================================
+      // NAVBAR SCROLL EFFECT
+      // ==========================================================
       function handleScroll() {
         if (window.scrollY > 20) {
           navbar.classList.add('scrolled');
@@ -2102,10 +2226,9 @@
       window.addEventListener('scroll', handleScroll, { passive: true });
       handleScroll();
 
-      // ---------- MOBILE MENU ----------
-      const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-      const navLinks = document.getElementById('navLinks');
-
+      // ==========================================================
+      // MOBILE MENU
+      // ==========================================================
       mobileMenuToggle.addEventListener('click', (e) => {
         e.stopPropagation();
         navLinks.classList.toggle('mobile-open');
@@ -2117,7 +2240,6 @@
         }
       });
 
-      // Close mobile menu when clicking a link
       navLinks.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', () => {
           navLinks.classList.remove('mobile-open');
@@ -2125,7 +2247,6 @@
         });
       });
 
-      // Close mobile menu when clicking outside
       document.addEventListener('click', (e) => {
         if (navLinks.classList.contains('mobile-open') &&
             !navLinks.contains(e.target) &&
@@ -2135,17 +2256,9 @@
         }
       });
 
-      // ---------- NAVIGATION TO LOGIN ----------
-      function goToLogin() {
-        window.location.href = 'login.html';
-      }
-
-      document.getElementById('navLoginBtn').addEventListener('click', goToLogin);
-      document.getElementById('heroGetStarted').addEventListener('click', goToLogin);
-      document.getElementById('showcaseJoinBtn').addEventListener('click', goToLogin);
-      document.getElementById('ctaJoinBtn').addEventListener('click', goToLogin);
-
-      // ---------- FAQ ACCORDION ----------
+      // ==========================================================
+      // FAQ ACCORDION
+      // ==========================================================
       document.querySelectorAll('.faq-question').forEach(question => {
         question.addEventListener('click', () => {
           const item = question.parentElement;
@@ -2159,7 +2272,9 @@
         });
       });
 
-      // ---------- SMOOTH SCROLL FOR ANCHOR LINKS ----------
+      // ==========================================================
+      // SMOOTH SCROLL FOR ANCHOR LINKS
+      // ==========================================================
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
           const href = this.getAttribute('href');
@@ -2179,8 +2294,6 @@
       // ==========================================================
       // LIVE PLAYER COUNT (real-time from Firestore)
       // ==========================================================
-      const statPlayers = document.getElementById('statPlayers');
-
       function animateNumber(el, target, duration) {
         const start = 0;
         const startTime = performance.now();
@@ -2197,23 +2310,6 @@
 
       function loadPlayerCount() {
         try {
-          if (typeof firebase === 'undefined') {
-            statPlayers.textContent = '0';
-            return;
-          }
-
-          // Reuse an existing Firebase app if one is already initialized
-          let app;
-          if (firebase.apps && firebase.apps.length > 0) {
-            app = firebase.app();
-          } else {
-            app = firebase.initializeApp(FIREBASE_CONFIG);
-          }
-
-          const db = firebase.firestore();
-
-          // Real-time listener — updates automatically whenever a user
-          // registers, is deleted, or is suspended
           db.collection('users').onSnapshot(snapshot => {
             let count = 0;
             snapshot.forEach(doc => {
@@ -2233,7 +2329,9 @@
 
       loadPlayerCount();
 
-      // ---------- SCROLL REVEAL ANIMATIONS ----------
+      // ==========================================================
+      // SCROLL REVEAL ANIMATIONS
+      // ==========================================================
       const revealEls = document.querySelectorAll('.feature-card, .step-card, .section-header, .cta-box, .download-card, .faq-item, .showcase-card');
 
       const observer = new IntersectionObserver((entries) => {
