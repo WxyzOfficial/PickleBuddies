@@ -9,59 +9,84 @@
   <link rel="icon" type="image/png" href="https://johnstevenwaraya.sirv.com/Picklebuddy/picklebuddy.png">
   <link rel="shortcut icon" type="image/png" href="https://johnstevenwaraya.sirv.com/Picklebuddy/picklebuddy.png">
   <link rel="apple-touch-icon" href="https://johnstevenwaraya.sirv.com/Picklebuddy/picklebuddy.png">
-  
-  <!-- Font Awesome 6 (free) -->
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
   <style>
-    /* ---------- GLOBAL DESIGN SYSTEM ---------- */
-    * {
+    /* ==========================================================
+       GLOBAL RESET & DESIGN SYSTEM
+       ========================================================== */
+    *, *::before, *::after {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
     }
 
     :root {
-      --primary: #ffffff;
       --orange: #f97316;
       --orange-dark: #ea580c;
+      --orange-light: #fb923c;
+      --orange-soft: rgba(249, 115, 22, 0.12);
       --background: #f8f9fa;
-      --text-dark: #1f2937;
-      --text-muted: #6b7280;
+      --background-alt: #ffffff;
+      --text-dark: #0f172a;
+      --text-body: #1f2937;
+      --text-muted: #64748b;
       --border: #e5e7eb;
       --card-bg: #ffffff;
+      --green: #10b981;
+      --blue: #3b82f6;
+      --red: #ef4444;
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-      --shadow-lg: 0 12px 28px rgba(0,0,0,0.12);
-      --radius: 16px;
+      --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+      --shadow-lg: 0 20px 50px rgba(0,0,0,0.12);
+      --shadow-xl: 0 30px 70px rgba(0,0,0,0.18);
+      --radius: 20px;
       --radius-sm: 12px;
+      --radius-lg: 28px;
       --footer-height: 48px;
     }
 
     body.dark {
-      --primary: #1e1e2f;
-      --background: #121212;
-      --text-dark: #f1f1f1;
-      --text-muted: #a1a1aa;
-      --border: #2d2d3a;
-      --card-bg: #1e1e2f;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
-      --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
-      --shadow-lg: 0 12px 28px rgba(0,0,0,0.5);
-      --primary: #1e1e2f;
+      --background: #0a0a12;
+      --background-alt: #12121c;
+      --text-dark: #f1f5f9;
+      --text-body: #e2e8f0;
+      --text-muted: #94a3b8;
+      --border: #26263a;
+      --card-bg: #14141f;
+      --shadow-md: 0 4px 20px rgba(0,0,0,0.5);
+      --shadow-lg: 0 20px 50px rgba(0,0,0,0.6);
+      --shadow-xl: 0 30px 70px rgba(0,0,0,0.7);
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
       background: var(--background);
-      color: var(--text-dark);
+      color: var(--text-body);
       min-height: 100vh;
-      padding-bottom: calc(var(--footer-height) + 16px);
-      transition: background 0.2s, color 0.2s;
+      padding-bottom: var(--footer-height);
+      line-height: 1.6;
       font-size: 16px;
-      line-height: 1.5;
+      overflow-x: hidden;
+      transition: background 0.3s, color 0.3s;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* ---------- FIXED FOOTER ---------- */
+    /* ==========================================================
+       FIXED FOOTER
+       ========================================================== */
     .fixed-footer {
       position: fixed;
       bottom: 0;
@@ -75,9 +100,9 @@
       justify-content: center;
       font-size: 0.85rem;
       color: var(--text-muted);
-      z-index: 500;
-      backdrop-filter: blur(6px);
-      box-shadow: 0 -2px 8px rgba(0,0,0,0.02);
+      z-index: 900;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
     .fixed-footer i {
@@ -85,10 +110,86 @@
       margin: 0 4px;
     }
 
-    /* ---------- TOASTS & MODALS ---------- */
-    .toast-container {
+    /* ==========================================================
+       TOP BACK BUTTON
+       ========================================================== */
+    .back-home-btn {
       position: fixed;
       top: 20px;
+      left: 20px;
+      z-index: 850;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text-dark);
+      font-weight: 600;
+      font-size: 0.88rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      box-shadow: var(--shadow-sm);
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    body.dark .back-home-btn {
+      background: rgba(18, 18, 28, 0.85);
+    }
+
+    .back-home-btn:hover {
+      color: var(--orange);
+      border-color: var(--orange);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* ==========================================================
+       THEME TOGGLE (top-right)
+       ========================================================== */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 850;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      color: var(--text-dark);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: all 0.2s;
+      box-shadow: var(--shadow-sm);
+    }
+
+    body.dark .theme-toggle {
+      background: rgba(18, 18, 28, 0.85);
+    }
+
+    .theme-toggle:hover {
+      color: var(--orange);
+      border-color: var(--orange);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* ==========================================================
+       TOASTS
+       ========================================================== */
+    .toast-container {
+      position: fixed;
+      top: 80px;
       right: 20px;
       z-index: 9999;
       display: flex;
@@ -112,52 +213,47 @@
       pointer-events: auto;
       animation: slideIn 0.25s ease;
       font-size: 0.9rem;
+      border-top: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
     }
 
-    .toast.success { border-left-color: #10b981; }
-    .toast.error { border-left-color: #ef4444; }
+    .toast.success { border-left-color: var(--green); }
+    .toast.error { border-left-color: var(--red); }
     .toast.warning { border-left-color: #f59e0b; }
-    .toast.info { border-left-color: #3b82f6; }
+    .toast.info { border-left-color: var(--blue); }
 
     .toast i {
       font-size: 1.2rem;
       margin-top: 2px;
     }
 
-    .toast.success i { color: #10b981; }
-    .toast.error i { color: #ef4444; }
+    .toast.success i { color: var(--green); }
+    .toast.error i { color: var(--red); }
     .toast.warning i { color: #f59e0b; }
-    .toast.info i { color: #3b82f6; }
+    .toast.info i { color: var(--blue); }
 
-    .toast-content {
-      flex: 1;
-    }
-
-    .toast-title {
-      font-weight: 600;
-      margin-bottom: 2px;
-    }
-
-    .toast-message {
-      color: var(--text-muted);
-      font-size: 0.85rem;
-    }
+    .toast-content { flex: 1; }
+    .toast-title { font-weight: 600; margin-bottom: 2px; }
+    .toast-message { color: var(--text-muted); font-size: 0.85rem; }
 
     @keyframes slideIn {
       from { opacity: 0; transform: translateX(30px); }
       to { opacity: 1; transform: translateX(0); }
     }
-
     @keyframes fadeOut {
       to { opacity: 0; transform: translateX(30px); }
     }
 
-    /* Modal system */
+    /* ==========================================================
+       MODALS
+       ========================================================== */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(3px);
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -165,7 +261,7 @@
       padding: 16px;
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.2s, visibility 0.2s;
+      transition: opacity 0.25s, visibility 0.25s;
     }
 
     .modal-overlay.active {
@@ -180,15 +276,16 @@
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
-      box-shadow: var(--shadow-lg);
-      padding: 24px;
+      box-shadow: var(--shadow-xl);
+      padding: 28px;
       position: relative;
-      transform: scale(0.95);
-      transition: transform 0.2s;
+      transform: scale(0.94) translateY(10px);
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid var(--border);
     }
 
     .modal-overlay.active .modal-container {
-      transform: scale(1);
+      transform: scale(1) translateY(0);
     }
 
     .modal-close {
@@ -197,7 +294,7 @@
       right: 16px;
       background: none;
       border: none;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       color: var(--text-muted);
       cursor: pointer;
       width: 36px;
@@ -206,18 +303,27 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.2s;
+      transition: all 0.2s;
     }
 
     .modal-close:hover {
-      background: var(--border);
+      background: var(--background);
+      color: var(--orange);
     }
 
     .modal-container h2 {
       margin-bottom: 16px;
       font-size: 1.4rem;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--text-dark);
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-container h2 i {
+      color: var(--orange);
     }
 
     .modal-actions {
@@ -228,12 +334,15 @@
       flex-wrap: wrap;
     }
 
-    /* Loading overlay */
+    /* ==========================================================
+       LOADING OVERLAY
+       ========================================================== */
     .loading-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.4);
-      backdrop-filter: blur(4px);
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -250,21 +359,23 @@
 
     .loading-content {
       background: var(--card-bg);
-      padding: 28px 36px;
+      padding: 32px 40px;
       border-radius: var(--radius);
-      box-shadow: var(--shadow-lg);
+      box-shadow: var(--shadow-xl);
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 16px;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--text-dark);
+      border: 1px solid var(--border);
+      letter-spacing: -0.3px;
     }
 
     .spinner {
-      width: 40px;
-      height: 40px;
+      width: 44px;
+      height: 44px;
       border: 4px solid var(--border);
       border-top-color: var(--orange);
       border-radius: 50%;
@@ -273,78 +384,185 @@
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ---------- LOGIN PAGE SPECIFIC ---------- */
+    /* ==========================================================
+       LOGIN PAGE LAYOUT
+       ========================================================== */
     .login-split {
       display: flex;
-      min-height: calc(100vh - var(--footer-height) - 16px);
+      min-height: calc(100vh - var(--footer-height));
     }
 
+    /* ==========================================================
+       LEFT PANEL — BRANDING
+       ========================================================== */
     .login-left {
       flex: 1;
-      background: linear-gradient(145deg, var(--orange) 0%, var(--orange-dark) 100%);
+      background: linear-gradient(140deg, var(--orange) 0%, var(--orange-dark) 55%, #c2410c 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 40px 24px;
+      padding: 60px 40px;
       color: white;
       text-align: center;
       position: relative;
       overflow: hidden;
     }
 
-    .login-left::before {
+    /* Decorative blobs */
+    .login-left::before,
+    .login-left::after {
       content: "";
       position: absolute;
-      inset: 0;
-      background-image: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 30%),
-                        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.12) 0%, transparent 35%);
+      border-radius: 50%;
+      filter: blur(60px);
       pointer-events: none;
     }
 
+    .login-left::before {
+      width: 420px;
+      height: 420px;
+      background: radial-gradient(circle, rgba(255,255,255,0.22) 0%, transparent 70%);
+      top: -140px;
+      right: -140px;
+      animation: floatSlow 12s ease-in-out infinite;
+    }
+
+    .login-left::after {
+      width: 340px;
+      height: 340px;
+      background: radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 70%);
+      bottom: -100px;
+      left: -110px;
+      animation: floatSlow 15s ease-in-out infinite reverse;
+    }
+
+    @keyframes floatSlow {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(25px, -25px) scale(1.08); }
+    }
+
+    /* Subtle grid pattern */
+    .login-left .grid-pattern {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+      -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+      pointer-events: none;
+    }
+
+    .login-left-content {
+      position: relative;
+      z-index: 2;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Logo mark */
+    .login-left-logo {
+      width: 72px;
+      height: 72px;
+      background: rgba(255,255,255,0.18);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin-bottom: 28px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+      animation: floatCard 5s ease-in-out infinite;
+    }
+
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
     .login-left h1 {
-      font-size: 3.2rem;
-      font-weight: 800;
-      letter-spacing: -1px;
-      margin-bottom: 16px;
-      z-index: 1;
+      font-size: clamp(2.4rem, 4.5vw, 3.4rem);
+      font-weight: 900;
+      letter-spacing: -2px;
+      margin-bottom: 18px;
+      line-height: 1.05;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.12);
     }
 
-    .login-left p {
-      font-size: 1.3rem;
-      opacity: 0.95;
-      max-width: 360px;
-      margin-bottom: 8px;
-      z-index: 1;
-    }
-
-    .login-left .tagline {
-      font-size: 1.1rem;
+    .login-left .brand-tagline {
+      font-size: 1.15rem;
       font-weight: 500;
-      opacity: 0.9;
-      margin-top: 8px;
-      border-top: 2px solid rgba(255,255,255,0.3);
-      padding-top: 20px;
-      display: inline-block;
-      z-index: 1;
+      opacity: 0.95;
+      margin-bottom: 32px;
+      line-height: 1.6;
+      max-width: 380px;
+    }
+
+    /* Feature highlights */
+    .login-features {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 36px;
+      width: 100%;
+      max-width: 380px;
+      text-align: left;
+    }
+
+    .login-feature-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 14px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      transition: all 0.25s;
+    }
+
+    .login-feature-item:hover {
+      background: rgba(255,255,255,0.16);
+      transform: translateX(4px);
+    }
+
+    .login-feature-item i {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      flex-shrink: 0;
     }
 
     /* Live user count badge */
     .user-count-badge {
-      margin-top: 24px;
-      background: rgba(255,255,255,0.18);
-      backdrop-filter: blur(6px);
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255,255,255,0.3);
       border-radius: 40px;
-      padding: 10px 22px;
+      padding: 12px 24px;
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       font-size: 0.95rem;
       font-weight: 600;
-      z-index: 1;
       transition: transform 0.2s;
-      animation: fadeInUp 0.5s ease;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
     }
 
     .user-count-badge:hover {
@@ -356,42 +574,74 @@
     }
 
     .user-count-badge .count-number {
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       font-weight: 800;
       letter-spacing: -0.5px;
     }
 
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    .user-count-badge .live-pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ffffff;
+      animation: pulse 1.8s infinite;
     }
 
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    /* ==========================================================
+       RIGHT PANEL — AUTH
+       ========================================================== */
     .login-right {
       flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
+      padding: 48px 32px;
       background: var(--background);
+      position: relative;
     }
 
     .auth-card {
       background: var(--card-bg);
       border-radius: var(--radius);
-      box-shadow: var(--shadow-md);
+      box-shadow: var(--shadow-lg);
       width: 100%;
-      max-width: 420px;
-      padding: 28px 24px;
+      max-width: 440px;
+      padding: 36px 32px;
       border: 1px solid var(--border);
+      position: relative;
+    }
+
+    .auth-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .auth-header h2 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.6px;
+      margin-bottom: 6px;
+    }
+
+    .auth-header p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
     }
 
     .auth-tabs {
       display: flex;
-      gap: 8px;
-      margin-bottom: 24px;
+      gap: 4px;
+      margin-bottom: 28px;
       background: var(--background);
-      padding: 4px;
+      padding: 5px;
       border-radius: 40px;
+      border: 1px solid var(--border);
     }
 
     .auth-tab {
@@ -401,10 +651,11 @@
       border: none;
       background: transparent;
       font-weight: 600;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: var(--text-muted);
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.25s;
+      font-family: inherit;
     }
 
     .auth-tab.active {
@@ -413,29 +664,40 @@
       box-shadow: var(--shadow-sm);
     }
 
+    /* ==========================================================
+       FORM ELEMENTS
+       ========================================================== */
     .form-group {
       margin-bottom: 16px;
     }
 
     .form-group label {
       display: block;
-      font-size: 0.85rem;
+      font-size: 0.83rem;
       font-weight: 600;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       color: var(--text-dark);
+      letter-spacing: 0.1px;
     }
 
     .form-group input,
     .form-group select,
     .form-group textarea {
       width: 100%;
-      padding: 12px 14px;
+      padding: 13px 16px;
       border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       background: var(--card-bg);
       color: var(--text-dark);
       font-size: 0.95rem;
-      transition: border 0.2s, box-shadow 0.2s;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: var(--text-muted);
+      opacity: 0.7;
     }
 
     .form-group input:focus,
@@ -443,31 +705,33 @@
     .form-group textarea:focus {
       outline: none;
       border-color: var(--orange);
-      box-shadow: 0 0 0 3px rgba(249,115,22,0.15);
+      box-shadow: 0 0 0 4px rgba(249,115,22,0.12);
     }
 
     .form-group .error-text {
-      color: #ef4444;
+      color: var(--red);
       font-size: 0.75rem;
-      margin-top: 4px;
+      margin-top: 6px;
       display: none;
+      font-weight: 500;
     }
 
     .form-group.error input {
-      border-color: #ef4444;
+      border-color: var(--red);
+      box-shadow: 0 0 0 4px rgba(239,68,68,0.1);
     }
 
     .form-group.error .error-text {
       display: block;
     }
 
-    /* Password input wrapper with toggle */
+    /* Password wrapper */
     .password-wrapper {
       position: relative;
     }
 
     .password-wrapper input {
-      padding-right: 46px;
+      padding-right: 48px;
     }
 
     .password-toggle-btn {
@@ -477,8 +741,8 @@
       transform: translateY(-50%);
       background: none;
       border: none;
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -486,7 +750,7 @@
       cursor: pointer;
       color: var(--text-muted);
       font-size: 0.95rem;
-      transition: background 0.2s, color 0.2s;
+      transition: all 0.2s;
     }
 
     .password-toggle-btn:hover {
@@ -494,14 +758,9 @@
       color: var(--orange);
     }
 
-    .password-toggle-btn:focus {
-      outline: none;
-      color: var(--orange);
-    }
-
-    /* Password strength meter */
+    /* Password strength */
     .password-strength {
-      margin-top: 8px;
+      margin-top: 10px;
       display: none;
     }
 
@@ -514,7 +773,7 @@
       background: var(--border);
       border-radius: 2px;
       overflow: hidden;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .strength-bar-fill {
@@ -530,17 +789,17 @@
       color: var(--text-muted);
     }
 
-    /* Forgot password link */
+    /* Forgot password */
     .forgot-password-link {
       display: block;
       text-align: right;
-      font-size: 0.82rem;
+      font-size: 0.83rem;
       color: var(--orange);
       font-weight: 600;
       cursor: pointer;
       text-decoration: none;
-      margin-top: -8px;
-      margin-bottom: 16px;
+      margin-top: -6px;
+      margin-bottom: 18px;
       transition: color 0.15s;
     }
 
@@ -549,12 +808,14 @@
       text-decoration: underline;
     }
 
+    /* Checkbox */
     .checkbox-group {
       display: flex;
       align-items: flex-start;
       gap: 10px;
-      margin: 16px 0;
+      margin: 18px 0;
       font-size: 0.85rem;
+      line-height: 1.5;
     }
 
     .checkbox-group input[type="checkbox"] {
@@ -563,6 +824,12 @@
       accent-color: var(--orange);
       margin-top: 2px;
       flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .checkbox-group label {
+      cursor: pointer;
+      color: var(--text-muted);
     }
 
     .checkbox-group a {
@@ -572,14 +839,17 @@
       cursor: pointer;
     }
 
+    /* ==========================================================
+       BUTTONS
+       ========================================================== */
     .btn {
-      padding: 12px 20px;
+      padding: 13px 22px;
       border-radius: var(--radius-sm);
       border: none;
       font-weight: 600;
       font-size: 0.95rem;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.25s;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -587,36 +857,49 @@
       background: var(--border);
       color: var(--text-dark);
       line-height: 1.2;
+      font-family: inherit;
     }
 
     .btn-primary {
-      background: var(--orange);
+      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
       color: white;
+      box-shadow: 0 8px 22px rgba(249, 115, 22, 0.35);
     }
 
     .btn-primary:hover {
-      background: var(--orange-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(249, 115, 22, 0.5);
     }
 
     .btn-outline {
       background: transparent;
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       color: var(--text-dark);
     }
 
     .btn-outline:hover {
-      background: var(--border);
+      border-color: var(--orange);
+      color: var(--orange);
+      background: var(--orange-soft);
     }
 
     .btn-google {
-      background: white;
-      color: #1f2937;
-      border: 1px solid var(--border);
-      margin-top: 12px;
+      background: var(--card-bg);
+      color: var(--text-dark);
+      border: 1.5px solid var(--border);
+      margin-top: 16px;
+      font-weight: 600;
+    }
+
+    .btn-google:hover {
+      border-color: var(--text-dark);
+      background: var(--background);
+      transform: translateY(-1px);
     }
 
     .btn-google i {
       color: #db4437;
+      font-size: 1.05rem;
     }
 
     .btn-block {
@@ -626,11 +909,34 @@
     .btn:disabled {
       opacity: 0.6;
       cursor: not-allowed;
+      transform: none !important;
     }
 
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 22px 0 6px;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Toggle text */
     .auth-toggle-text {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 22px;
       font-size: 0.9rem;
       color: var(--text-muted);
     }
@@ -640,6 +946,12 @@
       font-weight: 600;
       cursor: pointer;
       text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .auth-toggle-text a:hover {
+      color: var(--orange-dark);
+      text-decoration: underline;
     }
 
     .hidden {
@@ -647,56 +959,80 @@
     }
 
     /* ============================================================
-       CRITICAL FIX: Ensure only ONE form is visible at a time.
-       These rules are applied BEFORE JavaScript runs, so the
-       register form never stacks on top of the login form on
-       initial page load.
+       TAB VISIBILITY — only one form shown at a time
        ============================================================ */
-    #loginForm {
-      display: block;
-    }
-    #registerForm {
-      display: none;
-    }
-    /* When the register tab is active, swap visibility */
-    #authCard.show-register #loginForm {
-      display: none;
-    }
-    #authCard.show-register #registerForm {
-      display: block;
-    }
+    #loginForm { display: block; }
+    #registerForm { display: none; }
+    #authCard.show-register #loginForm { display: none; }
+    #authCard.show-register #registerForm { display: block; }
 
-    /* Email verification state */
+    /* ==========================================================
+       EMAIL VERIFICATION PANEL
+       ========================================================== */
     .verify-panel {
       text-align: center;
-      padding: 12px 0;
+      padding: 16px 0;
     }
 
-    .verify-panel i {
-      font-size: 3.5rem;
+    .verify-icon-wrap {
+      width: 88px;
+      height: 88px;
+      margin: 0 auto 20px;
+      background: var(--orange-soft);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .verify-icon-wrap::before {
+      content: "";
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      border: 2px dashed rgba(249, 115, 22, 0.3);
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+      to { transform: rotate(360deg); }
+    }
+
+    .verify-panel i.verify-icon {
+      font-size: 2.5rem;
       color: var(--orange);
-      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
     }
 
     .verify-panel h3 {
       font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-dark);
       margin-bottom: 8px;
+      letter-spacing: -0.5px;
     }
 
-    .verify-panel p {
+    .verify-panel > p {
       color: var(--text-muted);
-      margin-bottom: 16px;
-      font-size: 0.95rem;
+      margin-bottom: 8px;
+      font-size: 0.92rem;
+      line-height: 1.6;
     }
 
     .verify-panel .email-highlight {
       font-weight: 700;
       color: var(--text-dark);
-      background: var(--border);
-      padding: 2px 8px;
+      background: var(--background);
+      border: 1px solid var(--border);
+      padding: 6px 16px;
       border-radius: 20px;
       display: inline-block;
-      margin: 4px 0;
+      margin: 8px 0 16px;
+      font-size: 0.88rem;
+      word-break: break-all;
+      max-width: 100%;
     }
 
     .verify-actions {
@@ -706,70 +1042,156 @@
       margin-top: 20px;
     }
 
-    /* ---------- RESPONSIVE ---------- */
+    /* ==========================================================
+       COMMUNITY STANDARDS MODAL CONTENT
+       ========================================================== */
+    .standards-content {
+      max-height: 60vh;
+      overflow-y: auto;
+      padding-right: 12px;
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .standards-content::-webkit-scrollbar { width: 6px; }
+    .standards-content::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px;
+    }
+
+    .standards-content h1 {
+      font-size: 1.25rem;
+      margin-bottom: 12px;
+      color: var(--text-dark);
+    }
+    .standards-content h2 {
+      font-size: 1.05rem;
+      margin: 18px 0 8px;
+      color: var(--text-dark);
+    }
+    .standards-content p {
+      margin-bottom: 10px;
+      color: var(--text-body);
+    }
+    .standards-content ul,
+    .standards-content ol {
+      padding-left: 22px;
+      margin-bottom: 12px;
+      color: var(--text-body);
+    }
+    .standards-content li {
+      margin-bottom: 4px;
+    }
+
+    /* ==========================================================
+       RESPONSIVE
+       ========================================================== */
+    @media (max-width: 1024px) {
+      .login-left {
+        padding: 40px 28px;
+      }
+      .login-features {
+        display: none;
+      }
+      .auth-card {
+        padding: 32px 24px;
+      }
+    }
+
     @media (max-width: 800px) {
       .login-split {
         flex-direction: column;
       }
+
       .login-left {
-        padding: 36px 20px;
-        min-height: 200px;
+        padding: 60px 24px 40px;
+        min-height: auto;
       }
+
       .login-left h1 {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
       }
-      .login-left p {
+
+      .login-left .brand-tagline {
         font-size: 1rem;
       }
-      .login-right {
-        padding: 20px 16px;
-      }
-      .auth-card {
-        padding: 20px 16px;
-      }
-    }
 
-    @media (max-width: 480px) {
-      .login-left h1 {
-        font-size: 2rem;
+      .login-left-logo {
+        width: 60px;
+        height: 60px;
+        font-size: 1.6rem;
+        margin-bottom: 20px;
       }
-      .modal-container {
-        padding: 18px;
+
+      .login-right {
+        padding: 32px 20px 48px;
       }
-      .toast-container {
+
+      .back-home-btn,
+      .theme-toggle {
         top: 12px;
+      }
+
+      .back-home-btn {
+        left: 12px;
+        padding: 8px 14px;
+        font-size: 0.82rem;
+      }
+
+      .theme-toggle {
+        right: 12px;
+        width: 40px;
+        height: 40px;
+      }
+
+      .toast-container {
+        top: 68px;
         right: 12px;
         width: calc(100% - 24px);
       }
     }
 
-    /* Community standards modal content */
-    .standards-content {
-      max-height: 60vh;
-      overflow-y: auto;
-      padding-right: 8px;
-      font-size: 0.9rem;
-      line-height: 1.6;
-    }
+    @media (max-width: 480px) {
+      .auth-card {
+        padding: 24px 20px;
+        border-radius: var(--radius-sm);
+      }
 
-    .standards-content h1, .standards-content h2, .standards-content h3 {
-      margin-top: 16px;
-      margin-bottom: 8px;
-    }
+      .auth-header h2 {
+        font-size: 1.35rem;
+      }
 
-    .standards-content h1 { font-size: 1.3rem; }
-    .standards-content h2 { font-size: 1.1rem; }
-    .standards-content ul {
-      padding-left: 20px;
-      margin-bottom: 12px;
-    }
-    .standards-content ol {
-      padding-left: 20px;
-      margin-bottom: 12px;
+      .login-left h1 {
+        font-size: 1.9rem;
+        letter-spacing: -1px;
+      }
+
+      .modal-container {
+        padding: 20px;
+      }
+
+      .user-count-badge {
+        padding: 10px 18px;
+        font-size: 0.88rem;
+      }
+
+      .user-count-badge .count-number {
+        font-size: 1.05rem;
+      }
     }
   </style>
 </head>
 <body>
+
+  <!-- Back to Home button -->
+  <a href="index.html" class="back-home-btn">
+    <i class="fa-solid fa-arrow-left"></i> Home
+  </a>
+
+  <!-- Theme toggle -->
+  <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+    <i class="fa-solid fa-moon"></i>
+  </button>
 
   <!-- Fixed Footer -->
   <footer class="fixed-footer">
@@ -789,30 +1211,62 @@
 
   <!-- ========== LOGIN PAGE CONTENT ========== -->
   <div class="login-split">
-    <!-- Left branding section -->
-    <div class="login-left">
-      <h1>PickleBuddy</h1>
-      <p>Find Players. Find Partners. Play Together.</p>
-      <span class="tagline"><i class="fa-solid fa-table-tennis-paddle-ball"></i> Made for Pickleball Enthusiasts</span>
 
-      <!-- Live User Count Badge -->
-      <div class="user-count-badge" id="userCountBadge" title="Registered PickleBuddy members">
-        <i class="fa-solid fa-users"></i>
-        <span class="count-number" id="userCountNumber">—</span>
-        <span>Players</span>
+    <!-- ==================== LEFT: BRANDING ==================== -->
+    <div class="login-left">
+      <div class="grid-pattern"></div>
+
+      <div class="login-left-content">
+        <div class="login-left-logo">
+          <i class="fa-solid fa-table-tennis-paddle-ball"></i>
+        </div>
+
+        <h1>PickleBuddy</h1>
+        <p class="brand-tagline">
+          Find Players. Find Partners.<br>Play Together.
+        </p>
+
+        <div class="login-features">
+          <div class="login-feature-item">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>Smart Match with compatible players</span>
+          </div>
+          <div class="login-feature-item">
+            <i class="fa-solid fa-satellite-dish"></i>
+            <span>Go live with Playing Now</span>
+          </div>
+          <div class="login-feature-item">
+            <i class="fa-solid fa-comments"></i>
+            <span>Chat with players in real time</span>
+          </div>
+        </div>
+
+        <!-- Live User Count Badge -->
+        <div class="user-count-badge" id="userCountBadge" title="Registered PickleBuddy members">
+          <span class="live-pulse"></span>
+          <i class="fa-solid fa-users"></i>
+          <span class="count-number" id="userCountNumber">—</span>
+          <span>Players</span>
+        </div>
       </div>
     </div>
 
-    <!-- Right authentication card -->
+    <!-- ==================== RIGHT: AUTH ==================== -->
     <div class="login-right">
       <div class="auth-card" id="authCard">
+
+        <div class="auth-header">
+          <h2 id="authHeaderTitle">Welcome Back</h2>
+          <p id="authHeaderSubtitle">Sign in to continue to your pickleball community</p>
+        </div>
+
         <!-- Tabs -->
         <div class="auth-tabs" id="authTabs">
           <button class="auth-tab active" data-tab="login" type="button">Login</button>
           <button class="auth-tab" data-tab="register" type="button">Create Account</button>
         </div>
 
-        <!-- Login Form -->
+        <!-- ==================== LOGIN FORM ==================== -->
         <form id="loginForm" class="auth-form">
           <div class="form-group" id="loginEmailGroup">
             <label for="loginEmail">Email Address</label>
@@ -835,9 +1289,15 @@
           <button type="submit" class="btn btn-primary btn-block" id="loginBtn">
             <i class="fa-solid fa-arrow-right-to-bracket"></i> Login
           </button>
+
+          <div class="divider">or</div>
+
+          <button type="button" class="btn btn-google btn-block" id="googleSignInBtn">
+            <i class="fa-brands fa-google"></i> Continue with Google
+          </button>
         </form>
 
-        <!-- Register Form (hidden by default via CSS above) -->
+        <!-- ==================== REGISTER FORM ==================== -->
         <form id="registerForm" class="auth-form">
           <div class="form-group" id="regNameGroup">
             <label for="regName">Full Name</label>
@@ -890,7 +1350,7 @@
           <div class="checkbox-group">
             <input type="checkbox" id="standardsCheck">
             <label for="standardsCheck">
-              I have read and agree to PickleBuddy's 
+              I have read and agree to PickleBuddy's
               <a href="#" id="viewStandardsLink">Community Standards</a>.
             </label>
           </div>
@@ -900,38 +1360,44 @@
           </button>
         </form>
 
-        <!-- Google Sign-In (always visible) -->
-        <button class="btn btn-google btn-block" id="googleSignInBtn" type="button">
-          <i class="fa-brands fa-google"></i> Continue with Google
-        </button>
-
-        <div class="auth-toggle-text">
+        <!-- ==================== TOGGLE TEXT ==================== -->
+        <div class="auth-toggle-text" id="authToggleWrap">
           <span id="toggleMessage">Don't have an account? <a href="#" id="toggleAuthLink">Create one</a></span>
         </div>
 
-        <!-- Email verification panel (hidden initially) -->
+        <!-- ==================== EMAIL VERIFICATION ==================== -->
         <div id="verifyPanel" class="verify-panel hidden">
-          <i class="fa-solid fa-envelope-circle-check"></i>
+          <div class="verify-icon-wrap">
+            <i class="fa-solid fa-envelope-circle-check verify-icon"></i>
+          </div>
           <h3>Verify Your Email</h3>
           <p>We sent a verification link to:</p>
           <p class="email-highlight" id="verifyEmailDisplay">user@email.com</p>
           <p>Please verify your email address before accessing PickleBuddy.</p>
           <div class="verify-actions">
-            <button class="btn btn-primary" id="verifiedBtn"><i class="fa-solid fa-check"></i> I've Verified My Email</button>
-            <button class="btn btn-outline" id="resendVerificationBtn"><i class="fa-solid fa-paper-plane"></i> Resend Verification Email</button>
-            <button class="btn btn-outline" id="signOutFromVerifyBtn"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button>
+            <button class="btn btn-primary" id="verifiedBtn">
+              <i class="fa-solid fa-check"></i> I've Verified My Email
+            </button>
+            <button class="btn btn-outline" id="resendVerificationBtn">
+              <i class="fa-solid fa-paper-plane"></i> Resend Verification Email
+            </button>
+            <button class="btn btn-outline" id="signOutFromVerifyBtn">
+              <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+            </button>
           </div>
         </div>
+
       </div>
     </div>
   </div>
 
   <!-- ========== MODALS ========== -->
+
   <!-- Community Standards Modal -->
   <div class="modal-overlay" id="standardsModal">
     <div class="modal-container">
       <button class="modal-close" id="closeStandardsModal"><i class="fa-solid fa-xmark"></i></button>
-      <h2><i class="fa-solid fa-scale-balanced"></i> PickleBuddy Community Standards</h2>
+      <h2><i class="fa-solid fa-scale-balanced"></i> Community Standards</h2>
       <div class="standards-content" id="standardsContent"></div>
       <div class="modal-actions">
         <button class="btn btn-primary" id="acceptStandardsBtn">I Understand</button>
@@ -944,7 +1410,7 @@
     <div class="modal-container" style="max-width:440px;">
       <button class="modal-close" id="closeForgotPasswordModal"><i class="fa-solid fa-xmark"></i></button>
       <h2><i class="fa-solid fa-key"></i> Reset Password</h2>
-      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:16px;">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:20px;">
         Enter the email address associated with your PickleBuddy account and we'll send you a link to reset your password.
       </p>
       <form id="forgotPasswordForm">
@@ -963,10 +1429,13 @@
     </div>
   </div>
 
-  <!-- Complete Profile Modal (for Google users missing data) -->
+  <!-- Complete Profile Modal (Google new user) -->
   <div class="modal-overlay" id="completeProfileModal">
     <div class="modal-container">
-      <h2><i class="fa-solid fa-user-pen"></i> Complete Your PickleBuddy Profile</h2>
+      <h2><i class="fa-solid fa-user-pen"></i> Complete Your Profile</h2>
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:20px;">
+        Just a few more details to get you started on PickleBuddy.
+      </p>
       <form id="completeProfileForm">
         <div class="form-group" id="cpNameGroup">
           <label for="cpName">Full Name</label>
@@ -975,7 +1444,7 @@
         </div>
         <div class="form-group">
           <label for="cpEmail">Email (read-only)</label>
-          <input type="email" id="cpEmail" readonly disabled style="background:var(--border);">
+          <input type="email" id="cpEmail" readonly disabled style="background:var(--background); color:var(--text-muted);">
         </div>
         <div class="form-group" id="cpAddressGroup">
           <label for="cpAddress">Address</label>
@@ -992,7 +1461,7 @@
           <input type="text" id="cpClub" placeholder="Independent Player / No Club">
         </div>
         <button type="submit" class="btn btn-primary btn-block" id="cpSubmitBtn">
-          <i class="fa-solid fa-floppy-disk"></i> Save Profile
+          <i class="fa-solid fa-floppy-disk"></i> Save & Continue
         </button>
       </form>
     </div>
@@ -1002,12 +1471,16 @@
   <div class="modal-overlay" id="suspendedModal">
     <div class="modal-container" style="max-width:480px;">
       <div style="text-align:center;">
-        <i class="fa-solid fa-ban" style="font-size:3rem; color:#ef4444; margin-bottom:16px;"></i>
-        <h2>Account Suspended</h2>
-        <p style="color:var(--text-muted); margin-bottom:16px;">Your PickleBuddy account has been suspended for violating the Community Standards.</p>
+        <i class="fa-solid fa-ban" style="font-size:3rem; color:var(--red); margin-bottom:16px;"></i>
+        <h2 style="justify-content:center;">Account Suspended</h2>
+        <p style="color:var(--text-muted); margin-bottom:16px; font-size:0.92rem;">
+          Your PickleBuddy account has been suspended for violating the Community Standards.
+        </p>
         <p><strong>Reason:</strong> <span id="suspensionReasonDisplay">—</span></p>
-        <p style="margin-top:16px; font-size:0.9rem;">If you believe this was a mistake, contact the PickleBuddy administrator.</p>
-        <button class="btn btn-outline btn-block" id="signOutSuspendedBtn" style="margin-top:20px;">
+        <p style="margin-top:16px; font-size:0.88rem; color:var(--text-muted);">
+          If you believe this was a mistake, contact the PickleBuddy administrator.
+        </p>
+        <button class="btn btn-outline btn-block" id="signOutSuspendedBtn" style="margin-top:24px;">
           <i class="fa-solid fa-right-from-bracket"></i> Sign Out
         </button>
       </div>
@@ -1111,10 +1584,13 @@
 
       // ---------- DOM ELEMENTS ----------
       const authCard = document.getElementById('authCard');
+      const authHeaderTitle = document.getElementById('authHeaderTitle');
+      const authHeaderSubtitle = document.getElementById('authHeaderSubtitle');
       const loginForm = document.getElementById('loginForm');
       const registerForm = document.getElementById('registerForm');
       const authTabs = document.getElementById('authTabs');
       const toggleMessage = document.getElementById('toggleMessage');
+      const authToggleWrap = document.getElementById('authToggleWrap');
       const verifyPanel = document.getElementById('verifyPanel');
       const googleSignInBtn = document.getElementById('googleSignInBtn');
       const standardsModal = document.getElementById('standardsModal');
@@ -1136,6 +1612,30 @@
       const closeForgotPasswordModal = document.getElementById('closeForgotPasswordModal');
       const cancelForgotPasswordBtn = document.getElementById('cancelForgotPasswordBtn');
       const userCountNumber = document.getElementById('userCountNumber');
+
+      // ---------- THEME TOGGLE ----------
+      const themeToggle = document.getElementById('themeToggle');
+      const themeIcon = themeToggle.querySelector('i');
+
+      function applyTheme(theme) {
+        if (theme === 'dark') {
+          document.body.classList.add('dark');
+          themeIcon.className = 'fa-solid fa-sun';
+        } else {
+          document.body.classList.remove('dark');
+          themeIcon.className = 'fa-solid fa-moon';
+        }
+      }
+
+      const savedTheme = localStorage.getItem('picklebuddy-theme') || 'light';
+      applyTheme(savedTheme);
+
+      themeToggle.addEventListener('click', () => {
+        const isDark = document.body.classList.contains('dark');
+        const newTheme = isDark ? 'light' : 'dark';
+        localStorage.setItem('picklebuddy-theme', newTheme);
+        applyTheme(newTheme);
+      });
 
       // ---------- SHOW / HIDE PASSWORD TOGGLES ----------
       document.querySelectorAll('.password-toggle-btn').forEach(btn => {
@@ -1419,13 +1919,8 @@
       injectStandardsContent();
 
       // ---------- MODAL CONTROL ----------
-      function openModal(modal) {
-        modal.classList.add('active');
-      }
-
-      function closeModal(modal) {
-        modal.classList.remove('active');
-      }
+      function openModal(modal) { modal.classList.add('active'); }
+      function closeModal(modal) { modal.classList.remove('active'); }
 
       document.querySelectorAll('.modal-close').forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -1490,7 +1985,7 @@
         setLoading(true);
         try {
           await auth.sendPasswordResetEmail(email);
-          showToast('success', 'Reset link sent', `A password reset link has been sent to ${email}. Check your inbox.`);
+          showToast('success', 'Reset link sent', `A password reset link has been sent to ${email}.`);
           closeModal(forgotPasswordModal);
           forgotPasswordForm.reset();
         } catch (error) {
@@ -1502,9 +1997,6 @@
       });
 
       // ---------- TAB SWITCHING ----------
-      // Uses a CSS class on the authCard to control visibility.
-      // The register form is hidden by default via CSS, so there is
-      // never a moment where both forms are stacked on top of each other.
       function setActiveTab(tab) {
         document.querySelectorAll('.auth-tab').forEach(t => {
           t.classList.toggle('active', t.dataset.tab === tab);
@@ -1512,20 +2004,22 @@
 
         if (tab === 'register') {
           authCard.classList.add('show-register');
+          authHeaderTitle.textContent = 'Create Account';
+          authHeaderSubtitle.textContent = 'Join the PickleBuddy community in seconds';
           toggleMessage.innerHTML = `Already have an account? <a href="#" id="toggleAuthLink">Login</a>`;
         } else {
           authCard.classList.remove('show-register');
+          authHeaderTitle.textContent = 'Welcome Back';
+          authHeaderSubtitle.textContent = 'Sign in to continue to your pickleball community';
           toggleMessage.innerHTML = `Don't have an account? <a href="#" id="toggleAuthLink">Create one</a>`;
         }
       }
 
-      // Tab click handler (event delegation)
       authTabs.addEventListener('click', (e) => {
         const tab = e.target.closest('.auth-tab');
         if (tab) setActiveTab(tab.dataset.tab);
       });
 
-      // Toggle link handler (event delegation)
       toggleMessage.addEventListener('click', (e) => {
         const link = e.target.closest('#toggleAuthLink');
         if (!link) return;
@@ -1561,9 +2055,9 @@
         if (password !== confirm) { markError('regConfirmGroup', true); valid = false; } else markError('regConfirmGroup', false);
         if (!address) { markError('regAddressGroup', true); valid = false; } else markError('regAddressGroup', false);
         if (!isValidPHMobile(mobile)) { markError('regMobileGroup', true); valid = false; } else markError('regMobileGroup', false);
-        
+
         const standardsError = document.getElementById('standardsError');
-        if (!standardsChecked) { standardsError.style.display = 'block'; valid = false; } 
+        if (!standardsChecked) { standardsError.style.display = 'block'; valid = false; }
         else standardsError.style.display = 'none';
 
         if (!valid) return;
@@ -1595,12 +2089,14 @@
 
           showToast('success', 'Account created', 'Verification email has been sent.');
           verifyEmailDisplay.textContent = email;
-          // Hide both forms, tabs, google button, toggle text and show verify panel
+
+          // Show verify panel, hide everything else
           loginForm.style.display = 'none';
           registerForm.style.display = 'none';
           authTabs.style.display = 'none';
-          googleSignInBtn.style.display = 'none';
-          toggleMessage.parentElement.style.display = 'none';
+          authToggleWrap.style.display = 'none';
+          authHeaderTitle.textContent = 'Verify Your Email';
+          authHeaderSubtitle.textContent = 'One more step to activate your account';
           verifyPanel.classList.remove('hidden');
 
         } catch (error) {
@@ -1798,11 +2294,9 @@
       // ---------- AUTH STATE LISTENER ----------
       auth.onAuthStateChanged(async (user) => {
         if (!user) {
-          // Not logged in — restore the login form view cleanly.
           verifyPanel.classList.add('hidden');
           authTabs.style.display = '';
-          googleSignInBtn.style.display = '';
-          toggleMessage.parentElement.style.display = '';
+          authToggleWrap.style.display = '';
           setActiveTab('login');
           return;
         }
@@ -1813,8 +2307,9 @@
             loginForm.style.display = 'none';
             registerForm.style.display = 'none';
             authTabs.style.display = 'none';
-            googleSignInBtn.style.display = 'none';
-            toggleMessage.parentElement.style.display = 'none';
+            authToggleWrap.style.display = 'none';
+            authHeaderTitle.textContent = 'Verify Your Email';
+            authHeaderSubtitle.textContent = 'One more step to activate your account';
             verifyPanel.classList.remove('hidden');
             verifyEmailDisplay.textContent = user.email;
             return;
@@ -1859,15 +2354,7 @@
       });
 
       // ---------- INITIAL STATE ----------
-      // The register form is already hidden by CSS, but we ensure
-      // the correct toggle text is shown on first load.
       setActiveTab('login');
-
-      // ---------- INITIAL THEME ----------
-      const savedTheme = localStorage.getItem('picklebuddy-theme');
-      if (savedTheme === 'dark') {
-        document.body.classList.add('dark');
-      }
 
     })();
   </script>
