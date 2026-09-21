@@ -355,7 +355,6 @@
     }
 
     .nav-item.logout-item {
-      margin-top: true;
       color: #ef4444;
     }
 
@@ -1366,6 +1365,606 @@
     .join-slot-btn:hover { background: #059669; }
     .join-slot-btn:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
 
+    /* ---------- THE PICKLE COURTS ---------- */
+    .courts-search-wrapper {
+      margin-bottom: 20px;
+    }
+
+    .courts-search-bar {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .courts-search-bar input {
+      width: 100%;
+      padding: 14px 16px 14px 48px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text-dark);
+      font-size: 0.95rem;
+    }
+
+    .courts-search-bar input:focus {
+      outline: none;
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(249,115,22,0.15);
+    }
+
+    .courts-search-bar i {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .courts-toolbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .courts-view-toggle {
+      display: inline-flex;
+      background: var(--background);
+      padding: 4px;
+      border-radius: 40px;
+      border: 1px solid var(--border);
+    }
+
+    .courts-view-btn {
+      padding: 8px 16px;
+      border: none;
+      background: transparent;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-radius: 40px;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: inherit;
+    }
+
+    .courts-view-btn.active {
+      background: var(--card-bg);
+      color: var(--text-dark);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .courts-filter-btn {
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text-dark);
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: inherit;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .courts-filter-btn:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+
+    .courts-filter-btn .filter-count {
+      background: var(--orange);
+      color: white;
+      font-size: 0.65rem;
+      padding: 1px 6px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
+    .courts-sort-select {
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text-dark);
+      font-size: 0.85rem;
+      font-family: inherit;
+      cursor: pointer;
+      margin-left: auto;
+    }
+
+    .courts-sort-select:focus {
+      outline: none;
+      border-color: var(--orange);
+    }
+
+    .active-filter-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .filter-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: rgba(249,115,22,0.12);
+      color: var(--orange-dark);
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .filter-chip button {
+      background: none;
+      border: none;
+      color: var(--orange-dark);
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+
+    .court-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 16px;
+      transition: box-shadow 0.2s, transform 0.15s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .court-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .court-card-image {
+      width: 100%;
+      height: 180px;
+      background: linear-gradient(135deg, rgba(249,115,22,0.15) 0%, rgba(59,130,246,0.15) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: var(--orange);
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .court-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .court-card-image .court-status-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      background: rgba(255,255,255,0.95);
+      color: #10b981;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .court-card-image .court-status-badge.closed {
+      color: #ef4444;
+    }
+
+    .court-card-image .court-status-badge.unverified {
+      color: #f59e0b;
+    }
+
+    .court-card-body {
+      padding: 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .court-card-title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .court-card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1.3;
+    }
+
+    .verified-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 20px;
+      background: rgba(16,185,129,0.15);
+      color: #10b981;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .verified-badge.unverified {
+      background: rgba(245,158,11,0.15);
+      color: #f59e0b;
+    }
+
+    .court-card-location {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .court-card-location i {
+      color: var(--orange);
+      font-size: 0.8rem;
+    }
+
+    .court-card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .court-meta-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      background: var(--background);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .court-meta-tag i {
+      color: var(--orange);
+      font-size: 0.7rem;
+    }
+
+    .court-card-price {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--orange-dark);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .court-card-price.unlisted {
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 0.88rem;
+      font-style: italic;
+    }
+
+    .court-card-hours {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .court-card-hours i {
+      color: var(--orange);
+    }
+
+    .court-card-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .court-card-actions .btn {
+      flex: 1;
+      padding: 9px 12px;
+      font-size: 0.82rem;
+    }
+
+    .court-province-group {
+      margin-bottom: 32px;
+    }
+
+    .court-province-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(249,115,22,0.15);
+    }
+
+    .court-province-header i {
+      color: var(--orange);
+    }
+
+    .court-province-count {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-left: auto;
+      background: var(--background);
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .court-city-header {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin: 16px 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .court-city-header i {
+      color: var(--orange);
+      font-size: 0.8rem;
+    }
+
+    .filter-modal-body {
+      max-height: 65vh;
+      overflow-y: auto;
+      padding-right: 8px;
+      margin-bottom: 8px;
+    }
+
+    .filter-section {
+      margin-bottom: 20px;
+    }
+
+    .filter-section h4 {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .filter-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .filter-option {
+      padding: 8px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--text-dark);
+      font-family: inherit;
+    }
+
+    .filter-option:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+
+    .filter-option.selected {
+      background: var(--orange);
+      color: white;
+      border-color: var(--orange);
+    }
+
+    .court-detail-hero {
+      width: 100%;
+      height: 200px;
+      border-radius: var(--radius);
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, rgba(249,115,22,0.15) 0%, rgba(59,130,246,0.15) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      color: var(--orange);
+      overflow: hidden;
+    }
+
+    .court-detail-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .court-detail-section {
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .court-detail-section:last-of-type {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .court-detail-section h4 {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .court-detail-section h4 i {
+      color: var(--orange);
+    }
+
+    .court-detail-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 0;
+      font-size: 0.88rem;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .court-detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .court-detail-row .label {
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .court-detail-row .value {
+      color: var(--text-dark);
+      font-weight: 500;
+      text-align: right;
+      word-break: break-word;
+    }
+
+    .court-detail-row .value.unavailable {
+      color: var(--text-muted);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .court-availability-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .court-availability-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      background: rgba(16,185,129,0.12);
+      color: #10b981;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .court-availability-tag.unavailable {
+      background: var(--background);
+      color: var(--text-muted);
+      text-decoration: line-through;
+      opacity: 0.7;
+    }
+
+    .court-last-verified {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      padding: 10px 12px;
+      background: var(--background);
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+    }
+
+    .court-last-verified i {
+      color: var(--orange);
+    }
+
+    .courts-empty {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--text-muted);
+    }
+
+    .courts-empty i {
+      font-size: 3rem;
+      color: var(--border);
+      margin-bottom: 16px;
+    }
+
+    .courts-empty h3 {
+      font-size: 1.1rem;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+
+    .courts-empty p {
+      font-size: 0.9rem;
+      max-width: 320px;
+      margin: 0 auto 20px;
+    }
+
+    .courts-map-placeholder {
+      background: var(--card-bg);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 48px 24px;
+      text-align: center;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .courts-map-placeholder i {
+      font-size: 3rem;
+      color: var(--border);
+      margin-bottom: 12px;
+    }
+
+    .courts-map-placeholder h3 {
+      font-size: 1.05rem;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+
+    .courts-map-placeholder p {
+      font-size: 0.88rem;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+
     /* Toast responsive */
     @media (max-width: 1200px) {
       .right-panel {
@@ -1405,6 +2004,20 @@
       }
       .app-layout {
         display: block;
+      }
+      .court-card-actions {
+        flex-direction: column;
+      }
+      .courts-sort-select {
+        margin-left: 0;
+        width: 100%;
+      }
+      .courts-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .courts-view-toggle {
+        align-self: flex-start;
       }
     }
 
@@ -1473,26 +2086,249 @@
     .standards-content h2 { font-size: 1.1rem; margin: 14px 0 6px; }
     .standards-content ul, .standards-content ol { padding-left: 20px; margin-bottom: 10px; }
 
-.download-app-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 22px;
-    background: #2563eb;
-    color: white;
-    text-decoration: none;
-    border-radius: 10px;
-    font-weight: 600;
-    transition: 0.2s;
-}
+    .download-app-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 22px;
+      background: #2563eb;
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+    .download-app-btn:hover { transform: translateY(-2px); }
+    .download-app-btn i { margin-right: 8px; }
 
-.download-app-btn:hover {
-    transform: translateY(-2px);
-}
-
-.download-app-btn i {
-    margin-right: 8px;
-}
+    /* ---------- THE EVENTS ---------- */
+    .event-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 18px;
+      transition: box-shadow 0.2s, transform 0.15s;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+    .event-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .event-card-image {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, rgba(249,115,22,0.12) 0%, rgba(59,130,246,0.12) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: var(--orange);
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .event-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .event-card-image .event-status-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      background: rgba(255,255,255,0.95);
+      color: #10b981;
+      box-shadow: var(--shadow-sm);
+    }
+    .event-card-image .event-status-badge.ongoing {
+      color: #f59e0b;
+    }
+    .event-card-image .event-status-badge.ended {
+      color: #6b7280;
+    }
+    .event-card-body {
+      padding: 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .event-card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+    .event-card-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.5;
+    }
+    .event-card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      margin-bottom: 12px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+    .event-card-meta span {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .event-card-meta i {
+      color: var(--orange);
+      width: 14px;
+      text-align: center;
+    }
+    .event-card-organizer {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      margin-top: auto;
+    }
+    .event-card-organizer .avatar {
+      width: 32px;
+      height: 32px;
+      font-size: 0.75rem;
+    }
+    .event-card-organizer-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .event-card-organizer-name {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--text-dark);
+    }
+    .event-card-organizer-date {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+    .event-card-actions {
+      display: flex;
+      gap: 8px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .event-card-actions .btn {
+      flex: 1;
+      padding: 8px 12px;
+      font-size: 0.82rem;
+    }
+    .event-detail-hero {
+      width: 100%;
+      height: 220px;
+      border-radius: var(--radius);
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, rgba(249,115,22,0.12) 0%, rgba(59,130,246,0.12) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      color: var(--orange);
+      overflow: hidden;
+    }
+    .event-detail-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .event-detail-section {
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .event-detail-section:last-of-type {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .event-detail-section h4 {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .event-detail-section h4 i {
+      color: var(--orange);
+    }
+    .event-detail-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 0;
+      font-size: 0.88rem;
+      border-bottom: 1px dashed var(--border);
+    }
+    .event-detail-row:last-child {
+      border-bottom: none;
+    }
+    .event-detail-row .label {
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+    .event-detail-row .value {
+      color: var(--text-dark);
+      font-weight: 500;
+      text-align: right;
+      word-break: break-word;
+    }
+    .event-detail-row .value.unavailable {
+      color: var(--text-muted);
+      font-style: italic;
+      font-weight: 400;
+    }
+    .events-filter-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .events-filter-btn {
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--text-dark);
+      font-family: inherit;
+      font-weight: 500;
+    }
+    .events-filter-btn:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+    .events-filter-btn.active {
+      background: var(--orange);
+      color: white;
+      border-color: var(--orange);
+    }
   </style>
 </head>
 <body>
@@ -1557,6 +2393,12 @@
         <button class="nav-item" data-view="smart-match">
           <i class="fa-solid fa-wand-magic-sparkles"></i> Smart Match
         </button>
+        <button class="nav-item" data-view="courts">
+          <i class="fa-solid fa-location-dot"></i> The Pickle Courts
+        </button>
+        <button class="nav-item" data-view="events">
+          <i class="fa-solid fa-calendar-days"></i> Events
+        </button>
         <button class="nav-item" data-view="notifications">
           <i class="fa-solid fa-bell"></i> Notifications
         </button>
@@ -1600,35 +2442,14 @@
         <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.6;">
           Keep your posts respectful. Follow the Community Standards and help make PickleBuddy a welcoming place for all players.
         </p>
-
       </div>
 
-              <a href="/app/picklebuddy.apk" download="PickleBuddy.apk" class="download-app-btn">
-    <i class="fa-brands fa-android"></i>
-    Download App
-</a>
-
+      <a href="/app/picklebuddy.apk" download="PickleBuddy.apk" class="download-app-btn">
+        <i class="fa-brands fa-android"></i>
+        Download App
+      </a>
     </aside>
   </div>
-
-  <!-- Mobile bottom nav -->
-  <!-- <nav class="mobile-bottom-nav">
-    <button class="mobile-nav-item active" data-view="home">
-      <i class="fa-solid fa-house"></i> Home
-    </button>
-    <button class="mobile-nav-item" data-view="find-partner">
-      <i class="fa-solid fa-user-group"></i> Partner
-    </button>
-    <button class="mobile-nav-item" data-view="playing-now">
-      <i class="fa-solid fa-satellite-dish"></i> Live
-    </button>
-    <button class="mobile-nav-item" data-view="messages">
-      <i class="fa-solid fa-comments"></i> Chats
-    </button>
-    <button class="mobile-nav-item" data-view="profile">
-      <i class="fa-solid fa-user"></i> Profile
-    </button>
-  </nav> -->
 
   <!-- ========== MODALS ========== -->
 
@@ -1856,7 +2677,6 @@
   <!-- Chat / Message Modal -->
   <div class="modal-overlay" id="chatModal">
     <div class="modal-container" style="max-width:520px; padding:0; overflow:hidden; display:flex; flex-direction:column; max-height:88vh;">
-      <!-- Chat header -->
       <div id="chatHeader" style="display:flex; align-items:center; gap:12px; padding:16px 20px; border-bottom:1px solid var(--border); background:var(--card-bg);">
         <div class="avatar" id="chatPartnerAvatar" style="width:42px; height:42px; font-size:1rem;">?</div>
         <div style="flex:1; min-width:0;">
@@ -1866,12 +2686,8 @@
         <button class="modal-close" id="closeChatModal" style="position:static;"><i class="fa-solid fa-xmark"></i></button>
       </div>
 
-      <!-- Messages area -->
-      <div id="chatMessages" style="flex:1; overflow-y:auto; padding:16px 20px; background:var(--background); min-height:280px; max-height:52vh; display:flex; flex-direction:column; gap:10px;">
-        <!-- Messages injected here -->
-      </div>
+      <div id="chatMessages" style="flex:1; overflow-y:auto; padding:16px 20px; background:var(--background); min-height:280px; max-height:52vh; display:flex; flex-direction:column; gap:10px;"></div>
 
-      <!-- Input area -->
       <div style="padding:12px 16px; border-top:1px solid var(--border); background:var(--card-bg);">
         <form id="chatForm" style="display:flex; gap:8px; align-items:flex-end;">
           <textarea id="chatInput" placeholder="Type a message..." rows="1" maxlength="1000"
@@ -2004,7 +2820,7 @@
     </div>
   </div>
 
-  <!-- Complete Profile Modal (required for posting if fields missing) -->
+  <!-- Complete Profile Modal -->
   <div class="modal-overlay" id="completeProfileModal">
     <div class="modal-container">
       <h2><i class="fa-solid fa-user-pen"></i> Complete Your Profile</h2>
@@ -2054,6 +2870,278 @@
     </div>
   </div>
 
+  <!-- ========== THE PICKLE COURTS MODALS ========== -->
+
+  <!-- Court Filters Modal -->
+  <div class="modal-overlay" id="courtFiltersModal">
+    <div class="modal-container">
+      <button class="modal-close" id="closeCourtFiltersModal"><i class="fa-solid fa-xmark"></i></button>
+      <h2><i class="fa-solid fa-filter"></i> Filter Courts</h2>
+      <div class="filter-modal-body" id="courtFiltersBody">
+        <div class="filter-section">
+          <h4>Province</h4>
+          <div class="filter-options" id="filterProvinceOptions"></div>
+        </div>
+        <div class="filter-section">
+          <h4>City / Municipality</h4>
+          <div class="filter-options" id="filterCityOptions"></div>
+        </div>
+        <div class="filter-section">
+          <h4>Court Type</h4>
+          <div class="filter-options" id="filterTypeOptions">
+            <button class="filter-option" data-filter="courtType" data-value="Indoor">Indoor</button>
+            <button class="filter-option" data-filter="courtType" data-value="Outdoor">Outdoor</button>
+            <button class="filter-option" data-filter="courtType" data-value="Covered">Covered</button>
+            <button class="filter-option" data-filter="courtType" data-value="Hard Court">Hard Court</button>
+            <button class="filter-option" data-filter="courtType" data-value="Other">Other</button>
+          </div>
+        </div>
+        <div class="filter-section">
+          <h4>Availability</h4>
+          <div class="filter-options" id="filterAvailabilityOptions">
+            <button class="filter-option" data-filter="openPlay" data-value="true">Open Play</button>
+            <button class="filter-option" data-filter="privateRental" data-value="true">Private Rental</button>
+            <button class="filter-option" data-filter="coaching" data-value="true">Coaching</button>
+            <button class="filter-option" data-filter="tournaments" data-value="true">Tournament / Event</button>
+          </div>
+        </div>
+        <div class="filter-section">
+          <h4>Price</h4>
+          <div class="filter-options" id="filterPriceOptions">
+            <button class="filter-option" data-filter="price" data-value="free">Free</button>
+            <button class="filter-option" data-filter="price" data-value="under100">Under ₱100</button>
+            <button class="filter-option" data-filter="price" data-value="100to200">₱100–₱200</button>
+            <button class="filter-option" data-filter="price" data-value="200to300">₱200–₱300</button>
+            <button class="filter-option" data-filter="price" data-value="300plus">₱300+</button>
+          </div>
+        </div>
+        <div class="filter-section">
+          <h4>Status</h4>
+          <div class="filter-options" id="filterStatusOptions">
+            <button class="filter-option" data-filter="status" data-value="Open">Open</button>
+            <button class="filter-option" data-filter="status" data-value="Temporarily Closed">Temporarily Closed</button>
+            <button class="filter-option" data-filter="status" data-value="Permanently Closed">Permanently Closed</button>
+            <button class="filter-option" data-filter="status" data-value="Unverified">Unverified</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="clearCourtFiltersBtn">Clear All</button>
+        <button class="btn btn-primary" id="applyCourtFiltersBtn">Apply Filters</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Court Details Modal -->
+  <div class="modal-overlay" id="courtDetailModal">
+    <div class="modal-container">
+      <button class="modal-close" id="closeCourtDetailModal"><i class="fa-solid fa-xmark"></i></button>
+      <div id="courtDetailContent"></div>
+    </div>
+  </div>
+
+  <!-- Suggest a Court Modal -->
+  <div class="modal-overlay" id="suggestCourtModal">
+    <div class="modal-container">
+      <button class="modal-close" id="closeSuggestCourtModal"><i class="fa-solid fa-xmark"></i></button>
+      <h2><i class="fa-solid fa-plus-circle"></i> Suggest a Court</h2>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px;">
+        Help the PickleBuddy community grow. Submit a court you know about — an admin will review it before it appears publicly.
+      </p>
+      <form id="suggestCourtForm">
+        <div class="form-group" id="scNameGroup">
+          <label for="scName">Court Name *</label>
+          <input type="text" id="scName" placeholder="e.g. Pickle Farm" maxlength="120">
+          <div class="error-text">Court name is required.</div>
+        </div>
+        <div class="form-row">
+          <div class="form-group" id="scProvinceGroup">
+            <label for="scProvince">Province *</label>
+            <input type="text" id="scProvince" placeholder="e.g. Samar" maxlength="80">
+            <div class="error-text">Province is required.</div>
+          </div>
+          <div class="form-group" id="scCityGroup">
+            <label for="scCity">City / Municipality *</label>
+            <input type="text" id="scCity" placeholder="e.g. Calbayog City" maxlength="80">
+            <div class="error-text">City/Municipality is required.</div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="scBarangay">Barangay (Optional)</label>
+            <input type="text" id="scBarangay" placeholder="e.g. Brgy. San Joaquin" maxlength="80">
+          </div>
+          <div class="form-group">
+            <label for="scContact">Contact Number (Optional)</label>
+            <input type="tel" id="scContact" placeholder="09XXXXXXXXX" maxlength="20">
+          </div>
+        </div>
+        <div class="form-group" id="scAddressGroup">
+          <label for="scAddress">Full Address *</label>
+          <input type="text" id="scAddress" placeholder="Street address, landmark, etc." maxlength="200">
+          <div class="error-text">Address is required.</div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="scRate">Estimated Rate (Optional)</label>
+            <input type="text" id="scRate" placeholder="e.g. ₱200/hour" maxlength="80">
+          </div>
+          <div class="form-group">
+            <label for="scFacebook">Facebook Page (Optional)</label>
+            <input type="url" id="scFacebook" placeholder="https://facebook.com/..." maxlength="250">
+          </div>
+        </div>
+        <div class="form-group" id="scDescriptionGroup">
+          <label for="scDescription">Description *</label>
+          <textarea id="scDescription" placeholder="Tell us about the court, number of courts, type, amenities..." maxlength="600"></textarea>
+          <div class="error-text">Please provide at least 10 characters.</div>
+        </div>
+        <div class="form-group">
+          <label for="scMapLink">Google Maps Link (Optional)</label>
+          <input type="url" id="scMapLink" placeholder="https://maps.google.com/..." maxlength="300">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" id="cancelSuggestCourtBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="submitSuggestCourtBtn">
+            <i class="fa-solid fa-paper-plane"></i> Submit Court
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Report Court Info Modal -->
+  <div class="modal-overlay" id="reportCourtModal">
+    <div class="modal-container">
+      <button class="modal-close" id="closeReportCourtModal"><i class="fa-solid fa-xmark"></i></button>
+      <h2><i class="fa-solid fa-triangle-exclamation"></i> Report Incorrect Information</h2>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px;">
+        Reports should be submitted honestly and in good faith. Our moderators will review your report.
+      </p>
+      <form id="reportCourtForm">
+        <div class="form-group" id="rcReasonGroup">
+          <label for="rcReason">What is incorrect? *</label>
+          <select id="rcReason">
+            <option value="">Select a reason...</option>
+            <option>Incorrect rate</option>
+            <option>Wrong address</option>
+            <option>Wrong contact number</option>
+            <option>Wrong operating hours</option>
+            <option>Court is closed</option>
+            <option>Court no longer exists</option>
+            <option>Other</option>
+          </select>
+          <div class="error-text">Please select a reason.</div>
+        </div>
+        <div class="form-group" id="rcDetailsGroup">
+          <label for="rcDetails">Details *</label>
+          <textarea id="rcDetails" placeholder="Please describe what is incorrect and, if possible, the correct information..." maxlength="500"></textarea>
+          <div class="error-text">Please provide at least 10 characters.</div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" id="cancelReportCourtBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="submitReportCourtBtn">
+            <i class="fa-solid fa-flag"></i> Submit Report
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========== THE EVENTS MODALS ========== -->
+
+  <!-- Create/Edit Event Modal -->
+  <div class="modal-overlay" id="eventModal">
+    <div class="modal-container wide">
+      <button class="modal-close" id="closeEventModal"><i class="fa-solid fa-xmark"></i></button>
+      <h2 id="eventModalTitle"><i class="fa-solid fa-calendar-plus"></i> Post an Event</h2>
+      <form id="eventForm">
+        <div class="form-group" id="evTitleGroup">
+          <label for="evTitle">Event Title *</label>
+          <input type="text" id="evTitle" placeholder="e.g. Saturday Doubles Tournament" maxlength="120">
+          <div class="error-text">Title is required (2–120 characters).</div>
+        </div>
+        <div class="form-group" id="evDescriptionGroup">
+          <label for="evDescription">Description *</label>
+          <textarea id="evDescription" placeholder="Describe your event, format, skill level, fees, etc..." maxlength="1500"></textarea>
+          <div class="char-counter"><span id="evDescCounter">0</span>/1500</div>
+          <div class="error-text">Description is required (10–1500 characters).</div>
+        </div>
+        <div class="form-row">
+          <div class="form-group" id="evDateGroup">
+            <label for="evDate">Event Date *</label>
+            <input type="date" id="evDate">
+            <div class="error-text">Event date is required and must be today or in the future.</div>
+          </div>
+          <div class="form-group" id="evStartGroup">
+            <label for="evStart">Start Time *</label>
+            <input type="time" id="evStart">
+            <div class="error-text">Start time is required.</div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group" id="evEndGroup">
+            <label for="evEnd">End Time (Optional)</label>
+            <input type="time" id="evEnd">
+            <div class="error-text">End time must be after start time.</div>
+          </div>
+          <div class="form-group" id="evLocationGroup">
+            <label for="evLocation">Location / Venue *</label>
+            <input type="text" id="evLocation" placeholder="e.g. Pickle Farm, Calbayog City" maxlength="200">
+            <div class="error-text">Location is required.</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="evContact">Contact Information (Optional)</label>
+          <input type="text" id="evContact" placeholder="Mobile number, email, or Facebook page" maxlength="200">
+        </div>
+        <div class="form-group">
+          <label>Event Image (Optional)</label>
+          <div style="display:flex; align-items:center; gap:14px;">
+            <div id="evImagePreview" style="width:100px; height:100px; border-radius:12px; background:var(--background); border:1px dashed var(--border); display:flex; align-items:center; justify-content:center; overflow:hidden; flex-shrink:0;">
+              <i class="fa-solid fa-image" style="font-size:2rem; color:var(--text-muted);"></i>
+            </div>
+            <div>
+              <input type="file" id="evImageInput" accept="image/jpeg,image/jpg,image/png,image/webp" style="display:none;">
+              <button type="button" class="btn btn-outline" id="evUploadBtn" style="font-size:0.85rem; padding:8px 14px;">
+                <i class="fa-solid fa-camera"></i> Upload Image
+              </button>
+              <button type="button" class="btn btn-outline" id="evRemoveImageBtn" style="font-size:0.85rem; padding:8px 14px; margin-left:6px;">
+                <i class="fa-solid fa-trash"></i> Remove
+              </button>
+              <p style="font-size:0.72rem; color:var(--text-muted); margin-top:6px;">
+                JPG, PNG, WEBP · Images ≥5MB are automatically compressed
+              </p>
+            </div>
+          </div>
+          <div id="evCompressionStatus" style="font-size:0.78rem; color:var(--orange); margin-top:6px; display:none;">
+            <i class="fa-solid fa-spinner fa-spin"></i> Compressing image...
+          </div>
+        </div>
+        <div style="font-size:0.82rem; color:var(--text-muted); margin-bottom:12px;">
+          <i class="fa-solid fa-circle-info" style="color:var(--orange);"></i>
+          Keep your event respectful and follow the
+          <a href="#" id="evStandardsLink" style="color:var(--orange); font-weight:600;">PickleBuddy Community Standards</a>.
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" id="cancelEventBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="submitEventBtn">
+            <i class="fa-solid fa-paper-plane"></i> Publish Event
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Event Detail Modal -->
+  <div class="modal-overlay" id="eventDetailModal">
+    <div class="modal-container wide">
+      <button class="modal-close" id="closeEventDetailModal"><i class="fa-solid fa-xmark"></i></button>
+      <div id="eventDetailContent"></div>
+      <div class="modal-actions" id="eventDetailActions"></div>
+    </div>
+  </div>
+
   <!-- ========== FIREBASE & JAVASCRIPT ========== -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
@@ -2077,10 +3165,6 @@
       firebase.initializeApp(firebaseConfig);
       const auth = firebase.auth();
       const db = firebase.firestore();
-
-      // ---------- FIRESTORE RULES COMMENT ----------
-      // NOTE: Firestore rules currently allow all reads/writes for development/testing.
-      // This is NOT secure for production. Production rules must restrict access based on auth & roles.
 
       // ---------- UTILITY FUNCTIONS ----------
       function showToast(type, title, message) {
@@ -2151,35 +3235,22 @@
         return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
       }
 
-      // ---------- GLOBAL LOCATION UTILITIES ----------
-      // Generic helpers that work with ANY address format, not tied to a specific city/region.
-      // They simply take the last N comma-separated parts as a "general location",
-      // which usually corresponds to "City/Municipality, Province/State" style.
+      function formatTime(timeStr) {
+        if (!timeStr) return '—';
+        const [h, m] = timeStr.split(':');
+        const hour = parseInt(h, 10);
+        const ampm = hour >= 12 ? 'PM' : 'AM';
+        const displayHour = hour % 12 || 12;
+        return `${displayHour}:${m} ${ampm}`;
+      }
 
-      /**
-       * Return a shortened "general location" from any user-supplied address.
-       * Example: "123 Main St, Brgy. Example, Quezon City, Metro Manila"
-       *   → "Quezon City, Metro Manila"
-       * Falls back to the raw string if parsing fails.
-       */
       function generalLocationFromAddress(address) {
         if (!address) return '';
         const parts = String(address).split(',').map(p => p.trim()).filter(Boolean);
         if (parts.length === 0) return '';
         if (parts.length === 1) return parts[0];
         if (parts.length === 2) return parts.join(', ');
-        // Take last two meaningful parts
         return parts.slice(-2).join(', ');
-      }
-
-      /**
-       * Return the first meaningful "city-level" keyword from an address.
-       * Useful for loose matching in Smart Match.
-       */
-      function cityKeywordFromLocation(location) {
-        if (!location) return '';
-        const first = String(location).split(',')[0].trim();
-        return first.toLowerCase();
       }
 
       function initialsAvatar(name) {
@@ -2212,7 +3283,6 @@
         return div;
       }
 
-      // Compress image to Base64
       function compressImage(file, maxDim, quality) {
         return new Promise((resolve, reject) => {
           const reader = new FileReader();
@@ -2245,6 +3315,12 @@
         });
       }
 
+      function getBase64SizeKB(base64String) {
+        if (!base64String) return 0;
+        const base64 = base64String.split(',')[1] || base64String;
+        return Math.round((base64.length * 3) / 4 / 1024);
+      }
+
       // ---------- GLOBAL STATE ----------
       let currentUser = null;
       let currentUserData = null;
@@ -2273,6 +3349,31 @@
       let unsubPlayingNow = null;
       let myPlayingNowDocId = null;
 
+      // Courts state
+      let allCourts = [];
+      let unsubCourts = null;
+      let courtFilters = {
+        province: [],
+        city: [],
+        courtType: [],
+        availability: [],
+        price: [],
+        status: []
+      };
+      let courtSortBy = 'name-az';
+      let courtViewMode = 'list';
+      let pendingReportCourtId = null;
+
+      // Events state
+      let allEvents = [];
+      let unsubEvents = null;
+      let editingEventId = null;
+      let pendingEventImage = null;
+      let pendingEventImageSize = 0;
+      let pendingEventImageType = '';
+      let eventFilter = 'upcoming';
+      let eventSearchQuery = '';
+
       // ---------- DOM ELEMENTS ----------
       const mainContent = document.getElementById('mainContent');
       const sidebar = document.getElementById('sidebar');
@@ -2297,7 +3398,6 @@
       const panelClub = document.getElementById('panelClub');
       const adminNavLink = document.getElementById('adminNavLink');
 
-      // Chat DOM
       const chatModal = document.getElementById('chatModal');
       const chatMessages = document.getElementById('chatMessages');
       const chatInput = document.getElementById('chatInput');
@@ -2306,6 +3406,11 @@
       const chatPartnerName = document.getElementById('chatPartnerName');
       const chatPartnerClub = document.getElementById('chatPartnerClub');
       const chatError = document.getElementById('chatError');
+
+      // Event modal elements
+      const eventModal = document.getElementById('eventModal');
+      const eventForm = document.getElementById('eventForm');
+      const eventDetailModal = document.getElementById('eventDetailModal');
 
       // ---------- MODAL HELPERS ----------
       function openModal(m) { m.classList.add('active'); }
@@ -2345,7 +3450,6 @@
         }
       });
 
-      // Confirmation modal
       function showConfirm(title, message, onConfirm) {
         document.getElementById('confirmTitle').innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color:#ef4444;"></i> ${escapeHTML(title)}`;
         document.getElementById('confirmMessage').textContent = message;
@@ -2373,7 +3477,6 @@
         content.innerHTML = `
           <h1>PickleBuddy Community Standards</h1>
           <p><strong>Effective Date: 18 September 2026</strong></p>
-          <h1> </h1>
           <p>Welcome to <strong>PickleBuddy</strong>, a community platform designed to help pickleball players find partners, opponents, and fellow players to enjoy the sport together.</p>
           <p>To keep PickleBuddy safe, respectful, inclusive, and enjoyable for everyone, all users are expected to follow these Community Standards. By using PickleBuddy, you agree to follow these rules.</p>
 
@@ -2617,7 +3720,6 @@
         item.addEventListener('click', () => switchView(item.dataset.view));
       });
 
-      // Hamburger menu
       function openSidebar() {
         sidebar.classList.add('open');
         sidebarOverlay.classList.add('active');
@@ -2642,6 +3744,8 @@
           case 'messages': renderMessages(); break;
           case 'playing-now': renderPlayingNow(); break;
           case 'smart-match': renderSmartMatch(); break;
+          case 'courts': renderCourts(); break;
+          case 'events': renderEvents(); break;
           case 'notifications': renderNotifications(); break;
           case 'standards': renderStandardsView(); break;
           case 'profile': renderProfileView(); break;
@@ -2659,17 +3763,14 @@
         title.innerHTML = '<i class="fa-solid fa-house"></i> Community Feed';
         container.appendChild(title);
 
-        // Create Post button
         const createBtn = document.createElement('button');
         createBtn.className = 'create-post-btn';
         createBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Create Post';
         createBtn.addEventListener('click', () => openPostModal());
         container.appendChild(createBtn);
 
-        // Search & filters
         container.appendChild(buildSearchAndFilters('home'));
 
-        // Posts container
         const postsContainer = document.createElement('div');
         postsContainer.id = 'postsContainer';
         container.appendChild(postsContainer);
@@ -2747,7 +3848,6 @@
         title.innerHTML = '<i class="fa-solid fa-users"></i> Players Directory';
         container.appendChild(title);
 
-        // Search
         const searchBar = document.createElement('div');
         searchBar.className = 'search-bar';
         searchBar.innerHTML = '<i class="fa-solid fa-search"></i><input type="text" id="playerSearch" placeholder="Search by name, club, or location...">';
@@ -2815,7 +3915,6 @@
           info.appendChild(club);
         }
 
-        // Show general location only (auto-adaptive, works for any format)
         if (user.address) {
           const loc = document.createElement('div');
           loc.className = 'player-detail';
@@ -2826,7 +3925,6 @@
 
         card.appendChild(info);
 
-        // Message button
         if (user.uid !== currentUser.uid) {
           const msgBtn = document.createElement('button');
           msgBtn.className = 'message-player-btn';
@@ -2840,7 +3938,6 @@
         }
 
         card.addEventListener('click', (e) => {
-          // Don't open profile if they clicked the message button
           if (e.target.closest('.message-player-btn')) return;
           openProfileModal(user);
         });
@@ -2905,7 +4002,6 @@
           </div>
         `;
 
-        // Load conversations for this user
         db.collection('conversations')
           .where('participants', 'array-contains', currentUser.uid)
           .orderBy('lastMessageAt', 'desc')
@@ -3120,7 +4216,6 @@
 
         mainContent.appendChild(container);
 
-        // Load saved preferences
         db.collection('matchPreferences').doc(currentUser.uid).get().then(doc => {
           if (doc.exists) {
             const p = doc.data();
@@ -3145,7 +4240,6 @@
       function openMatchPrefsModal() {
         const loc = document.getElementById('mpLocation');
         if (!loc.value && currentUserData && currentUserData.address) {
-          // Auto-fill with the general location derived from the user's address
           loc.value = generalLocationFromAddress(currentUserData.address);
         }
         openModal(document.getElementById('matchPrefsModal'));
@@ -3159,7 +4253,6 @@
           u.uid !== currentUser.uid && u.accountStatus === 'active'
         );
 
-        // Build normalized tokens for the current user's preferred location
         const myLocFull = (prefs.location || '').toLowerCase().trim();
         const myLocTokens = myLocFull
           .split(/[\s,]+/)
@@ -3171,7 +4264,6 @@
           let score = 0;
           const reasons = [];
 
-          // Skill match (30 pts)
           const userSkill = u.skillLevel || 'Any Skill Level';
           if (prefs.skill === 'Any Skill Level' || userSkill === 'Any Skill Level') {
             score += 20; reasons.push('Flexible skill');
@@ -3181,7 +4273,6 @@
             score += 5;
           }
 
-          // Location match — works with any country/city/province
           const theirLoc = ((u.address || '') + ' ' + (u.pickleballClub || '')).toLowerCase();
           if (myLocFull && theirLoc.includes(myLocFull)) {
             score += 25; reasons.push('Same area');
@@ -3196,14 +4287,12 @@
             }
           }
 
-          // Club match (10 pts)
           if (u.pickleballClub && currentUserData.pickleballClub &&
               u.pickleballClub === currentUserData.pickleballClub &&
               u.pickleballClub !== 'Independent Player / No Club') {
             score += 10; reasons.push('Same club');
           }
 
-          // Playing style / game type heuristic (35 pts)
           const theirPosts = allPosts.filter(p => p.authorId === u.uid);
           if (theirPosts.length > 0) {
             score += 10; reasons.push('Active poster');
@@ -3221,7 +4310,6 @@
             }
           }
 
-          // Playing Now bonus (10 pts)
           const isLive = playingNowCache.some(p => p.userId === u.uid);
           if (isLive) { score += 10; reasons.push('Playing now'); }
 
@@ -3295,7 +4383,6 @@
         });
       }
 
-      // Match preferences form
       document.getElementById('closeMatchPrefsModal').addEventListener('click', () => closeModal(document.getElementById('matchPrefsModal')));
       document.getElementById('cancelMatchPrefsBtn').addEventListener('click', () => closeModal(document.getElementById('matchPrefsModal')));
 
@@ -3361,6 +4448,1546 @@
         }
       });
 
+      // ============================================================
+      // ---------- THE PICKLE COURTS ----------
+      // ============================================================
+
+      // ---------------- RENDER COURTS VIEW ----------------
+      function renderCourts() {
+        const container = document.createElement('div');
+
+        const title = document.createElement('h2');
+        title.className = 'section-title';
+        title.innerHTML = '<i class="fa-solid fa-location-dot"></i> The Pickle Courts';
+        container.appendChild(title);
+
+        const subtitle = document.createElement('p');
+        subtitle.style.cssText = 'font-size:0.9rem; color:var(--text-muted); margin-bottom:20px;';
+        subtitle.textContent = 'Find a place to play, wherever your pickleball journey takes you.';
+        container.appendChild(subtitle);
+
+        // const suggestRow = document.createElement('div');
+        // suggestRow.style.cssText = 'display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;';
+        // const suggestBtn = document.createElement('button');
+        // suggestBtn.className = 'btn btn-primary';
+        // suggestBtn.innerHTML = '<i class="fa-solid fa-plus-circle"></i> Suggest a Court';
+        // suggestBtn.addEventListener('click', () => openModal(document.getElementById('suggestCourtModal')));
+        // suggestRow.appendChild(suggestBtn);
+        // container.appendChild(suggestRow);
+
+        const searchWrapper = document.createElement('div');
+        searchWrapper.className = 'courts-search-wrapper';
+        const searchBar = document.createElement('div');
+        searchBar.className = 'courts-search-bar';
+        searchBar.innerHTML = '<i class="fa-solid fa-search"></i><input type="text" id="courtSearchInput" placeholder="Search courts, cities, municipalities, or locations...">';
+        searchWrapper.appendChild(searchBar);
+        container.appendChild(searchWrapper);
+
+        const toolbar = document.createElement('div');
+        toolbar.className = 'courts-toolbar';
+
+        const viewToggle = document.createElement('div');
+        viewToggle.className = 'courts-view-toggle';
+        viewToggle.innerHTML = `
+          <button class="courts-view-btn active" data-view="list"><i class="fa-solid fa-list"></i> List</button>
+          <button class="courts-view-btn" data-view="map"><i class="fa-solid fa-map"></i> Map</button>
+        `;
+        viewToggle.addEventListener('click', (e) => {
+          const btn = e.target.closest('.courts-view-btn');
+          if (!btn) return;
+          viewToggle.querySelectorAll('.courts-view-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          courtViewMode = btn.dataset.view;
+          renderCourtsList();
+        });
+        toolbar.appendChild(viewToggle);
+
+        const filterBtn = document.createElement('button');
+        filterBtn.className = 'courts-filter-btn';
+        filterBtn.id = 'openCourtFiltersBtn';
+        filterBtn.innerHTML = '<i class="fa-solid fa-sliders"></i> Filters <span class="filter-count hidden" id="courtFilterCount">0</span>';
+        filterBtn.addEventListener('click', () => {
+          buildFilterOptions();
+          openModal(document.getElementById('courtFiltersModal'));
+        });
+        toolbar.appendChild(filterBtn);
+
+        const sortSelect = document.createElement('select');
+        sortSelect.className = 'courts-sort-select';
+        sortSelect.id = 'courtSortSelect';
+        sortSelect.innerHTML = `
+          <option value="name-az">Name A–Z</option>
+          <option value="name-za">Name Z–A</option>
+          <option value="lowest-rate">Lowest Rate</option>
+          <option value="highest-rate">Highest Rate</option>
+          <option value="most-courts">Most Courts</option>
+          <option value="recently-verified">Recently Verified</option>
+        `;
+        sortSelect.addEventListener('change', () => {
+          courtSortBy = sortSelect.value;
+          renderCourtsList();
+        });
+        toolbar.appendChild(sortSelect);
+
+        container.appendChild(toolbar);
+
+        const chipsContainer = document.createElement('div');
+        chipsContainer.className = 'active-filter-chips';
+        chipsContainer.id = 'activeCourtFilterChips';
+        container.appendChild(chipsContainer);
+
+        const listContainer = document.createElement('div');
+        listContainer.id = 'courtsList';
+        container.appendChild(listContainer);
+
+        mainContent.appendChild(container);
+
+        document.getElementById('courtSearchInput').addEventListener('input', debounce(() => renderCourtsList(), 250));
+
+        renderCourtsList();
+      }
+
+      // ---------------- RENDER COURTS LIST ----------------
+      function renderCourtsList() {
+        const listContainer = document.getElementById('courtsList');
+        if (!listContainer) return;
+
+        updateFilterCount();
+
+        let courts = allCourts.filter(c => c.status !== 'Pending');
+
+        const searchVal = (document.getElementById('courtSearchInput')?.value || '').toLowerCase().trim();
+        if (searchVal) {
+          courts = courts.filter(c =>
+            (c.name || '').toLowerCase().includes(searchVal) ||
+            (c.city || '').toLowerCase().includes(searchVal) ||
+            (c.municipality || '').toLowerCase().includes(searchVal) ||
+            (c.barangay || '').toLowerCase().includes(searchVal) ||
+            (c.province || '').toLowerCase().includes(searchVal) ||
+            (c.address || '').toLowerCase().includes(searchVal) ||
+            (c.courtType || '').toLowerCase().includes(searchVal)
+          );
+        }
+
+        if (courtFilters.province.length > 0) {
+          courts = courts.filter(c => courtFilters.province.includes(c.province));
+        }
+        if (courtFilters.city.length > 0) {
+          courts = courts.filter(c => courtFilters.city.includes(c.city) || courtFilters.city.includes(c.municipality));
+        }
+        if (courtFilters.courtType.length > 0) {
+          courts = courts.filter(c => courtFilters.courtType.includes(c.courtType));
+        }
+        if (courtFilters.availability.length > 0) {
+          courts = courts.filter(c => {
+            return courtFilters.availability.every(key => c[key] === true);
+          });
+        }
+        if (courtFilters.status.length > 0) {
+          courts = courts.filter(c => courtFilters.status.includes(c.status));
+        }
+        if (courtFilters.price.length > 0) {
+          courts = courts.filter(c => {
+            const priceStr = (c.regularRate || c.privateRentalRate || '').replace(/[^0-9]/g, '');
+            const price = priceStr ? parseInt(priceStr, 10) : null;
+            if (price === null) return courtFilters.price.includes('unlisted');
+            return courtFilters.price.some(f => {
+              if (f === 'free') return price === 0;
+              if (f === 'under100') return price < 100;
+              if (f === '100to200') return price >= 100 && price <= 200;
+              if (f === '200to300') return price > 200 && price <= 300;
+              if (f === '300plus') return price > 300;
+              return false;
+            });
+          });
+        }
+
+        courts.sort((a, b) => {
+          const getPrice = (c) => {
+            const p = (c.regularRate || c.privateRentalRate || '').replace(/[^0-9]/g, '');
+            return p ? parseInt(p, 10) : Infinity;
+          };
+          const getVerifiedMillis = (c) => {
+            if (!c.lastVerified) return 0;
+            return c.lastVerified.toMillis ? c.lastVerified.toMillis() : new Date(c.lastVerified).getTime();
+          };
+
+          switch (courtSortBy) {
+            case 'name-az': return (a.name || '').localeCompare(b.name || '');
+            case 'name-za': return (b.name || '').localeCompare(a.name || '');
+            case 'lowest-rate': return getPrice(a) - getPrice(b);
+            case 'highest-rate': return getPrice(b) - getPrice(a);
+            case 'most-courts': return (b.courtCount || 0) - (a.courtCount || 0);
+            case 'recently-verified': return getVerifiedMillis(b) - getVerifiedMillis(a);
+            default: return 0;
+          }
+        });
+
+        renderActiveFilterChips();
+
+        if (courts.length === 0) {
+          listContainer.innerHTML = `
+            <div class="courts-empty">
+              <i class="fa-solid fa-table-tennis-paddle-ball"></i>
+              <h3>No pickleball courts found.</h3>
+              <p>Try changing your search or filters.</p>
+            </div>
+          `;
+          const btn = document.getElementById('emptySuggestCourtBtn');
+          if (btn) btn.addEventListener('click', () => openModal(document.getElementById('suggestCourtModal')));
+          return;
+        }
+
+        if (courtViewMode === 'map') {
+          renderCourtsMapView(courts, listContainer);
+          return;
+        }
+
+        const groups = {};
+        courts.forEach(c => {
+          const province = c.province || 'Other';
+          const city = c.city || c.municipality || 'Other';
+          if (!groups[province]) groups[province] = {};
+          if (!groups[province][city]) groups[province][city] = [];
+          groups[province][city].push(c);
+        });
+
+        listContainer.innerHTML = '';
+
+        Object.keys(groups).sort().forEach(province => {
+          const provinceGroup = document.createElement('div');
+          provinceGroup.className = 'court-province-group';
+
+          const totalInProvince = Object.values(groups[province]).reduce((sum, arr) => sum + arr.length, 0);
+          const provinceHeader = document.createElement('div');
+          provinceHeader.className = 'court-province-header';
+          provinceHeader.innerHTML = `
+            <i class="fa-solid fa-map-location-dot"></i>
+            <span>${escapeHTML(province)}</span>
+            <span class="court-province-count">${totalInProvince} court${totalInProvince !== 1 ? 's' : ''}</span>
+          `;
+          provinceGroup.appendChild(provinceHeader);
+
+          Object.keys(groups[province]).sort().forEach(city => {
+            const cityHeader = document.createElement('div');
+            cityHeader.className = 'court-city-header';
+            cityHeader.innerHTML = `<i class="fa-solid fa-location-dot"></i> ${escapeHTML(city)}`;
+            provinceGroup.appendChild(cityHeader);
+
+            groups[province][city].forEach(court => {
+              provinceGroup.appendChild(buildCourtCard(court));
+            });
+          });
+
+          listContainer.appendChild(provinceGroup);
+        });
+      }
+
+      function renderCourtsMapView(courts, listContainer) {
+        listContainer.innerHTML = `
+          <div class="courts-map-placeholder">
+            <i class="fa-solid fa-map-location-dot"></i>
+            <h3>Map View Coming Soon</h3>
+            <p>We're working on an interactive map. For now, use List View to browse all ${courts.length} court${courts.length !== 1 ? 's' : ''}.</p>
+          </div>
+        `;
+        const subList = document.createElement('div');
+        courts.forEach(c => subList.appendChild(buildCourtCard(c)));
+        listContainer.appendChild(subList);
+      }
+
+      // ---------------- BUILD COURT CARD ----------------
+      function buildCourtCard(court) {
+        const card = document.createElement('div');
+        card.className = 'court-card';
+
+        const imageWrap = document.createElement('div');
+        imageWrap.className = 'court-card-image';
+        if (court.imageUrl) {
+          const img = document.createElement('img');
+          img.src = court.imageUrl;
+          img.alt = court.name || 'Court';
+          img.loading = 'lazy';
+          img.onerror = function() {
+            imageWrap.innerHTML = '<i class="fa-solid fa-table-tennis-paddle-ball"></i>';
+          };
+          imageWrap.appendChild(img);
+        } else {
+          imageWrap.innerHTML = '<i class="fa-solid fa-table-tennis-paddle-ball"></i>';
+        }
+
+        const statusBadge = document.createElement('span');
+        statusBadge.className = 'court-status-badge';
+        if (court.status === 'Open') {
+          statusBadge.textContent = 'Open';
+        } else if (court.status === 'Temporarily Closed') {
+          statusBadge.classList.add('closed');
+          statusBadge.textContent = 'Temporarily Closed';
+        } else if (court.status === 'Permanently Closed') {
+          statusBadge.classList.add('closed');
+          statusBadge.textContent = 'Closed';
+        } else {
+          statusBadge.classList.add('unverified');
+          statusBadge.textContent = 'Unverified';
+        }
+        imageWrap.appendChild(statusBadge);
+        card.appendChild(imageWrap);
+
+        const body = document.createElement('div');
+        body.className = 'court-card-body';
+
+        const titleRow = document.createElement('div');
+        titleRow.className = 'court-card-title-row';
+        const titleEl = document.createElement('div');
+        titleEl.className = 'court-card-title';
+        titleEl.textContent = court.name || 'Unnamed Court';
+        titleRow.appendChild(titleEl);
+
+        const verifiedBadge = document.createElement('span');
+        if (court.verified) {
+          verifiedBadge.className = 'verified-badge';
+          verifiedBadge.innerHTML = '<i class="fa-solid fa-circle-check"></i> Verified';
+        } else {
+          verifiedBadge.className = 'verified-badge unverified';
+          verifiedBadge.innerHTML = '<i class="fa-solid fa-circle-question"></i> Unverified';
+        }
+        titleRow.appendChild(verifiedBadge);
+        body.appendChild(titleRow);
+
+        const location = document.createElement('div');
+        location.className = 'court-card-location';
+        const locParts = [court.city || court.municipality, court.province].filter(Boolean);
+        location.innerHTML = `<i class="fa-solid fa-location-dot"></i> ${escapeHTML(locParts.join(', ') || 'Location unavailable')}`;
+        body.appendChild(location);
+
+        const meta = document.createElement('div');
+        meta.className = 'court-card-meta';
+        if (court.courtCount) {
+          meta.innerHTML += `<span class="court-meta-tag"><i class="fa-solid fa-table-tennis-paddle-ball"></i> ${court.courtCount} court${court.courtCount !== 1 ? 's' : ''}</span>`;
+        }
+        if (court.indoorOutdoor) {
+          meta.innerHTML += `<span class="court-meta-tag"><i class="fa-solid fa-building"></i> ${escapeHTML(court.indoorOutdoor)}</span>`;
+        }
+        if (court.privateRental) {
+          meta.innerHTML += `<span class="court-meta-tag"><i class="fa-solid fa-calendar-check"></i> Private Rental</span>`;
+        }
+        if (court.openPlay) {
+          meta.innerHTML += `<span class="court-meta-tag"><i class="fa-solid fa-users"></i> Open Play</span>`;
+        }
+        body.appendChild(meta);
+
+        const price = document.createElement('div');
+        if (court.regularRate || court.privateRentalRate) {
+          price.className = 'court-card-price';
+          price.innerHTML = `<i class="fa-solid fa-money-bill"></i> ${escapeHTML(court.regularRate || court.privateRentalRate)}`;
+        } else {
+          price.className = 'court-card-price unlisted';
+          price.innerHTML = `<i class="fa-solid fa-money-bill"></i> Rate not publicly listed`;
+        }
+        body.appendChild(price);
+
+        if (court.openingTime && court.closingTime) {
+          const hours = document.createElement('div');
+          hours.className = 'court-card-hours';
+          hours.innerHTML = `<i class="fa-solid fa-clock"></i> ${escapeHTML(court.openingTime)} – ${escapeHTML(court.closingTime)}`;
+          body.appendChild(hours);
+        }
+
+        const actions = document.createElement('div');
+        actions.className = 'court-card-actions';
+
+        const viewBtn = document.createElement('button');
+        viewBtn.className = 'btn btn-primary';
+        viewBtn.innerHTML = '<i class="fa-solid fa-eye"></i> View Details';
+        viewBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openCourtDetail(court);
+        });
+        actions.appendChild(viewBtn);
+
+        const directionsBtn = document.createElement('button');
+        directionsBtn.className = 'btn btn-outline';
+        directionsBtn.innerHTML = '<i class="fa-solid fa-map"></i> Get Directions';
+        directionsBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openCourtDirections(court);
+        });
+        actions.appendChild(directionsBtn);
+
+        body.appendChild(actions);
+        card.appendChild(body);
+        return card;
+      }
+
+      // ---------------- COURT DETAILS MODAL ----------------
+      function openCourtDetail(court) {
+        const content = document.getElementById('courtDetailContent');
+        content.innerHTML = '';
+
+        const hero = document.createElement('div');
+        hero.className = 'court-detail-hero';
+        if (court.imageUrl) {
+          const img = document.createElement('img');
+          img.src = court.imageUrl;
+          img.alt = court.name || 'Court';
+          img.onerror = function() { hero.innerHTML = '<i class="fa-solid fa-table-tennis-paddle-ball"></i>'; };
+          hero.appendChild(img);
+        } else {
+          hero.innerHTML = '<i class="fa-solid fa-table-tennis-paddle-ball"></i>';
+        }
+        content.appendChild(hero);
+
+        const title = document.createElement('h2');
+        title.textContent = court.name || 'Unnamed Court';
+        content.appendChild(title);
+
+        const verifiedLine = document.createElement('div');
+        if (court.verified) {
+          verifiedLine.innerHTML = '<span class="verified-badge"><i class="fa-solid fa-circle-check"></i> Verified Court</span>';
+        } else {
+          verifiedLine.innerHTML = '<span class="verified-badge unverified"><i class="fa-solid fa-circle-question"></i> Information not verified</span>';
+        }
+        verifiedLine.style.marginBottom = '14px';
+        content.appendChild(verifiedLine);
+
+        if (court.lastVerified) {
+          const lastVerified = document.createElement('div');
+          lastVerified.className = 'court-last-verified';
+          const d = court.lastVerified.toDate ? court.lastVerified.toDate() : new Date(court.lastVerified);
+          lastVerified.innerHTML = `<i class="fa-solid fa-calendar-check"></i> Last verified: ${d.toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}`;
+          content.appendChild(lastVerified);
+        }
+
+        content.appendChild(buildDetailSection('Court Information', [
+          { label: 'Location', value: [court.city || court.municipality, court.province].filter(Boolean).join(', ') },
+          { label: 'Barangay', value: court.barangay },
+          { label: 'Full Address', value: court.address },
+          { label: 'Number of Courts', value: court.courtCount },
+          { label: 'Court Type', value: court.courtType },
+          { label: 'Indoor / Outdoor', value: court.indoorOutdoor },
+          { label: 'Surface', value: court.surface },
+          { label: 'Description', value: court.description, multiline: true },
+        ]));
+
+        content.appendChild(buildDetailSection('Pricing', [
+          { label: 'Regular Rate', value: court.regularRate },
+          { label: 'Peak Rate', value: court.peakRate },
+          { label: 'Night Rate', value: court.nightRate },
+          { label: 'Open Play Rate', value: court.openPlayRate },
+          { label: 'Private Rental Rate', value: court.privateRentalRate },
+        ]));
+
+        content.appendChild(buildDetailSection('Schedule', [
+          { label: 'Opening Time', value: court.openingTime },
+          { label: 'Closing Time', value: court.closingTime },
+        ]));
+
+        const availSection = document.createElement('div');
+        availSection.className = 'court-detail-section';
+        availSection.innerHTML = '<h4><i class="fa-solid fa-check-circle"></i> Availability</h4>';
+        const tagsWrap = document.createElement('div');
+        tagsWrap.className = 'court-availability-tags';
+        tagsWrap.innerHTML = `
+          <span class="court-availability-tag ${!court.openPlay ? 'unavailable' : ''}"><i class="fa-solid fa-users"></i> Open Play</span>
+          <span class="court-availability-tag ${!court.privateRental ? 'unavailable' : ''}"><i class="fa-solid fa-calendar-check"></i> Private Rental</span>
+          <span class="court-availability-tag ${!court.coaching ? 'unavailable' : ''}"><i class="fa-solid fa-user-tie"></i> Coaching</span>
+          <span class="court-availability-tag ${!court.tournaments ? 'unavailable' : ''}"><i class="fa-solid fa-trophy"></i> Tournaments</span>
+        `;
+        availSection.appendChild(tagsWrap);
+        content.appendChild(availSection);
+
+        const contactRows = [
+          { label: 'Contact Number', value: court.contactNumber },
+          { label: 'Facebook Page', value: court.facebookUrl, link: court.facebookUrl },
+          { label: 'Booking Link', value: court.bookingUrl, link: court.bookingUrl },
+        ];
+        content.appendChild(buildDetailSection('Contact', contactRows, true));
+
+        const actionsWrap = document.createElement('div');
+        actionsWrap.className = 'modal-actions';
+        actionsWrap.style.flexWrap = 'wrap';
+
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'btn btn-outline';
+        closeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i> Close';
+        closeBtn.addEventListener('click', () => closeModal(document.getElementById('courtDetailModal')));
+        actionsWrap.appendChild(closeBtn);
+
+        const reportBtn = document.createElement('button');
+        reportBtn.className = 'btn btn-outline';
+        reportBtn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Report Info';
+        reportBtn.addEventListener('click', () => {
+          closeModal(document.getElementById('courtDetailModal'));
+          openReportCourtModal(court.id);
+        });
+        actionsWrap.appendChild(reportBtn);
+
+        if (court.address || (court.latitude && court.longitude)) {
+          const dirBtn = document.createElement('button');
+          dirBtn.className = 'btn btn-primary';
+          dirBtn.innerHTML = '<i class="fa-solid fa-map"></i> Get Directions';
+          dirBtn.addEventListener('click', () => openCourtDirections(court));
+          actionsWrap.appendChild(dirBtn);
+        }
+
+        content.appendChild(actionsWrap);
+        openModal(document.getElementById('courtDetailModal'));
+      }
+
+      function buildDetailSection(title, rows, allowLinks) {
+        const section = document.createElement('div');
+        section.className = 'court-detail-section';
+        section.innerHTML = `<h4><i class="fa-solid fa-circle-info"></i> ${escapeHTML(title)}</h4>`;
+
+        rows.forEach(row => {
+          const div = document.createElement('div');
+          div.className = 'court-detail-row';
+
+          const label = document.createElement('div');
+          label.className = 'label';
+          label.textContent = row.label;
+          div.appendChild(label);
+
+          const value = document.createElement('div');
+          value.className = 'value';
+
+          if (row.value === 0) {
+            value.textContent = '0';
+          } else if (row.value) {
+            if (row.link && allowLinks) {
+              const a = document.createElement('a');
+              a.href = row.link;
+              a.target = '_blank';
+              a.rel = 'noopener noreferrer';
+              a.textContent = row.value;
+              a.style.color = 'var(--orange)';
+              a.style.textDecoration = 'underline';
+              value.appendChild(a);
+            } else {
+              value.textContent = String(row.value);
+            }
+          } else {
+            value.classList.add('unavailable');
+            value.textContent = 'Not publicly listed';
+          }
+
+          div.appendChild(value);
+          section.appendChild(div);
+        });
+
+        return section;
+      }
+
+      function openCourtDirections(court) {
+        let url = '';
+        if (court.latitude && court.longitude) {
+          url = `https://www.google.com/maps/search/?api=1&query=${court.latitude},${court.longitude}`;
+        } else if (court.address) {
+          const q = [court.name, court.address, court.city || court.municipality, court.province].filter(Boolean).join(', ');
+          url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+        } else {
+          showToast('info', 'No location', 'This court does not have an address or coordinates listed.');
+          return;
+        }
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }
+
+      // ---------------- FILTERS ----------------
+      function buildFilterOptions() {
+        const provinceEl = document.getElementById('filterProvinceOptions');
+        provinceEl.innerHTML = '';
+        const provinces = [...new Set(allCourts.map(c => c.province).filter(Boolean))].sort();
+        provinces.forEach(p => {
+          const btn = document.createElement('button');
+          btn.className = 'filter-option' + (courtFilters.province.includes(p) ? ' selected' : '');
+          btn.textContent = p;
+          btn.addEventListener('click', () => {
+            const arr = courtFilters.province;
+            const idx = arr.indexOf(p);
+            if (idx >= 0) arr.splice(idx, 1);
+            else arr.push(p);
+            btn.classList.toggle('selected');
+          });
+          provinceEl.appendChild(btn);
+        });
+
+        const cityEl = document.getElementById('filterCityOptions');
+        cityEl.innerHTML = '';
+        const cities = [...new Set(allCourts.flatMap(c => [c.city, c.municipality]).filter(Boolean))].sort();
+        cities.forEach(c => {
+          const btn = document.createElement('button');
+          btn.className = 'filter-option' + (courtFilters.city.includes(c) ? ' selected' : '');
+          btn.textContent = c;
+          btn.addEventListener('click', () => {
+            const arr = courtFilters.city;
+            const idx = arr.indexOf(c);
+            if (idx >= 0) arr.splice(idx, 1);
+            else arr.push(c);
+            btn.classList.toggle('selected');
+          });
+          cityEl.appendChild(btn);
+        });
+
+        document.querySelectorAll('#filterTypeOptions .filter-option').forEach(btn => {
+          btn.classList.toggle('selected', courtFilters.courtType.includes(btn.dataset.value));
+          btn.onclick = () => {
+            const arr = courtFilters.courtType;
+            const idx = arr.indexOf(btn.dataset.value);
+            if (idx >= 0) arr.splice(idx, 1);
+            else arr.push(btn.dataset.value);
+            btn.classList.toggle('selected');
+          };
+        });
+        document.querySelectorAll('#filterAvailabilityOptions .filter-option').forEach(btn => {
+          const key = btn.dataset.filter;
+          btn.classList.toggle('selected', courtFilters.availability.includes(key));
+          btn.onclick = () => {
+            const arr = courtFilters.availability;
+            const idx = arr.indexOf(key);
+            if (idx >= 0) arr.splice(idx, 1);
+            else arr.push(key);
+            btn.classList.toggle('selected');
+          };
+        });
+        document.querySelectorAll('#filterPriceOptions .filter-option').forEach(btn => {
+          btn.classList.toggle('selected', courtFilters.price.includes(btn.dataset.value));
+          btn.onclick = () => {
+            const arr = courtFilters.price;
+            const idx = arr.indexOf(btn.dataset.value);
+            if (idx >= 0) arr.splice(idx, 1);
+            else arr.push(btn.dataset.value);
+            btn.classList.toggle('selected');
+          };
+        });
+        document.querySelectorAll('#filterStatusOptions .filter-option').forEach(btn => {
+          btn.classList.toggle('selected', courtFilters.status.includes(btn.dataset.value));
+          btn.onclick = () => {
+            const arr = courtFilters.status;
+            const idx = arr.indexOf(btn.dataset.value);
+            if (idx >= 0) arr.splice(idx, 1);
+            else arr.push(btn.dataset.value);
+            btn.classList.toggle('selected');
+          };
+        });
+      }
+
+      function updateFilterCount() {
+        const total = Object.values(courtFilters).reduce((sum, arr) => sum + arr.length, 0);
+        const badge = document.getElementById('courtFilterCount');
+        if (badge) {
+          if (total > 0) {
+            badge.textContent = total;
+            badge.classList.remove('hidden');
+          } else {
+            badge.classList.add('hidden');
+          }
+        }
+      }
+
+      function renderActiveFilterChips() {
+        const container = document.getElementById('activeCourtFilterChips');
+        if (!container) return;
+        container.innerHTML = '';
+
+        Object.keys(courtFilters).forEach(key => {
+          courtFilters[key].forEach(value => {
+            const chip = document.createElement('span');
+            chip.className = 'filter-chip';
+            chip.innerHTML = `${escapeHTML(value)} <button><i class="fa-solid fa-xmark"></i></button>`;
+            chip.querySelector('button').addEventListener('click', () => {
+              const arr = courtFilters[key];
+              const idx = arr.indexOf(value);
+              if (idx >= 0) arr.splice(idx, 1);
+              renderCourtsList();
+            });
+            container.appendChild(chip);
+          });
+        });
+      }
+
+      document.getElementById('closeCourtFiltersModal').addEventListener('click', () => closeModal(document.getElementById('courtFiltersModal')));
+      document.getElementById('applyCourtFiltersBtn').addEventListener('click', () => {
+        closeModal(document.getElementById('courtFiltersModal'));
+        renderCourtsList();
+      });
+      document.getElementById('clearCourtFiltersBtn').addEventListener('click', () => {
+        courtFilters = { province: [], city: [], courtType: [], availability: [], price: [], status: [] };
+        document.querySelectorAll('#courtFiltersModal .filter-option').forEach(b => b.classList.remove('selected'));
+        closeModal(document.getElementById('courtFiltersModal'));
+        renderCourtsList();
+      });
+
+      // ---------------- SUGGEST A COURT ----------------
+      document.getElementById('closeSuggestCourtModal').addEventListener('click', () => closeModal(document.getElementById('suggestCourtModal')));
+      document.getElementById('cancelSuggestCourtBtn').addEventListener('click', () => {
+        closeModal(document.getElementById('suggestCourtModal'));
+        document.getElementById('suggestCourtForm').reset();
+      });
+
+      document.getElementById('suggestCourtForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('scName').value.trim();
+        const province = document.getElementById('scProvince').value.trim();
+        const city = document.getElementById('scCity').value.trim();
+        const barangay = document.getElementById('scBarangay').value.trim();
+        const address = document.getElementById('scAddress').value.trim();
+        const contact = document.getElementById('scContact').value.trim();
+        const rate = document.getElementById('scRate').value.trim();
+        const facebook = document.getElementById('scFacebook').value.trim();
+        const description = document.getElementById('scDescription').value.trim();
+        const mapLink = document.getElementById('scMapLink').value.trim();
+
+        let valid = true;
+        if (!name) { document.getElementById('scNameGroup').classList.add('error'); valid = false; }
+        else document.getElementById('scNameGroup').classList.remove('error');
+        if (!province) { document.getElementById('scProvinceGroup').classList.add('error'); valid = false; }
+        else document.getElementById('scProvinceGroup').classList.remove('error');
+        if (!city) { document.getElementById('scCityGroup').classList.add('error'); valid = false; }
+        else document.getElementById('scCityGroup').classList.remove('error');
+        if (!address) { document.getElementById('scAddressGroup').classList.add('error'); valid = false; }
+        else document.getElementById('scAddressGroup').classList.remove('error');
+        if (description.length < 10) { document.getElementById('scDescriptionGroup').classList.add('error'); valid = false; }
+        else document.getElementById('scDescriptionGroup').classList.remove('error');
+
+        if (!valid) return;
+
+        setLoading(true);
+        try {
+          await db.collection('courtSuggestions').add({
+            name, province, city, barangay, address, contact, rate, facebook,
+            description, mapLink,
+            submittedBy: currentUser.uid,
+            submittedByName: currentUserData.name || 'User',
+            status: 'Pending',
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          showToast('success', 'Suggestion submitted', 'Thank you! An admin will review your submission.');
+          closeModal(document.getElementById('suggestCourtModal'));
+          document.getElementById('suggestCourtForm').reset();
+        } catch (error) {
+          console.error('Court suggestion error:', error);
+          showToast('error', 'Error', 'Could not submit suggestion. Please try again.');
+        } finally {
+          setLoading(false);
+        }
+      });
+
+      // ---------------- REPORT COURT INFO ----------------
+      function openReportCourtModal(courtId) {
+        pendingReportCourtId = courtId;
+        document.getElementById('reportCourtForm').reset();
+        document.getElementById('rcReasonGroup').classList.remove('error');
+        document.getElementById('rcDetailsGroup').classList.remove('error');
+        openModal(document.getElementById('reportCourtModal'));
+      }
+
+      document.getElementById('closeReportCourtModal').addEventListener('click', () => closeModal(document.getElementById('reportCourtModal')));
+      document.getElementById('cancelReportCourtBtn').addEventListener('click', () => {
+        closeModal(document.getElementById('reportCourtModal'));
+        pendingReportCourtId = null;
+      });
+
+      document.getElementById('reportCourtForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const reason = document.getElementById('rcReason').value;
+        const details = document.getElementById('rcDetails').value.trim();
+
+        let valid = true;
+        if (!reason) { document.getElementById('rcReasonGroup').classList.add('error'); valid = false; }
+        else document.getElementById('rcReasonGroup').classList.remove('error');
+        if (details.length < 10) { document.getElementById('rcDetailsGroup').classList.add('error'); valid = false; }
+        else document.getElementById('rcDetailsGroup').classList.remove('error');
+
+        if (!valid) return;
+
+        setLoading(true);
+        try {
+          await db.collection('courtReports').add({
+            courtId: pendingReportCourtId,
+            reporterUid: currentUser.uid,
+            reporterName: currentUserData.name || 'User',
+            reason: reason,
+            details: details,
+            status: 'Pending',
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          showToast('success', 'Report submitted', 'Thank you. Our moderators will review this report.');
+          closeModal(document.getElementById('reportCourtModal'));
+          pendingReportCourtId = null;
+        } catch (error) {
+          console.error('Court report error:', error);
+          showToast('error', 'Error', 'Could not submit report. Please try again.');
+        } finally {
+          setLoading(false);
+        }
+      });
+
+      // ---------------- COURTS FIRESTORE LISTENER ----------------
+      function setupCourtsListener() {
+        if (unsubCourts) unsubCourts();
+        unsubCourts = db.collection('pickleCourts')
+          .orderBy('name')
+          .limit(500)
+          .onSnapshot(snapshot => {
+            allCourts = [];
+            snapshot.forEach(doc => {
+              allCourts.push({ id: doc.id, ...doc.data() });
+            });
+            if (currentView === 'courts') renderCourtsList();
+          }, err => {
+            console.error('Courts listener error:', err);
+          });
+      }
+
+      // ============================================================
+      // ---------- THE EVENTS ----------
+      // ============================================================
+
+      function getEventStatus(event) {
+        if (!event.eventDate || !event.startTime) return 'Upcoming';
+        const now = new Date();
+        const eventStart = new Date(`${event.eventDate}T${event.startTime}`);
+        const eventEnd = event.endTime
+          ? new Date(`${event.eventDate}T${event.endTime}`)
+          : new Date(eventStart.getTime() + 2 * 60 * 60 * 1000); // default 2 hours
+
+        if (now < eventStart) return 'Upcoming';
+        if (now >= eventStart && now <= eventEnd) return 'Ongoing';
+        return 'Ended';
+      }
+
+      function getEventStatusClass(status) {
+        if (status === 'Upcoming') return '';
+        if (status === 'Ongoing') return 'ongoing';
+        return 'ended';
+      }
+
+      function renderEvents() {
+        const container = document.createElement('div');
+
+        const title = document.createElement('h2');
+        title.className = 'section-title';
+        title.innerHTML = '<i class="fa-solid fa-calendar-days"></i> Events';
+        container.appendChild(title);
+
+        const desc = document.createElement('p');
+        desc.style.cssText = 'font-size:0.9rem; color:var(--text-muted); margin-bottom:16px;';
+        desc.textContent = 'Discover, create, and share upcoming pickleball events in your community.';
+        container.appendChild(desc);
+
+        const postBtn = document.createElement('button');
+        postBtn.className = 'create-post-btn';
+        postBtn.innerHTML = '<i class="fa-solid fa-calendar-plus"></i> Post an Event';
+        postBtn.addEventListener('click', () => openEventModal());
+        container.appendChild(postBtn);
+
+        // Search bar
+        const searchBar = document.createElement('div');
+        searchBar.className = 'search-bar';
+        searchBar.innerHTML = '<i class="fa-solid fa-search"></i><input type="text" id="eventSearchInput" placeholder="Search events by title, location, organizer, or description...">';
+        container.appendChild(searchBar);
+
+        // Filter buttons
+        const filterRow = document.createElement('div');
+        filterRow.className = 'events-filter-row';
+        filterRow.id = 'eventsFilterRow';
+        const filters = [
+          { key: 'upcoming', label: 'Upcoming' },
+          { key: 'today', label: 'Today' },
+          { key: 'week', label: 'This Week' },
+          { key: 'month', label: 'This Month' },
+          { key: 'past', label: 'Past Events' },
+          { key: 'all', label: 'All Events' }
+        ];
+        filters.forEach(f => {
+          const btn = document.createElement('button');
+          btn.className = 'events-filter-btn' + (eventFilter === f.key ? ' active' : '');
+          btn.dataset.filter = f.key;
+          btn.textContent = f.label;
+          btn.addEventListener('click', () => {
+            eventFilter = f.key;
+            document.querySelectorAll('.events-filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderEventList();
+          });
+          filterRow.appendChild(btn);
+        });
+        container.appendChild(filterRow);
+
+        const listContainer = document.createElement('div');
+        listContainer.id = 'eventsList';
+        container.appendChild(listContainer);
+
+        mainContent.appendChild(container);
+
+        document.getElementById('eventSearchInput').addEventListener('input', debounce(() => {
+          eventSearchQuery = document.getElementById('eventSearchInput').value.toLowerCase().trim();
+          renderEventList();
+        }, 300));
+
+        renderEventList();
+      }
+
+      function renderEventList() {
+        const listContainer = document.getElementById('eventsList');
+        if (!listContainer) return;
+
+        let events = [...allEvents];
+
+        // Search filter
+        if (eventSearchQuery) {
+          events = events.filter(ev =>
+            (ev.title || '').toLowerCase().includes(eventSearchQuery) ||
+            (ev.location || '').toLowerCase().includes(eventSearchQuery) ||
+            (ev.organizerName || '').toLowerCase().includes(eventSearchQuery) ||
+            (ev.description || '').toLowerCase().includes(eventSearchQuery)
+          );
+        }
+
+        // Time filter
+        const now = new Date();
+        const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const todayEnd = new Date(todayStart.getTime() + 24 * 60 * 60 * 1000);
+        const weekStart = new Date(todayStart);
+        weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+        const weekEnd = new Date(weekStart.getTime() + 7 * 24 * 60 * 60 * 1000);
+        const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+        const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+
+        switch (eventFilter) {
+          case 'upcoming':
+            events = events.filter(ev => {
+              if (!ev.eventDate) return false;
+              const eventStart = new Date(`${ev.eventDate}T${ev.startTime || '00:00'}`);
+              return eventStart >= now;
+            });
+            break;
+          case 'today':
+            events = events.filter(ev => {
+              if (!ev.eventDate) return false;
+              const d = new Date(ev.eventDate);
+              return d >= todayStart && d < todayEnd;
+            });
+            break;
+          case 'week':
+            events = events.filter(ev => {
+              if (!ev.eventDate) return false;
+              const d = new Date(ev.eventDate);
+              return d >= weekStart && d < weekEnd;
+            });
+            break;
+          case 'month':
+            events = events.filter(ev => {
+              if (!ev.eventDate) return false;
+              const d = new Date(ev.eventDate);
+              return d >= monthStart && d <= monthEnd;
+            });
+            break;
+          case 'past':
+            events = events.filter(ev => {
+              if (!ev.eventDate) return false;
+              const eventStart = new Date(`${ev.eventDate}T${ev.startTime || '00:00'}`);
+              const eventEnd = ev.endTime
+                ? new Date(`${ev.eventDate}T${ev.endTime}`)
+                : new Date(eventStart.getTime() + 2 * 60 * 60 * 1000);
+              return now > eventEnd;
+            });
+            break;
+          case 'all':
+          default:
+            break;
+        }
+
+        // Sort: upcoming first, then ended by date descending
+        events.sort((a, b) => {
+          const statusA = getEventStatus(a);
+          const statusB = getEventStatus(b);
+          const order = { 'Upcoming': 0, 'Ongoing': 1, 'Ended': 2 };
+          const orderDiff = order[statusA] - order[statusB];
+          if (orderDiff !== 0) return orderDiff;
+
+          const dateA = a.eventDate ? new Date(a.eventDate).getTime() : 0;
+          const dateB = b.eventDate ? new Date(b.eventDate).getTime() : 0;
+
+          if (statusA === 'Ended') return dateB - dateA;
+          return dateA - dateB;
+        });
+
+        if (events.length === 0) {
+          listContainer.innerHTML = `
+            <div class="empty-state">
+              <i class="fa-solid fa-calendar-days"></i>
+              <h3>No events found</h3>
+              <p>${eventSearchQuery ? 'Try adjusting your search or filters.' : 'Be the first to post an event for the community!'}</p>
+            </div>
+          `;
+          const btn = document.getElementById('emptyPostEventBtn');
+          if (btn) btn.addEventListener('click', () => openEventModal());
+          return;
+        }
+
+        listContainer.innerHTML = '';
+        events.forEach(ev => {
+          listContainer.appendChild(buildEventCard(ev));
+        });
+      }
+
+      function buildEventCard(event) {
+        const card = document.createElement('div');
+        card.className = 'event-card';
+        card.dataset.eventId = event.id;
+
+        const status = getEventStatus(event);
+        const statusClass = getEventStatusClass(status);
+
+        // Image
+        const imageWrap = document.createElement('div');
+        imageWrap.className = 'event-card-image';
+        if (event.imageBase64) {
+          const img = document.createElement('img');
+          img.src = event.imageBase64;
+          img.alt = event.title || 'Event';
+          img.loading = 'lazy';
+          img.onerror = function() {
+            imageWrap.innerHTML = '<i class="fa-solid fa-calendar-days"></i>';
+          };
+          imageWrap.appendChild(img);
+        } else {
+          imageWrap.innerHTML = '<i class="fa-solid fa-calendar-days"></i>';
+        }
+
+        const statusBadge = document.createElement('span');
+        statusBadge.className = 'event-status-badge ' + statusClass;
+        statusBadge.textContent = status;
+        imageWrap.appendChild(statusBadge);
+        card.appendChild(imageWrap);
+
+        // Body
+        const body = document.createElement('div');
+        body.className = 'event-card-body';
+
+        const title = document.createElement('div');
+        title.className = 'event-card-title';
+        title.textContent = event.title || 'Untitled Event';
+        body.appendChild(title);
+
+        const desc = document.createElement('div');
+        desc.className = 'event-card-desc';
+        desc.textContent = event.description || '';
+        body.appendChild(desc);
+
+        const meta = document.createElement('div');
+        meta.className = 'event-card-meta';
+
+        if (event.eventDate) {
+          const dateEl = document.createElement('span');
+          dateEl.innerHTML = `<i class="fa-solid fa-calendar"></i> ${new Date(event.eventDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+          meta.appendChild(dateEl);
+        }
+        if (event.startTime) {
+          const timeEl = document.createElement('span');
+          let timeStr = formatTime(event.startTime);
+          if (event.endTime) timeStr += ` – ${formatTime(event.endTime)}`;
+          timeEl.innerHTML = `<i class="fa-solid fa-clock"></i> ${timeStr}`;
+          meta.appendChild(timeEl);
+        }
+        if (event.location) {
+          const locEl = document.createElement('span');
+          locEl.innerHTML = `<i class="fa-solid fa-location-dot"></i> ${escapeHTML(event.location)}`;
+          meta.appendChild(locEl);
+        }
+        body.appendChild(meta);
+
+        // Organizer
+        const orgWrap = document.createElement('div');
+        orgWrap.className = 'event-card-organizer';
+
+        const orgAvatar = createAvatarElement(event.organizerProfilePicture || '', event.organizerName || 'Organizer', 32);
+        orgWrap.appendChild(orgAvatar);
+
+        const orgInfo = document.createElement('div');
+        orgInfo.className = 'event-card-organizer-info';
+        orgInfo.innerHTML = `
+          <div class="event-card-organizer-name">${escapeHTML(event.organizerName || 'Unknown')}</div>
+          <div class="event-card-organizer-date">Posted ${timeAgo(event.createdAt)}</div>
+        `;
+        orgWrap.appendChild(orgInfo);
+        body.appendChild(orgWrap);
+
+        // Actions
+        const actions = document.createElement('div');
+        actions.className = 'event-card-actions';
+
+        const viewBtn = document.createElement('button');
+        viewBtn.className = 'btn btn-primary';
+        viewBtn.innerHTML = '<i class="fa-solid fa-eye"></i> View Details';
+        viewBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openEventDetail(event);
+        });
+        actions.appendChild(viewBtn);
+
+        if (event.organizerId !== currentUser.uid) {
+          const contactBtn = document.createElement('button');
+          contactBtn.className = 'btn btn-outline';
+          contactBtn.innerHTML = '<i class="fa-solid fa-comment"></i> Contact';
+          contactBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openChatWith(event.organizerId);
+          });
+          actions.appendChild(contactBtn);
+        }
+
+        body.appendChild(actions);
+        card.appendChild(body);
+
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('.btn') || e.target.closest('.event-card-actions')) return;
+          openEventDetail(event);
+        });
+
+        return card;
+      }
+
+      function openEventDetail(event) {
+        const content = document.getElementById('eventDetailContent');
+        const actions = document.getElementById('eventDetailActions');
+        content.innerHTML = '';
+        actions.innerHTML = '';
+
+        const status = getEventStatus(event);
+        const statusClass = getEventStatusClass(status);
+
+        // Hero image
+        const hero = document.createElement('div');
+        hero.className = 'event-detail-hero';
+        if (event.imageBase64) {
+          const img = document.createElement('img');
+          img.src = event.imageBase64;
+          img.alt = event.title || 'Event';
+          img.onerror = function() { hero.innerHTML = '<i class="fa-solid fa-calendar-days"></i>'; };
+          hero.appendChild(img);
+        } else {
+          hero.innerHTML = '<i class="fa-solid fa-calendar-days"></i>';
+        }
+        content.appendChild(hero);
+
+        const title = document.createElement('h2');
+        title.textContent = event.title || 'Untitled Event';
+        content.appendChild(title);
+
+        const statusLine = document.createElement('div');
+        statusLine.style.marginBottom = '14px';
+        const badge = document.createElement('span');
+        badge.className = 'event-status-badge ' + statusClass;
+        badge.style.position = 'static';
+        badge.style.display = 'inline-block';
+        badge.textContent = status;
+        statusLine.appendChild(badge);
+        content.appendChild(statusLine);
+
+        // Details sections
+        const detailsRows = [
+          { label: 'Date', value: event.eventDate ? new Date(event.eventDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : '—' },
+          { label: 'Start Time', value: event.startTime ? formatTime(event.startTime) : '—' },
+          { label: 'End Time', value: event.endTime ? formatTime(event.endTime) : '—' },
+          { label: 'Location', value: event.location || '—' },
+          { label: 'Organizer', value: event.organizerName || '—' },
+          { label: 'Contact', value: event.organizerContact || 'Not provided' },
+          { label: 'Posted', value: formatDate(event.createdAt) },
+        ];
+
+        const detailSection = document.createElement('div');
+        detailSection.className = 'event-detail-section';
+        detailSection.innerHTML = '<h4><i class="fa-solid fa-circle-info"></i> Event Details</h4>';
+        detailsRows.forEach(row => {
+          const div = document.createElement('div');
+          div.className = 'event-detail-row';
+          const label = document.createElement('div');
+          label.className = 'label';
+          label.textContent = row.label;
+          div.appendChild(label);
+          const value = document.createElement('div');
+          value.className = 'value' + (row.value === '—' || row.value === 'Not provided' ? ' unavailable' : '');
+          value.textContent = row.value;
+          div.appendChild(value);
+          detailSection.appendChild(div);
+        });
+        content.appendChild(detailSection);
+
+        const descSection = document.createElement('div');
+        descSection.className = 'event-detail-section';
+        descSection.innerHTML = '<h4><i class="fa-solid fa-align-left"></i> Description</h4>';
+        const descP = document.createElement('p');
+        descP.style.cssText = 'font-size:0.92rem; white-space:pre-wrap; margin:0;';
+        descP.textContent = event.description || 'No description provided.';
+        descSection.appendChild(descP);
+        content.appendChild(descSection);
+
+        // Actions
+        const isOwner = event.organizerId === currentUser.uid;
+
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'btn btn-outline';
+        closeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i> Close';
+        closeBtn.addEventListener('click', () => closeModal(eventDetailModal));
+        actions.appendChild(closeBtn);
+
+        // const shareBtn = document.createElement('button');
+        // shareBtn.className = 'btn btn-outline';
+        // shareBtn.innerHTML = '<i class="fa-solid fa-share"></i> Share Event';
+        // shareBtn.addEventListener('click', () => {
+        //   const text = `${event.title}\n${event.eventDate ? new Date(event.eventDate).toLocaleDateString() : ''} ${event.startTime || ''} - ${event.endTime || ''}\n${event.location || ''}\n\nShared from PickleBuddy`;
+        //   if (navigator.share) {
+        //     navigator.share({ title: event.title, text: text }).catch(() => {});
+        //   } else {
+        //     navigator.clipboard.writeText(text).then(() => {
+        //       showToast('success', 'Copied!', 'Event details copied to clipboard.');
+        //     }).catch(() => {
+        //       showToast('info', 'Share', 'Event details are ready to share.');
+        //     });
+        //   }
+        // });
+        // actions.appendChild(shareBtn);
+
+        if (!isOwner) {
+          const contactBtn = document.createElement('button');
+          contactBtn.className = 'btn btn-primary';
+          contactBtn.innerHTML = '<i class="fa-solid fa-comment"></i> Contact Organizer';
+          contactBtn.addEventListener('click', () => {
+            closeModal(eventDetailModal);
+            openChatWith(event.organizerId);
+          });
+          actions.appendChild(contactBtn);
+        }
+
+        if (isOwner) {
+          const editBtn = document.createElement('button');
+          editBtn.className = 'btn btn-primary';
+          editBtn.innerHTML = '<i class="fa-solid fa-pen"></i> Edit Event';
+          editBtn.addEventListener('click', () => {
+            closeModal(eventDetailModal);
+            openEventModal(event);
+          });
+          actions.appendChild(editBtn);
+
+          const deleteBtn = document.createElement('button');
+          deleteBtn.className = 'btn btn-danger';
+          deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i> Delete Event';
+          deleteBtn.addEventListener('click', () => {
+            closeModal(eventDetailModal);
+            confirmDeleteEvent(event.id);
+          });
+          actions.appendChild(deleteBtn);
+        }
+
+        openModal(eventDetailModal);
+      }
+
+      function openEventModal(existingEvent) {
+        editingEventId = existingEvent ? existingEvent.id : null;
+
+        document.getElementById('eventModalTitle').innerHTML = existingEvent
+          ? '<i class="fa-solid fa-pen-to-square"></i> Edit Event'
+          : '<i class="fa-solid fa-calendar-plus"></i> Post an Event';
+
+        document.getElementById('submitEventBtn').innerHTML = existingEvent
+          ? '<i class="fa-solid fa-floppy-disk"></i> Save Changes'
+          : '<i class="fa-solid fa-paper-plane"></i> Publish Event';
+
+        eventForm.reset();
+        pendingEventImage = null;
+        pendingEventImageSize = 0;
+        pendingEventImageType = '';
+        document.getElementById('evDescCounter').textContent = '0';
+        document.getElementById('evCompressionStatus').style.display = 'none';
+
+        // Reset image preview
+        const preview = document.getElementById('evImagePreview');
+        preview.innerHTML = '<i class="fa-solid fa-image" style="font-size:2rem; color:var(--text-muted);"></i>';
+
+        // Reset error states
+        ['evTitleGroup', 'evDescriptionGroup', 'evDateGroup', 'evStartGroup', 'evEndGroup', 'evLocationGroup'].forEach(id => {
+          document.getElementById(id).classList.remove('error');
+        });
+
+        if (existingEvent) {
+          document.getElementById('evTitle').value = existingEvent.title || '';
+          document.getElementById('evDescription').value = existingEvent.description || '';
+          document.getElementById('evDate').value = existingEvent.eventDate || '';
+          document.getElementById('evStart').value = existingEvent.startTime || '';
+          document.getElementById('evEnd').value = existingEvent.endTime || '';
+          document.getElementById('evLocation').value = existingEvent.location || '';
+          document.getElementById('evContact').value = existingEvent.organizerContact || '';
+          document.getElementById('evDescCounter').textContent = (existingEvent.description || '').length;
+
+          if (existingEvent.imageBase64) {
+            pendingEventImage = existingEvent.imageBase64;
+            pendingEventImageSize = existingEvent.imageSize || 0;
+            pendingEventImageType = existingEvent.imageType || 'image/jpeg';
+            const img = document.createElement('img');
+            img.src = existingEvent.imageBase64;
+            img.style.cssText = 'width:100%; height:100%; object-fit:cover; border-radius:12px;';
+            preview.innerHTML = '';
+            preview.appendChild(img);
+          }
+        }
+
+        openModal(eventModal);
+      }
+
+      document.getElementById('closeEventModal').addEventListener('click', () => {
+        closeModal(eventModal);
+        editingEventId = null;
+        pendingEventImage = null;
+      });
+      document.getElementById('cancelEventBtn').addEventListener('click', () => {
+        closeModal(eventModal);
+        editingEventId = null;
+        pendingEventImage = null;
+      });
+      document.getElementById('evStandardsLink').addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal(standardsModal);
+      });
+
+      document.getElementById('evDescription').addEventListener('input', () => {
+        document.getElementById('evDescCounter').textContent = document.getElementById('evDescription').value.length;
+      });
+
+      // Image upload handler with compression
+      document.getElementById('evUploadBtn').addEventListener('click', () => {
+        document.getElementById('evImageInput').click();
+      });
+
+      document.getElementById('evRemoveImageBtn').addEventListener('click', () => {
+        pendingEventImage = null;
+        pendingEventImageSize = 0;
+        pendingEventImageType = '';
+        const preview = document.getElementById('evImagePreview');
+        preview.innerHTML = '<i class="fa-solid fa-image" style="font-size:2rem; color:var(--text-muted);"></i>';
+        document.getElementById('evImageInput').value = '';
+        showToast('info', 'Image removed', 'Event will be published without an image.');
+      });
+
+      document.getElementById('evImageInput').addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        if (!/^image\/(jpeg|jpg|png|webp)$/.test(file.type)) {
+          showToast('error', 'Invalid file', 'Please upload a JPG, PNG, or WEBP image.');
+          e.target.value = '';
+          return;
+        }
+
+        const originalSizeMB = file.size / (1024 * 1024);
+        const compressionStatus = document.getElementById('evCompressionStatus');
+        compressionStatus.style.display = 'block';
+
+        setLoading(true);
+        try {
+          // Determine compression parameters based on original file size
+          let maxDim = 1200;
+          let quality = 0.8;
+
+          if (originalSizeMB >= 5) {
+            // Large files: aggressive compression
+            maxDim = 1000;
+            quality = 0.6;
+            compressionStatus.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Compressing large image (${originalSizeMB.toFixed(1)} MB)...`;
+          } else if (originalSizeMB >= 2) {
+            maxDim = 1100;
+            quality = 0.7;
+            compressionStatus.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Optimizing image (${originalSizeMB.toFixed(1)} MB)...`;
+          } else {
+            // Small files: light optimization
+            maxDim = 1200;
+            quality = 0.85;
+            compressionStatus.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Optimizing image...`;
+          }
+
+          // Add a small delay to show the status
+          await new Promise(r => setTimeout(r, 200));
+
+          const base64 = await compressImage(file, maxDim, quality);
+          const compressedSizeKB = getBase64SizeKB(base64);
+          const compressedSizeMB = compressedSizeKB / 1024;
+
+          pendingEventImage = base64;
+          pendingEventImageSize = compressedSizeKB;
+          pendingEventImageType = 'image/jpeg';
+
+          const preview = document.getElementById('evImagePreview');
+          preview.innerHTML = '';
+          const img = document.createElement('img');
+          img.src = base64;
+          img.style.cssText = 'width:100%; height:100%; object-fit:cover; border-radius:12px;';
+          preview.appendChild(img);
+
+          const savings = ((1 - (compressedSizeMB / originalSizeMB)) * 100).toFixed(0);
+          compressionStatus.innerHTML = `<i class="fa-solid fa-check" style="color:#10b981;"></i> Image ready — ${compressedSizeMB.toFixed(2)} MB (${savings}% smaller)`;
+          showToast('success', 'Image compressed', `Original: ${originalSizeMB.toFixed(1)} MB → Optimized: ${compressedSizeMB.toFixed(2)} MB`);
+        } catch (error) {
+          console.error('Image compression error:', error);
+          compressionStatus.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:#ef4444;"></i> Compression failed';
+          showToast('error', 'Error', 'Could not process image. Please try a different file.');
+        } finally {
+          setLoading(false);
+          e.target.value = '';
+          setTimeout(() => {
+            compressionStatus.style.display = 'none';
+          }, 4000);
+        }
+      });
+
+      eventForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const title = document.getElementById('evTitle').value.trim();
+        const description = document.getElementById('evDescription').value.trim();
+        const eventDate = document.getElementById('evDate').value;
+        const startTime = document.getElementById('evStart').value;
+        const endTime = document.getElementById('evEnd').value;
+        const location = document.getElementById('evLocation').value.trim();
+        const contact = document.getElementById('evContact').value.trim();
+
+        let valid = true;
+
+        // Title validation
+        if (title.length < 2 || title.length > 120) {
+          document.getElementById('evTitleGroup').classList.add('error');
+          valid = false;
+        } else {
+          document.getElementById('evTitleGroup').classList.remove('error');
+        }
+
+        // Description validation
+        if (description.length < 10 || description.length > 1500) {
+          document.getElementById('evDescriptionGroup').classList.add('error');
+          valid = false;
+        } else {
+          document.getElementById('evDescriptionGroup').classList.remove('error');
+        }
+
+        // Date validation
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const selectedDate = eventDate ? new Date(eventDate) : null;
+        if (!eventDate || !selectedDate || selectedDate < today) {
+          document.getElementById('evDateGroup').classList.add('error');
+          valid = false;
+        } else {
+          document.getElementById('evDateGroup').classList.remove('error');
+        }
+
+        // Start time validation
+        if (!startTime) {
+          document.getElementById('evStartGroup').classList.add('error');
+          valid = false;
+        } else {
+          document.getElementById('evStartGroup').classList.remove('error');
+        }
+
+        // End time validation
+        if (endTime && startTime && endTime <= startTime) {
+          document.getElementById('evEndGroup').classList.add('error');
+          valid = false;
+        } else {
+          document.getElementById('evEndGroup').classList.remove('error');
+        }
+
+        // Location validation
+        if (!location) {
+          document.getElementById('evLocationGroup').classList.add('error');
+          valid = false;
+        } else {
+          document.getElementById('evLocationGroup').classList.remove('error');
+        }
+
+        if (!valid) {
+          showToast('warning', 'Validation Error', 'Please check the highlighted fields and try again.');
+          return;
+        }
+
+        setLoading(true);
+        try {
+          const eventData = {
+            title,
+            description,
+            eventDate,
+            startTime,
+            endTime: endTime || '',
+            location,
+            organizerId: currentUser.uid,
+            organizerName: currentUserData.name || 'Unknown',
+            organizerProfilePicture: currentUserData.profilePicture || '',
+            organizerContact: contact || '',
+            imageBase64: pendingEventImage || '',
+            imageSize: pendingEventImageSize || 0,
+            imageType: pendingEventImageType || '',
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          };
+
+          if (editingEventId) {
+            await db.collection('events').doc(editingEventId).update(eventData);
+            showToast('success', 'Event updated', 'Your event has been updated successfully.');
+          } else {
+            eventData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+            await db.collection('events').add(eventData);
+            showToast('success', 'Event published!', 'Your event is now live in The Events feed.');
+          }
+
+          closeModal(eventModal);
+          editingEventId = null;
+          pendingEventImage = null;
+          pendingEventImageSize = 0;
+          pendingEventImageType = '';
+        } catch (error) {
+          console.error('Event save error:', error);
+          showToast('error', 'Error', 'Could not save event. Please try again.');
+        } finally {
+          setLoading(false);
+        }
+      });
+
+      function confirmDeleteEvent(eventId) {
+        showConfirm(
+          'Delete Event',
+          'This will permanently remove this event. This action cannot be undone.',
+          async () => {
+            setLoading(true);
+            try {
+              await db.collection('events').doc(eventId).delete();
+              showToast('success', 'Event deleted', 'The event has been permanently removed.');
+            } catch (error) {
+              console.error('Delete event error:', error);
+              showToast('error', 'Error', 'Could not delete event. Please try again.');
+            } finally {
+              setLoading(false);
+            }
+          }
+        );
+      }
+
+      document.getElementById('closeEventDetailModal').addEventListener('click', () => closeModal(eventDetailModal));
+
+      function setupEventsListener() {
+        if (unsubEvents) unsubEvents();
+        unsubEvents = db.collection('events')
+          .orderBy('eventDate', 'asc')
+          .limit(200)
+          .onSnapshot(snapshot => {
+            allEvents = [];
+            snapshot.forEach(doc => {
+              allEvents.push({ id: doc.id, ...doc.data() });
+            });
+            if (currentView === 'events') renderEventList();
+          }, err => {
+            console.error('Events listener error:', err);
+          });
+      }
+
       // ---------- NOTIFICATIONS ----------
       function renderNotifications() {
         const container = document.createElement('div');
@@ -3375,7 +6002,6 @@
 
         mainContent.appendChild(container);
 
-        // Load notifications
         db.collection('notifications')
           .where('userId', '==', currentUser.uid)
           .orderBy('createdAt', 'desc')
@@ -3483,7 +6109,6 @@
 
         container.appendChild(card);
 
-        // User's posts
         const postsTitle = document.createElement('h3');
         postsTitle.className = 'section-title';
         postsTitle.style.fontSize = '1.1rem';
@@ -3511,7 +6136,6 @@
         title.innerHTML = '<i class="fa-solid fa-gear"></i> Settings';
         container.appendChild(title);
 
-        // Appearance
         const appearanceCard = document.createElement('div');
         appearanceCard.className = 'card';
         const appTitle = document.createElement('h3');
@@ -3538,7 +6162,6 @@
         appearanceCard.appendChild(themeRow);
         container.appendChild(appearanceCard);
 
-        // Account
         const accountCard = document.createElement('div');
         accountCard.className = 'card';
         const accTitle = document.createElement('h3');
@@ -3581,7 +6204,6 @@
         accountCard.appendChild(standardsRow);
         container.appendChild(accountCard);
 
-        // Danger Zone
         const dangerCard = document.createElement('div');
         dangerCard.className = 'card';
         dangerCard.style.border = '1px solid #ef4444';
@@ -3674,7 +6296,6 @@
 
         wrapper.appendChild(filterRow);
 
-        // Event listeners
         const searchInput = searchBar.querySelector('input');
         searchInput.addEventListener('input', debounce(() => applyFilters(viewKey), 300));
         categorySelect.addEventListener('change', () => applyFilters(viewKey));
@@ -3756,7 +6377,6 @@
         card.className = 'post-card';
         card.dataset.postId = post.id;
 
-        // Header
         const header = document.createElement('div');
         header.className = 'post-header';
 
@@ -3795,7 +6415,6 @@
 
         header.appendChild(meta);
 
-        // Menu button (three dots)
         const menuWrapper = document.createElement('div');
         menuWrapper.style.position = 'relative';
 
@@ -3875,7 +6494,6 @@
         header.appendChild(menuWrapper);
         card.appendChild(header);
 
-        // Category badge
         const badge = document.createElement('span');
         let badgeClass = 'lf-player';
         if (post.category === 'LF Partner') badgeClass = 'lf-partner';
@@ -3888,19 +6506,16 @@
             : '<i class="fa-solid fa-user-plus"></i> ' + escapeHTML(post.category);
         card.appendChild(badge);
 
-        // Title
         const title = document.createElement('div');
         title.className = 'post-title';
         title.textContent = post.title || '';
         card.appendChild(title);
 
-        // Description
         const desc = document.createElement('div');
         desc.className = 'post-description';
         desc.textContent = post.description || '';
         card.appendChild(desc);
 
-        // Details
         const details = document.createElement('div');
         details.className = 'post-details';
 
@@ -3937,7 +6552,6 @@
 
         card.appendChild(details);
 
-        // ---------- SLOTS / NEED PLAYERS UI ----------
         if (post.playersNeeded && post.playersNeeded > 0) {
           const joined = post.playersJoined || [];
           const slotsFilled = joined.length;
@@ -3971,7 +6585,6 @@
           }
         }
 
-        // Footer
         const footer = document.createElement('div');
         footer.className = 'post-footer';
 
@@ -4000,7 +6613,6 @@
           footer.appendChild(contactBtn);
         }
 
-        // ---------- JOIN SLOT BUTTON ----------
         if (post.playersNeeded && post.playersNeeded > 0 && post.authorId !== currentUser.uid) {
           const joined = post.playersJoined || [];
           const hasJoined = joined.includes(currentUser.uid);
@@ -4112,7 +6724,6 @@
 
         content.appendChild(detailList);
 
-        // Slots in post detail
         if (post.playersNeeded && post.playersNeeded > 0) {
           const joined = post.playersJoined || [];
           const slotsFilled = joined.length;
@@ -4136,7 +6747,6 @@
           content.appendChild(slotsWrapper);
         }
 
-        // Actions
         const isOwner = post.authorId === currentUser.uid;
 
         const closeBtn = document.createElement('button');
@@ -4164,7 +6774,6 @@
           });
           actions.appendChild(delBtn);
         } else {
-          // Join/leave slot
           if (post.playersNeeded && post.playersNeeded > 0) {
             const joined = post.playersJoined || [];
             const hasJoined = joined.includes(currentUser.uid);
@@ -4196,7 +6805,6 @@
             }
           }
 
-          // Message author
           const messageBtn = document.createElement('button');
           messageBtn.className = 'btn btn-primary';
           messageBtn.innerHTML = '<i class="fa-solid fa-comment"></i> Message';
@@ -4233,7 +6841,6 @@
           ? '<i class="fa-solid fa-floppy-disk"></i> Save Changes'
           : '<i class="fa-solid fa-paper-plane"></i> Publish Post';
 
-        // Reset form
         postForm.reset();
         document.getElementById('descCounter').textContent = '0';
 
@@ -4254,7 +6861,6 @@
           document.getElementById('postCategory').value = defaultCategory;
         }
 
-        // Clear errors
         ['postCategoryGroup', 'postTitleGroup', 'postDescriptionGroup', 'postLocationGroup'].forEach(id => {
           document.getElementById(id).classList.remove('error');
         });
@@ -4265,7 +6871,6 @@
       function canCreatePost() {
         if (!currentUserData) return false;
         if (!currentUserData.name || !currentUserData.address || !currentUserData.mobileNumber) {
-          // Show complete profile modal
           document.getElementById('cp2Name').value = currentUserData.name || '';
           document.getElementById('cp2Address').value = currentUserData.address || '';
           document.getElementById('cp2Mobile').value = currentUserData.mobileNumber || '';
@@ -4276,12 +6881,10 @@
         return true;
       }
 
-      // Character counter
       postDescInput.addEventListener('input', () => {
         descCounter.textContent = postDescInput.value.length;
       });
 
-      // Post form submit
       postForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -4311,7 +6914,6 @@
 
         if (!valid) return;
 
-        // Determine playersNeeded for Need 1/2 categories
         let neededCount = playersNeeded ? parseInt(playersNeeded, 10) : 0;
         if (category === 'Need 1 Player') neededCount = 1;
         if (category === 'Need 2 Players') neededCount = 2;
@@ -4555,7 +7157,6 @@
         joinDate.textContent = `Joined ${formatDate(user.createdAt)}`;
         content.appendChild(joinDate);
 
-        // User's active posts
         const postsTitle = document.createElement('h4');
         postsTitle.style.cssText = 'font-size:0.95rem; margin-bottom:10px; border-top:1px solid var(--border); padding-top:14px;';
         postsTitle.innerHTML = '<i class="fa-solid fa-rectangle-list" style="color:var(--orange);"></i> Active Posts';
@@ -4588,7 +7189,6 @@
           });
         }
 
-        // Message button (if not viewing self)
         if (user.uid !== currentUser.uid && user.accountStatus !== 'suspended') {
           const messageBtn = document.createElement('button');
           messageBtn.className = 'btn btn-primary btn-block';
@@ -4643,7 +7243,6 @@
 
       document.getElementById('panelViewProfileBtn').addEventListener('click', () => switchView('profile'));
 
-      // Photo upload
       document.getElementById('epUploadBtn').addEventListener('click', () => {
         document.getElementById('epPhotoInput').click();
       });
@@ -4743,7 +7342,7 @@
         }
       });
 
-      // ---------- COMPLETE PROFILE (required for posting) ----------
+      // ---------- COMPLETE PROFILE ----------
       document.getElementById('completeProfileForm2').addEventListener('submit', async (e) => {
         e.preventDefault();
         const name = document.getElementById('cp2Name').value.trim();
@@ -4788,16 +7387,12 @@
           async () => {
             setLoading(true);
             try {
-              // Delete user's posts
               const postsSnapshot = await db.collection('posts').where('authorId', '==', currentUser.uid).get();
               const batch = db.batch();
               postsSnapshot.forEach(doc => batch.delete(doc.ref));
               await batch.commit();
 
-              // Delete user document
               await db.collection('users').doc(currentUser.uid).delete();
-
-              // Delete auth account
               await currentUser.delete();
 
               showToast('success', 'Account deleted', 'Your account has been permanently deleted.');
@@ -4829,6 +7424,8 @@
               if (unsubUsers) unsubUsers();
               if (unsubChatMessages) unsubChatMessages();
               if (unsubPlayingNow) unsubPlayingNow();
+              if (unsubCourts) unsubCourts();
+              if (unsubEvents) unsubEvents();
               await auth.signOut();
               window.location.href = 'index.html';
             } catch (error) {
@@ -4841,7 +7438,6 @@
 
       document.getElementById('sidebarLogoutBtn').addEventListener('click', handleLogout);
 
-      // ---------- SUSPENSION ----------
       document.getElementById('signOutSuspendedBtn').addEventListener('click', async () => {
         await auth.signOut();
         window.location.href = 'index.html';
@@ -4867,12 +7463,10 @@
             snapshot.forEach(doc => {
               allPosts.push({ id: doc.id, ...doc.data() });
             });
-            // Re-render current view if it's a post view
             if (['home', 'find-partner', 'clubs-players', 'my-posts', 'profile', 'smart-match'].includes(currentView)) {
               if (currentView === 'my-posts' || currentView === 'profile') {
                 renderView();
               } else if (currentView === 'smart-match') {
-                // Recompute matches when posts update
                 const results = document.getElementById('matchResults');
                 if (results) {
                   db.collection('matchPreferences').doc(currentUser.uid).get().then(doc => {
@@ -4899,13 +7493,11 @@
             snapshot.forEach(doc => {
               allUsers.push({ uid: doc.id, ...doc.data() });
             });
-            // Update current user data if changed
             if (currentUser) {
               const updated = allUsers.find(u => u.uid === currentUser.uid);
               if (updated) {
                 currentUserData = updated;
                 updateProfilePanel();
-                // Check suspension
                 if (updated.accountStatus === 'suspended') {
                   document.getElementById('suspensionReasonDisplay').textContent = updated.suspensionReason || 'Violation of Community Standards';
                   openModal(suspendedModal);
@@ -4931,7 +7523,6 @@
               if (d.expiresAt && d.expiresAt.toMillis && d.expiresAt.toMillis() > now) {
                 playingNowCache.push({ id: doc.id, ...d });
               } else if (d.expiresAt && d.expiresAt.toMillis && d.expiresAt.toMillis() <= now) {
-                // auto-delete expired
                 db.collection('playing_now').doc(doc.id).delete().catch(() => {});
               } else {
                 playingNowCache.push({ id: doc.id, ...d });
@@ -4955,7 +7546,6 @@
         panelName.textContent = currentUserData.name || 'Unknown';
         panelClub.textContent = currentUserData.pickleballClub || 'Independent Player / No Club';
 
-        // Admin link
         if (currentUserData.role === 'admin') {
           adminNavLink.classList.remove('hidden');
           adminNavLink.onclick = () => { window.location.href = 'admin.html'; };
@@ -5271,16 +7861,14 @@
             }
           });
 
-          // Setup listeners
           setupPostsListener();
           setupUsersListener();
           setupPlayingNowListener();
+          setupCourtsListener();
+          setupEventsListener();
           updateProfilePanel();
 
-          // Hide loading
           setLoading(false);
-
-          // Render initial view
           renderView();
 
         } catch (error) {
@@ -5295,7 +7883,6 @@
         document.body.classList.add('dark');
       }
 
-      // Close dropdowns on outside click
       document.addEventListener('click', (e) => {
         if (!e.target.closest('.dropdown-menu') && !e.target.closest('.post-menu-btn')) {
           document.querySelectorAll('.dropdown-menu.active').forEach(d => d.classList.remove('active'));
