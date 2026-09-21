@@ -1230,13 +1230,14 @@
         <button class="nav-item" data-view="logs">
           <i class="fa-solid fa-clipboard-list"></i> Moderation Logs
         </button>
+        <br>
+        <p>----------------------------------</p>
         <button class="nav-item" id="backToMainBtn">
           <i class="fa-solid fa-arrow-left"></i> Back to PickleBuddy
         </button>
-        </br>
-        <button class="nav-item logout-item" id="sidebarLogoutBtn">
+        <!-- <button class="nav-item logout-item" id="sidebarLogoutBtn">
           <i class="fa-solid fa-right-from-bracket"></i> Logout
-        </button>
+        </button> -->
       </nav>
     </aside>
 
@@ -3901,7 +3902,7 @@
         );
       }
 
-      document.getElementById('sidebarLogoutBtn').addEventListener('click', handleLogout);
+      //document.getElementById('sidebarLogoutBtn').addEventListener('click', handleLogout);
 
       // ---------- REAL-TIME LISTENERS ----------
       function setupUsersListener() {
