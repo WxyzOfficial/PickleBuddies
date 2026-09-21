@@ -2417,9 +2417,9 @@
         <button class="nav-item admin-link hidden" id="adminNavLink">
           <i class="fa-solid fa-shield-halved"></i> Admin Dashboard
         </button>
-        <button class="nav-item logout-item" id="sidebarLogoutBtn">
+        <!-- <button class="nav-item logout-item" id="sidebarLogoutBtn">
           <i class="fa-solid fa-right-from-bracket"></i> Logout
-        </button>
+        </button> -->
       </nav>
     </aside>
 
@@ -6233,6 +6233,26 @@
         container.appendChild(dangerCard);
 
         mainContent.appendChild(container);
+
+                // Logout
+        const logoutRow = document.createElement('div');
+        logoutRow.className = 'setting-row';
+        logoutRow.innerHTML = `
+          <div>
+            <div class="setting-label" style="color:#ef4444;">Logout</div>
+            <div class="setting-desc">Sign out of your PickleBuddy account.</div>
+          </div>
+        `;
+
+        const logoutBtn = document.createElement('button');
+        logoutBtn.className = 'btn btn-danger';
+        logoutBtn.style.fontSize = '0.85rem';
+        logoutBtn.style.padding = '8px 14px';
+        logoutBtn.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i> Logout';
+        logoutBtn.addEventListener('click', handleLogout);
+
+        logoutRow.appendChild(logoutBtn);
+        accountCard.appendChild(logoutRow);
       }
 
       // ---------- SEARCH & FILTERS BUILDER ----------
@@ -7438,7 +7458,7 @@
         );
       }
 
-      document.getElementById('sidebarLogoutBtn').addEventListener('click', handleLogout);
+      //document.getElementById('sidebarLogoutBtn').addEventListener('click', handleLogout);
 
       document.getElementById('signOutSuspendedBtn').addEventListener('click', async () => {
         await auth.signOut();
